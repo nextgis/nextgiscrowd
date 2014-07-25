@@ -6,7 +6,7 @@ from pyramid.view import view_config
 from sqlalchemy import func
 from sqlalchemy.sql.expression import desc
 
-@view_config(route_name='logs', request_method='GET', renderer='logs.mako')
+@view_config(route_name='logs', request_method='GET', renderer='users.mako')
 def get_logs(context, request):
     session = DBSession()
     user_uiks_count_sbq = session \
