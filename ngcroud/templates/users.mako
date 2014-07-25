@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Статистика пользователей</title>
-    <meta name="description" content="участковая избирательная комиссия выборы адрес">
+    <meta name="description" content="объекты">
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
@@ -18,8 +18,8 @@
 </head>
 <body style="margin: 10px;">
 <h2>Статистика пользователей</h2>
-<p class="muted">В базе <span style="color:blue">${results['count']['all']}</span> УИКов,
-    из них принято <span style="color:green">${results['count']['approved']}</span> УИКов</p>
+<p class="muted">В базе <span style="color:blue">${results['count']['all']}</span> Объектов,
+    из них принято <span style="color:green">${results['count']['approved']}</span> Объектов</p>
 <table class="table">
 <thead>
     <tr>
