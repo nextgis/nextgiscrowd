@@ -1,0 +1,89 @@
+label {
+    display: inline;
+    width: auto;
+}
+
+div.header-table {
+    width: 100%;
+    margin: 5px 0px;
+}
+
+div.header-table div.column {
+    width: 49%;
+    display: inline-block;
+}
+
+div.header-table div.column select {
+    margin: 0px;
+    padding: 0px;
+    height: auto;
+}
+
+div.filtering {
+    border: 1px solid #C8C8C8;
+    padding: 5px 0;
+}
+
+div.filter {
+    display: inline-block;
+    margin: 0 -5px 0 0;
+    padding: 0px;
+    text-align: center;
+}
+
+div.filter.f5 {
+    width: 5%;
+}
+
+div.filter.f10 {
+    width: 10%;
+}
+
+div.filter.f20 {
+    width: 20%;
+}
+
+div.filter.f25 {
+    width: 25%;
+}
+
+div.filter.f30 {
+    width: 30%;
+}
+
+div.filter.f10 {
+    width: 10%;
+}
+
+
+div.filter input,
+div.filter select {
+    margin: 0px;
+    padding: 0px;
+    height: auto;
+    width: 90%;
+}
+
+div.jtable-left-area select {
+    width: auto;
+    height: auto;
+    padding: 0px;
+    margin: 0px;
+    line-height: normal;
+}
+
+div.green {
+    background-color: rgba(0, 127, 0, 0.35);
+}
+
+div.red {
+    background-color: rgba(255, 0, 0, 0.39);
+}
+
+div.rose {
+    background-color: #bc77b1;
+}
+
+div.yellow {
+    background-color: yellow;
+}

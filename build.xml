@@ -1,0 +1,112 @@
+<project name="moscow_stops">
+    <property name="rootProjectDirName" value="ngcroud"/>
+    <property name="cssJsFileName" value="uik"/>
+    <tstamp>
+        <format property="datetime" pattern="yyyyMMddHHmmss" locale="en"/>
+    </tstamp>
+    <echo file="version">${datetime}</echo>
+
+    <target name="default">
+        <antcall target="init"></antcall>
+        <antcall target="set-version"></antcall>
+        <antcall target="python-build-scripts"></antcall>
+        <antcall target="compress-js"></antcall>
+        <antcall target="compress-css"></antcall>
+    </target>
+
+    <target name="set-version" description="set version static scripts">
+        <replaceregexp file="development.ini"
+                       match="static_version=(.*)"
+                       replace="static_version=${datetime}"
+                       byline="true"
+        />
+        <replaceregexp file="production.ini"
+                       match="static_version=(.*)"
+                       replace="static_version=${datetime}"
+                       byline="true"
+                />
+    </target>
+
+    <target name="init" description="create static/build/ directory">
+        <delete dir="${rootProjectDirName}/static/build/"/>
+        <mkdir dir="${rootProjectDirName}/static/build/"/>
+    </target>
+
+    <target name="concatenate-js" description="Concatenate all js files">
+        <concat destfile="${rootProjectDirName}/static/build/${cssJsFileName}-${datetime}.js">
+            <file file="${rootProjectDirName}/static/js/Leaflet.markercluster/leaflet.markercluster-src.js"/>
+            <file file="${rootProjectDirName}/static/js/jquery/jquery.cookie.js"/>
+            <file file="${rootProjectDirName}/static/js/jquery.imagesloaded.js"/>
+            <file file="${rootProjectDirName}/static/js/leaflet/bing.js"/>
+            <file file="${rootProjectDirName}/static/js/mustache.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.config.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.loader.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.subscriber.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.helpers.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.common.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.popup.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.map.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.map.url.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.map.history.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.map.helpers.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.map.manager.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.geocoder.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.searcher.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.searcher.address.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.searcher.tab.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.editor.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.uiks.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.uiks.url.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.uiks_2012.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.regions.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.alerts.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.user.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.permalink.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.josm.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.versions.js"/>
+            <file file="${rootProjectDirName}/static/js/uik/uik.editor.tab.js"/>
+            <file file="${rootProjectDirName}/static/build/compile-templates-${datetime}.js"/>
+        </concat>
+    </target>
+
+    <target name="compress-js" depends="concatenate-js" description="Compress sm.js to sm-min.js">
+        <apply executable="java" parallel="false">
+            <filelist dir="${rootProjectDirName}/static/build/" files="${cssJsFileName}-${datetime}.js"/>
+            <arg line="-jar"/>
+            <arg path="yui-compressor.jar"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <mapper type="glob" from="*.js" to="${rootProjectDirName}/static/build/*.min.js"/>
+            <targetfile/>
+        </apply>
+    </target>
+
+    <target name="concatenate-css" description="Concatenate all css files">
+        <concat destfile="${rootProjectDirName}/static/build/${cssJsFileName}-${datetime}.css">
+            <file file="${rootProjectDirName}/static/css/bootstrap.min.css"/>
+            <file file="${rootProjectDirName}/static/css/main.css"/>
+            <file file="${rootProjectDirName}/static/js/Leaflet.markercluster/MarkerCluster.css"/>
+            <file file="${rootProjectDirName}/static/js/Leaflet.markercluster/MarkerCluster.Default.css"/>
+        </concat>
+    </target>
+
+    <target name="compress-css" depends="concatenate-css" description="Compress css">
+        <apply executable="java" parallel="false">
+            <filelist dir="${rootProjectDirName}/static/build/" files="${cssJsFileName}-${datetime}.css"/>
+            <arg line="-jar"/>
+            <arg path="yui-compressor.jar"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <mapper type="glob" from="*.css" to="${rootProjectDirName}/static/build/*.min.css"/>
+            <targetfile/>
+        </apply>
+    </target>
+
+    <property name="src-templates" location="${rootProjectDirName}/static/templates"/>
+    <property name="namespace" value="UIK"/>
+    <target name="python-build-scripts">
+        <exec dir="build/" executable="python" failonerror="true">
+            <arg line="build-js-templates.py --ns ${namespace} --src ${src-templates} --target ${basedir}/${rootProjectDirName}/static/build/compile-templates-${datetime}.js"/>
+        </exec>
+    </target>
+</project>

@@ -1,0 +1,64 @@
+<table class="table table-striped">
+    <tr>
+        <td>Номер УИКа</td>
+        <td>{{uik.number_official}}</td>
+    </tr>
+    <tr>
+        <td>ТИК</td>
+        <td>{{tik.name}}</td>
+    </tr>
+    <tr>
+        <td>Регион</td>
+        <td>{{region.name}}</td>
+    </tr>
+    <tr>
+        <td>Адрес голосования</td>
+        <td>{{uik.address_voting}}</td>
+    </tr>
+    <tr>
+        <td>Место помещения голосования</td>
+        <td>{{uik.place_voting}}</td>
+    </tr>
+    <tr>
+        <td>Точность геокодирования</td>
+        <td>{{geo_precision.name_ru}}</td>
+    </tr>
+
+    <tr>
+        <td>Комментарий</td>
+        <td>{{uik.comment}}</td>
+    </tr>
+    <tr>
+        <td>Проверен</td>
+        <td>
+            {{#uik.is_applied}}Да{{/uik.is_applied}}
+            {{^uik.is_applied}}Нет{{/uik.is_applied}}
+        </td>
+    </tr>
+    {{#isBlocked}}
+    <tr class="block">
+        {{#isUnBlocked}}
+        <td>Заблокирована вами</td>
+        <td>
+            <button class="btn btn-small btn-primary block" id="unblock" type="button">Разблокировать</button>
+        </td>
+        {{/isUnBlocked}}
+        {{^isUnBlocked}}
+        <td>Заблокировал</td>
+        <td>{{userBlocked}}</td>
+        {{/isUnBlocked}}
+    </tr>
+    {{/isBlocked}}
+</table>
+
+<div class="edit">
+    <a href="http://www.wikiuiki.org/ik/{{region.id}}-uik-{{uik.number_official}}"
+       target="_blank"
+       class="btn btn-small btn-info">Перейти в wikiuiki</a>
+
+    {{#isUserEditor}}
+    <button class="btn btn-small btn-primary {{#isBlock}}block{{/isBlock}}" id="edit" type="button"
+    {{#editDenied}}disabled="disabled"{{/editDenied}}>Редактировать</button>
+    {{/isUserEditor}}
+</div>
+

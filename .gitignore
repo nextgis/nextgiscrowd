@@ -1,0 +1,8 @@
+*.ini
+*.egg-info
+dist/*
+build/bdist*
+build/lib*
+venv/*
+dev.sh
+ngcroud/static/build/*

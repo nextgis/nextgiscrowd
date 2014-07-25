@@ -1,0 +1,28 @@
+<div id="welcomePopup">
+    <p><strong>Здесь вы можете помочь проверить информацию по местоположениям Участковых избирательных
+        комиссий.</strong></p>
+
+    <p>Чтобы начать работу - <a target="_blank" href="{{rootUrl}}register">зарегистрируйтесь</a> и найдите интересный
+        вам участок или непроверенные УИКи.</p>
+
+    <p>Вы можете найти УИКи с помощью этой карты или через
+        <a target="_blank" href="{{rootUrl}}uik/stat">список УИКов</a>.
+    </p>
+
+    <p>Полезные ссылки:</p>
+    <ul>
+        <li><a target="_blank" href="http://gis-lab.info/qa/uikgeo-manual.html">Руководство пользователя редактора</a></li>
+        <li><a target="_blank" href="http://gis-lab.info/qa/uikgeo.html">О проекте</a></li>
+        <li><a target="_blank" href="http://gis-lab.info/qa/uik-sources.html">Координационная таблица по созданию списков - можно участвовать!</a></li>
+        <li><a target="_blank" href="http://gis-lab.info/forum/viewforum.php?f=55">Задать вопросы или обсудить на форуме</a></li>
+        <li>Контакты: <a href="mailto:uikgeo@gis-lab.info">uikgeo@gis-lab.info</a></li>
+    </ul>
+    
+    <p><strong>Пожалуйста, не используйте данные с других карт!</strong></p>
+
+    {{#first}}
+    <div class="start">
+        <input type="button" class="btn btn-primary" value="Начать работу!"/>
+    </div>
+    {{/first}}
+</div>

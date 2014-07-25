@@ -1,0 +1,32 @@
+<table class="table table-striped logs">
+	<caption>Общая статистика</caption>
+	<tr>
+		<th>Показатель</th>
+		<th>Значение</th>
+	</tr>
+	<tr>
+		<td>Всего УИКов</td>
+		<td class="stop">{{count_all}}</td>
+	</tr>
+	<tr>
+		<td>Отредактировано УИКов</td>
+		<td class="stop">{{count_editable}}</td>
+	</tr>
+	<tr>
+		<td>Отредактировано, %</td>
+		<td class="stop">{{percent}}</td>
+	</tr>
+</table>
+<table class="table table-striped logs">
+	<caption>Статистика по пользователям</caption>
+	<tr>
+		<th>Пользователь</th>
+		<th>Кол-во УИКов</th>
+	</tr>
+	{{#user_logs}}
+	<tr>
+		<td>{{user_name}}</td>
+		<td class="stop">{{count_uiks}}</td>
+	</tr>
+	{{/user_logs}}
+</table>

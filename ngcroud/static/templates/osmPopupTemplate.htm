@@ -1,0 +1,14 @@
+<div class="osm-popup">
+	<div class="caption">
+		<span>{{id}}</span>
+		<a href="{{link}}" target="_blank" title="Посмотреть на OpenStreetMaps" class="osm"></a>
+	</div>
+	<table class="table table-striped">
+		{{#tags}}
+		<tr>
+			<td>{{key}}</td>
+			<td>{{val}}</td>
+		</tr>
+		{{/tags}}
+	</table>
+</div>

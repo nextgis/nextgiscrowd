@@ -1,0 +1,1028 @@
+html, body, #map {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+body div.loading {
+    display: none;
+}
+
+body.loading div.loading {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #e9e9e9;
+    z-index: 2000;
+    text-align: center;
+}
+
+body.loading div.loading span {
+    width: 200px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+}
+
+body.popup div.popup-background {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: block;
+    z-index: 1100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.loader {
+    background: url('../img/loader.gif') center no-repeat;
+}
+
+body.loader div.main-loader {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url('../img/loader.gif') center no-repeat transparent;
+    z-index: 3000;
+}
+
+body #popup {
+    display: none;
+}
+
+body.popup #popup {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border: 1px solid #c3c3c3;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #ffffff;
+    z-index: 1101;
+}
+
+#popup {
+    max-width: 50%;
+}
+
+#popup div.header {
+    background-color: #F5F0F7;
+    color: #756a73;
+    font-size: 15px;
+    height: 24px;
+    line-height: 26px;
+    text-indent: 20px;
+}
+
+#popup a.close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 22px;
+    height: 22px;
+    background: url('../img/sm-icons.png') -35px -123px;
+    opacity: 0.5;
+}
+
+#popup a.close:hover {
+    opacity: 1;
+}
+
+#popup div.content table.logs {
+    width: 350px;
+    margin: 15px;
+}
+
+#popup div.content table.logs caption {
+    color: #444444;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#popup div.content table.logs td {
+    line-height: 8px;
+}
+
+#popup div.content table.logs td.stop {
+    text-align: right;
+}
+
+#welcomePopup {
+    width: 500px;
+    margin: 5px;
+}
+
+#welcomePopup div.start {
+    width: 100%;
+    text-align: center;
+}
+
+#target {
+    display: none;
+    background: url('../img/sm-icons.png') -0px -190px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    top: 50%;
+    z-index: 901;
+}
+
+#alerts {
+    position: absolute;
+    top: 6px;
+    left: 360px;
+    right: 367px;
+    z-index: 1000;
+}
+
+input.invalid {
+    border: 1px solid red;
+}
+
+input.need-apply {
+    border: 1px solid blue;
+}
+
+#userContainer {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 310px;
+    height: 55px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #AFAFAF;
+    z-index: 900;
+}
+
+#userContainer form {
+    margin: 5px;
+}
+
+#userContainer.inner {
+    height: 40px;
+}
+
+#userContainer.inner #signInForm {
+    display: none;
+}
+
+#signInForm div {
+    text-align: right;
+}
+
+#userContainer.inner #signOutForm {
+    display: block;
+}
+
+#userContainer #signOutForm {
+    display: none;
+}
+
+#signOutForm {
+    text-align: left;
+}
+
+#signOutForm label {
+    padding-top: 5px;
+}
+
+#signOutForm button {
+    float: right;
+}
+
+body div.panel {
+    position: absolute;
+    background-color: #F5F5F5;
+    border: 1px solid #AFAFAF;
+    border-radius: 4px 4px 4px 4px;
+    width: auto;
+    height: auto;
+}
+
+body div.stat-panel {
+    left: 309px;
+    top: 172px;
+}
+
+body.searcher-collapsed div.stat-panel {
+    top: 210px;
+    left: 3px;
+}
+
+div.panel div.panel-item {
+    width: 32px;
+    height: 36px;
+    margin: 2px;
+    background-color: #ffffff;
+    border: 1px solid #afafaf;
+    cursor: pointer;
+}
+
+div.panel div.panel-item a {
+    display: inline-block;
+    margin: 2px 0 0 2px;
+    width: 29px;
+    height: 31px;
+}
+
+div.panel div.log a {
+    background: url('../img/sm-icons.png') -30px -190px;
+}
+
+div.panel div.log:hover a {
+    background: url('../img/sm-icons.png') -58px -190px;
+}
+
+div.panel div.stat a {
+    background: url('../img/sm-icons.png') -87px -190px;
+}
+
+div.panel div.stat:hover a {
+    background: url('../img/sm-icons.png') -116px -190px;
+}
+
+div.panel div.export a {
+    background: url('../img/sm-icons.png') -144px -190px;
+}
+
+div.panel div.export:hover a {
+    background: url('../img/sm-icons.png') -172px -190px;
+}
+
+body div.help-panel {
+    left: 309px;
+    top: 302px;
+}
+
+body.searcher-collapsed div.help-panel {
+    top: 338px;
+    left: 3px;
+}
+
+div.panel div.help a {
+    background: url('../img/sm-icons.png') -0px -223px;
+}
+
+div.panel div.help:hover a {
+    background: url('../img/sm-icons.png') -30px -223px;
+}
+
+div.panel div.nextgis a {
+    background: url('../img/sm-icons.png') -59px -223px;
+}
+
+div.panel div.nextgis:hover a {
+    background: url('../img/sm-icons.png') -87px -223px;
+}
+
+div.panel div.facebook a {
+    background: url('../img/sm-icons.png') -116px -223px;
+}
+
+div.panel div.facebook:hover a {
+    background: url('../img/sm-icons.png') -144px -223px;
+}
+
+div.panel div.twitter a {
+    background: url('../img/sm-icons.png') -1px -256px;
+}
+
+div.panel div.twitter:hover a {
+    background: url('../img/sm-icons.png') -31px -256px;
+}
+
+#searchContainer .title,
+#editorContainer .title {
+    height: 32px;
+    background-color: #f5f5f5;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+#searchContainer .title span,
+#editorContainer .title span {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #7f7f7f;
+}
+
+#searchContainer {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    width: 300px;
+    background-color: #ffffff;
+    border: 1px solid #AFAFAF;
+    z-index: 900;
+}
+
+#searchContainer span.icon-collapse {
+    display: block;
+    width: 6px;
+    height: 15px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+#searchContainer ul.nav,
+#editorContainer ul.nav {
+    margin: 5px 6px;
+}
+
+#searchContainer ul.nav li a,
+#editorContainer ul.nav li a {
+    line-height: 14px;
+}
+
+#searchUIK,
+#searchUIK_2012,
+#searchAddress,
+#editUIK, 
+#versionsUIK {
+    display: none;
+}
+
+#searchContainer.searchUIK #searchUIK,
+#searchContainer.searchUIK_2012 #searchUIK_2012,
+#searchContainer.searchAddress #searchAddress,
+#editorContainer.editUIK #editUIK, 
+#editorContainer.versionsUIK #versionsUIK {
+    display: block;
+}
+
+#searchContainer span.icon-collapse:hover {
+    background: url('../img/sm-icons.png') -12px -20px;
+}
+
+#searchContainer span.icon-collapse {
+    background: url('../img/sm-icons.png') 0 -20px;
+}
+
+body.searcher-collapsed #searchContainer {
+    width: 32px;
+    height: 32px;
+    background-color: #f5f5f5;
+    border-radius: 4px 4px 4px 4px;
+    top: 60px;
+}
+
+body.searcher-collapsed #searchContainer ul.nav,
+body.searcher-collapsed #searchContainer div.title,
+body.searcher-collapsed #searchContainer form.form-search,
+body.searcher-collapsed #searchContainer .searchResults {
+    display: none;
+}
+
+body.searcher-collapsed #searchContainer span.icon-collapse {
+    width: 25px;
+    height: 25px;
+    right: auto;
+    top: 3px;
+    left: 4px;
+}
+
+body.searcher-collapsed #searchContainer span.icon-collapse {
+    background: url('../img/sm-icons.png') -0px -35px;
+}
+
+body.searcher-collapsed #searchContainer span.icon-collapse:hover {
+    background: url('../img/sm-icons.png') -25px -35px;
+}
+
+body.searcher-collapsed #map .leaflet-control-container .leaflet-top {
+    top: -7px;
+}
+
+body.searcher-collapsed #map .leaflet-control-container .leaflet-left {
+    left: -3px;
+}
+
+#searchContainer .form-search {
+    text-align: right;
+    margin: 5px 10px;
+}
+
+#searchContainer .form-search a.clear-search {
+    text-decoration: none;
+}
+
+#searchContainer .form-search a.clear-search.disabled {
+    color: #808080;
+    cursor: default;
+}
+
+#searchContainer input.address {
+    width: 117px;
+    margin-left: 4px;
+}
+
+#searchAddress input.address {
+    width: 225px;
+    margin-left: 4px;
+}
+
+#searchContainer input.name {
+    width: 90px;
+}
+
+#searchContainer div.is_help {
+    margin: 5px;
+}
+
+#filter_is_help {
+    display: inline-block;
+    margin-top: -3px;
+}
+
+#searchContainer div.search {
+    display: inline-block;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #ebebeb;
+    border: 1px solid #ebebeb;
+    vertical-align: middle;
+    width: 29px;
+    height: 29px;
+    padding: 1px;
+}
+
+#searchContainer div.search span {
+    display: block;
+    width: 26px;
+    height: 26px;
+    margin: 2px auto;
+    background: url("../img/sm-icons.png") repeat scroll 0 -35px transparent;
+}
+
+#searchContainer div.search.active:hover span {
+    background: url('../img/sm-icons.png') -25px -35px;
+}
+
+#searchContainer div.search.active {
+    background-color: transparent;
+    border: 1px solid #bebcb8;
+    cursor: pointer;
+}
+
+#searchContainer div.searchResults {
+    margin: 5px;
+    border: 1px solid #AFAFAF;
+    position: absolute;
+    top: 125px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#searchContainer div.searchResults.description p.update,
+#searchContainer div.searchResults.description ul,
+#searchContainer div.searchResults.update div ul,
+#searchContainer div.searchResults.update p.description,
+#searchContainer div.searchResults.active p.description,
+#searchContainer div.searchResults.active p.update {
+    display: none;
+}
+
+#searchContainer div.searchResults.description p.description,
+#searchContainer div.searchResults.update p.update {
+    display: inline;
+    color: #b2b1a6;
+    text-align: center;
+}
+
+#searchContainer div.searchResults.active ul,
+#versionsUIK ul {
+    display: block;
+    text-align: left;
+    list-style-type: none;
+    margin: 0;
+}
+
+#searchContainer div.searchResults.active ul li,
+#versionsUIK ul li {
+    margin: 2px;
+    color: #676767;
+    font-size: 13px;
+    border-top: solid 1px;
+    padding: 2px;
+}
+
+#searchContainer div.searchResults.active ul li:first-child,
+#versionsUIK ul li:first-child {
+    border-top: none;
+}
+
+#searchContainer div.searchResults.active ul li span {
+    font-weight: bold;
+}
+
+#searchContainer div.searchResults.active ul li:hover a.target {
+    background: url("../img/sm-icons.png") repeat scroll -25px -20px transparent;
+    display: inline-block;
+    height: 14px;
+    margin-bottom: -4px;
+    width: 14px;
+    cursor: pointer;
+}
+
+#searchContainer div.searchResults.active ul li:hover a.edit {
+    background: url("../img/sm-icons.png") repeat scroll -40px -21px transparent;
+    display: inline-block;
+    height: 14px;
+    margin-bottom: -4px;
+    width: 14px;
+    cursor: pointer;
+}
+
+#searchContainer div.searchResults.active ul.blocked li {
+    color: #ff0000;
+}
+
+#searchContainer div.searchResults.active ul.checked li {
+    color: #15c700;
+}
+
+#searchContainer div.searchResults.active ul.non-checked li {
+    color: #BD9C19;
+}
+
+#searchContainer div.searchResults.active ul.uik2012 li {
+    color: #95898f;
+}
+
+body #manager {
+    position: absolute;
+    left: 310px;
+    top: 61px;
+    width: 37px;
+}
+
+body.searcher-collapsed #manager {
+    top: 99px;
+    left: 3px;
+}
+
+#manager div.group {
+    width: 37px;
+    border: 1px solid #AFAFAF;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #F5F5F5;
+}
+
+#manager div.group div.icon {
+    width: 30px;
+    height: 30px;
+    margin: 2px 2px;
+    border: 1px solid #cccccc;
+    border-radius: 4px 4px 4px 4px;
+    cursor: pointer;
+}
+
+#manager div.icon button {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: 2px 0 0 2px;
+    border: none;
+}
+
+#manager div.icon.osm button {
+    background: url('../img/sm-icons.png') -50px -35px;
+}
+
+#manager div.icon.bing button {
+    background: url('../img/sm-icons.png') -105px -35px;
+}
+
+#manager div.icon.irs button {
+    background: url('../img/sm-icons.png') -105px 0;
+}
+
+body.osm #manager div.icon.osm button,
+#manager div.icon.osm:hover button {
+    background: url('../img/sm-icons.png') -77px -35px;
+}
+
+body.bing #manager div.icon.bing button,
+#manager div.icon.bing:hover button {
+    background: url('../img/sm-icons.png') -133px -35px;
+}
+
+body.irs #manager div.icon.irs button,
+#manager div.icon.irs:hover button {
+    background: url('../img/sm-icons.png') -133px 0;
+}
+
+body.osm #manager div.icon.osm,
+body.bing #manager div.icon.bing,
+body.irs #manager div.icon.irs,
+body.bing #manager div.icon.josm {
+    border: 1px solid #838383;
+}
+
+#editorContainer {
+    right: 5px;
+    position: absolute;
+    top: 65px;
+    bottom: 5px;
+    width: 310px;
+    background-color: #ffffff;
+    border: 1px solid #AFAFAF;
+    z-index: 900;
+}
+
+#editorContainer span.icon-collapse {
+    background: url('../img/sm-icons.png') 0 0;
+}
+
+#editorContainer span.icon-collapse:hover {
+    background: url('../img/sm-icons.png') -20px 0;
+}
+
+#editorContainer span.icon-collapse {
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+#editorContainer div.form-wrap {
+    bottom: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 70px;
+    right: 3px;
+    left: 0px;
+}
+
+#editorContainer form {
+    margin: 5px 3px 5px 5px;
+}
+
+#editorContainer form div.group {
+    display: table;
+    margin: 0 0 5px 0;
+}
+
+#editorContainer form.disabled * {
+    color: #808080;
+}
+
+#editorContainer form span.value {
+    display: inline-block;
+    padding: 0px;
+}
+
+#editorContainer form span.value p {
+    margin: 0px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    color: #999999;
+}
+
+#editorContainer form span.form-label {
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 14px;
+    width: 89px;
+}
+
+#editorContainer form label,
+#editorContainer form input,
+#editorContainer form select,
+#editorContainer form textarea {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#editorContainer form label.top {
+    vertical-align: top;
+}
+
+#editorContainer form label {
+    width: 90px;
+    line-height: 14px;
+}
+
+#editorContainer form input.stand,
+#editorContainer form textarea {
+    width: 185px;
+}
+
+#editorContainer form span.value {
+    width: 200px;
+}
+
+#editorContainer form select.stand {
+    width: 199px;
+}
+
+#editorContainer form textarea {
+    resize: none;
+}
+
+#editorContainer form div.group-checkboxes label {
+    display: block;
+    padding-left: 35px;
+    text-indent: -15px;
+}
+
+#editorContainer form div.group-checkboxes input {
+    width: 13px;
+    height: 13px;
+    float: left;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
+#editorContainer form .group-submit {
+    width: auto;
+    text-align: center;
+    margin-top: 8px;
+}
+
+#editorContainer .parameters {
+    display: table-cell;
+    width: 197px;
+}
+
+#editorContainer .parameter label.disabled {
+    color: #808080;
+}
+
+#editorContainer .parameter.default {
+    border-bottom: 1px solid #a9a9a9;
+    padding-bottom: 5px;
+}
+
+#editorContainer .parameter.sub {
+    margin-left: 10px;
+}
+
+#editorContainer .parameters .parameter input,
+#editorContainer .parameters .parameter label {
+    display: inline;
+}
+
+#editorContainer div.geographic {
+    margin: 15px 0;
+}
+
+#editorContainer div.wrapper-coordinates {
+    text-align: center;
+    width: 288px;
+    margin: 5px 0;
+}
+
+#editorContainer form label.lbl-applied {
+    width: auto;
+}
+
+#name a {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    background: url('../img/sm-icons.png') -17px -126px;
+    margin-bottom: -3px;
+    margin-left: 5px;
+    color: #999999;
+    text-decoration: none;
+}
+
+#name a:hover {
+    background: url('../img/sm-icons.png') -0px -126px;
+}
+
+body.editor-collapsed #editorContainer {
+    bottom: auto;
+}
+
+body.editor-collapsed #editorContainer span.icon-collapse {
+    background: url('../img/sm-icons.png') -40px 0;
+}
+
+body.editor-collapsed #editorContainer span.icon-collapse:hover {
+    background: url('../img/sm-icons.png') -60px 0;
+}
+
+body.editor-collapsed #editorContainer form {
+    display: none;
+}
+
+body.editor-collapsed #map .leaflet-control-container .leaflet-right {
+    right: 6px;
+}
+
+#map .leaflet-control-container .leaflet-top {
+    top: -6px;
+}
+
+#map .leaflet-control-container .leaflet-left {
+    left: 305px;
+}
+
+#map .leaflet-control-container .leaflet-bottom {
+    bottom: 6px;
+}
+
+#map .leaflet-control-container .leaflet-right {
+    right: 322px;
+}
+
+#map .leaflet-bottom .leaflet-control-scale {
+    margin-bottom: 1px;
+}
+
+#map .leaflet-left .leaflet-control-scale {
+    margin-left: 15px;
+}
+
+#map .osm-popup {
+    min-width: 120px;
+}
+
+#map .osm-bus-stop {
+    background: url('../img/sm-icons.png') -80px 0;
+    z-index: 300 !important;
+}
+
+#map .uik-unchecked {
+    background: url('../img/sm-icons.png') -0px -145px;
+    z-index: 310 !important;
+}
+
+#map .uik-unchecked:hover {
+    background: url('../img/sm-icons.png') -20px -145px;
+}
+
+#map .uik-checked {
+    background: url('../img/sm-icons.png') -40px -145px;
+    z-index: 305 !important;
+}
+
+#map .uik-checked:hover {
+    background: url('../img/sm-icons.png') -60px -145px;
+}
+
+#map .stop-editable {
+    background: url('../img/sm-icons.png') -25px -165px;
+    z-index: 320 !important;
+}
+
+#map .uik-blocked {
+    background: url('../img/sm-icons.png') -80px -145px;
+    z-index: 315 !important;
+}
+
+#map .uik-blocked:hover {
+    background: url('../img/sm-icons.png') -100px -145px;
+}
+
+#map .uik-2012 {
+    background: url('../img/sm-icons.png') -120px -145px;
+    z-index: 300 !important;
+}
+
+#map .uik-2012:hover {
+    background: url('../img/sm-icons.png') -140px -145px;
+}
+
+#uik-popup.loader {
+    width: 250px;
+    height: 100px;
+}
+
+#map .leaflet-popup-content {
+    /*min-width: 250px;*/
+}
+
+#uik-popup .table {
+    margin-bottom: 5px;
+}
+
+#uik-popup .table th, #uik-popup .table td {
+    line-height: normal;
+    padding: 4px;
+}
+
+#uik-popup div.edit {
+    text-align: right;
+}
+
+#uik-popup div.edit a {
+    cursor: pointer;
+}
+
+#uik-popup #edit {
+    padding: 5px;
+}
+
+#uik-popup tr.block {
+    color: red;
+    font-weight: bold;
+}
+
+#uik-popup a.output {
+
+}
+
+#uik-popup a.output span {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    background: url('../img/sm-icons.png') 0 -126px;
+}
+
+#unblock {
+    float: right;
+}
+
+#uik-popup div.edit button.block {
+    color: #ffdbd6;
+    background-color: #cc8774;
+    background-image: none;
+}
+
+#uik-popup div.header {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#uik-popup  a.btn {
+    color: #FFFFFF;
+    padding: 5px;
+}
+
+#map .osm-popup table {
+    border-bottom: solid 1px #a9a9a9;
+    border-top: solid 1px #a9a9a9;
+}
+
+#map .osm-popup .table th,
+#map .osm-popup .table td {
+    padding: 2px;
+}
+
+#map div.osm-popup div.caption {
+    margin-bottom: 5px;
+}
+
+#map div.osm-popup div.caption a,
+#map div.osm-popup div.caption span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#map div.osm-popup div.caption span {
+    font-size: 14px;
+    text-align: left;
+    padding-right: 5px;
+}
+
+#map .osm-popup a.osm {
+    width: 27px;
+    height: 28px;
+    background: url('../img/sm-icons.png') 0 -98px;
+}
+
+div.permalink {
+    text-align: center;
+    position: absolute;
+    right: 5px;
+    bottom: 25px;
+    /*background-color: rgba(255, 255, 255, 0.698);*/
+    box-shadow: 0 0 5px #BBBBBB;
+    margin: 0;
+}
