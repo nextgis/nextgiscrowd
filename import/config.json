@@ -5,27 +5,31 @@
             "title": "Номер",
             "type": "text",
             "editable": false,
-            "searchable": true
+            "searchable": true,
+            "order": 1
         },
         {
             "field": "GEOCODE",
             "title": "Точность",
             "type": "reference_book",
-            "editable": false
+            "editable": false,
+            "order": 11
         },
         {
             "field": "COMMENT",
             "title": "Комментарий",
             "type": "text",
             "editable": true,
-            "control": "area"
+            "control": "area",
+            "order": 10
         },
         {
             "field": "NAME",
             "title": "Название",
             "type": "text",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 2
         },
         {
             "field": "ADDRESS",
@@ -33,29 +37,32 @@
             "type": "text",
             "editable": true,
             "control": "textbox",
-            "searchable": true
-
+            "searchable": true,
+            "order": 3
         },
         {
             "field": "REGION",
             "title": "Регион",
             "type": "reference_book",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 4
         },
         {
             "field": "DISTRICT",
             "title": "Район",
             "type": "reference_book",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 5
         },
         {
             "field": "TYPE",
             "title": "Тип",
             "type": "reference_book",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 6
         },
 
         {
@@ -63,21 +70,24 @@
             "title": "Директор",
             "type": "text",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 7
         },
         {
             "field": "PHONE",
             "title": "Телефон",
             "type": "text",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 8
         },
         {
             "field": "URL",
             "title": "Сайт",
             "type": "text",
             "editable": true,
-            "control": "textbox"
+            "control": "textbox",
+            "order": 9
         },
         {
             "type": "point",
