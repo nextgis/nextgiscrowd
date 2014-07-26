@@ -9,8 +9,8 @@
     $.extend(UIK.map, {
 
         defaultExtent: {
-            latlng: new L.LatLng(55.742, 37.658),
-            zoom: 17
+            latlng: new L.LatLng(55.773121344534445, 37.66945838928223),
+            zoom: 14
         },
 
         initUrlModule: function () {
