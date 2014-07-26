@@ -208,7 +208,7 @@
             var context = this;
             $.ajax({
                 type: 'GET',
-                url: document.url_root + 'uik/block/' + UIK.viewmodel.uikSelected.uik.id
+                url: document.url_root + 'object/block/' + UIK.viewmodel.uikSelected.uik.id
             }).done(function () {
                 context.startEdit();
             });
@@ -283,19 +283,12 @@
 
         fillEditor: function (uik) {
             var helpers = UIK.helpers;
-            $('#name').html(this.templates.uikNumber({
-                uikNumber: uik.uik.number_official,
-                regionId: uik.region.id
-            }));
-            $('#region').html(this.templates.notEditableValue({value: uik.region.name }));
-            $('#tik').html(this.templates.notEditableValue({value: uik.tik.name }));
-            $('#address_voting').val(helpers.valueNullToString(uik.uik.address_voting));
-            $('#place_voting').val(helpers.valueNullToString(uik.uik.place_voting));
-            $('#geo_precision option:eq(' + uik.geo_precision.id + ')').prop('selected', true);
-            $('#lat').val(uik.uik.geom.lat.toFixed(this.precisionDegree));
-            $('#lng').val(uik.uik.geom.lng.toFixed(this.precisionDegree));
-            $('#comment').val(helpers.valueNullToString(uik.uik.comment));
-            if (uik.uik.is_applied) {
+
+            $.each(uik.props, function (i, prop) {
+                $('#field-' + prop.id).val(prop.val);
+            });
+
+            if (uik.uik.approved) {
                 $('#is_applied').val(1);
                 $('#chb_is_applied').prop('checked', true);
             } else {
@@ -354,7 +347,7 @@
             var context = this;
             $.ajax({
                 type: 'GET',
-                url: document['url_root'] + 'uik/unblock/' + UIK.viewmodel.uikSelected.uik.id
+                url: document['url_root'] + 'object/unblock/' + UIK.viewmodel.uikSelected.uik.id
             }).done(function () {
                 context.finishEditing();
             });

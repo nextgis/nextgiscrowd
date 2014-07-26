@@ -151,7 +151,7 @@
                 $('#unblock').off('click').on('click', function () {
                     $.ajax({
                         type: 'GET',
-                        url: document['url_root'] + 'uik/unblock/' + UIK.viewmodel.uikSelected.uik.id
+                        url: document['url_root'] + 'object/unblock/' + UIK.viewmodel.uikSelected.uik.id
                     }).done(function () {
                             UIK.viewmodel.map.closePopup();
                             UIK.view.$document.trigger('/uik/map/updateAllLayers');

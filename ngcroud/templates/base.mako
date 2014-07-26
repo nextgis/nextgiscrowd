@@ -218,7 +218,8 @@
                     %if field.type == 'area':
                         <textarea id="field-${field.id}">Значение</textarea>
                     %else:
-                        <span id="field-${field.id}" class="value"><p>Значение</p></span>
+                        <input type="text" id="field-${field.id}" name="${field.id}" class="stand"/>
+##                        <span id="field-${field.id}" class="value"><p>Значение</p></span>
                     %endif
                 </div>
             %endfor

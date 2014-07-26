@@ -225,6 +225,21 @@ def uik_block(context, request):
     return Response()
 
 
+@view_config(route_name='obj_block', request_method='GET')
+@authorized()
+def obj_block(context, request):
+    obj_id = request.matchdict.get('id', None)
+
+    with transaction.manager:
+        session = DBSession()
+        session.query(Entity).filter(Entity.id == obj_id).update({
+            Entity.blocked: True,
+            Entity.user_block_id: request.session['u_id']
+        })
+
+    return Response()
+
+
 @view_config(route_name='uik_unblock', request_method='GET')
 @authorized()
 def uik_unblock(context, request):
@@ -235,6 +250,21 @@ def uik_unblock(context, request):
         session.query(Uik).filter(Uik.id == uik_id).update({
             Uik.is_blocked: False,
             Uik.user_block_id: None
+        })
+
+    return Response()
+
+
+@view_config(route_name='obj_unblock', request_method='GET')
+@authorized()
+def obj_unblock(context, request):
+    obj_id = request.matchdict.get('id', None)
+
+    with transaction.manager:
+        session = DBSession()
+        session.query(Entity).filter(Entity.id == obj_id).update({
+            Entity.blocked: False,
+            Entity.user_block_id: None
         })
 
     return Response()
