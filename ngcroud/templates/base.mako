@@ -117,8 +117,7 @@
 
     <div class="title"><span>Поиск</span></div>
     <ul class="nav nav-tabs">
-        <li class="active" data-id="searchUIK"><a href="javascript:void(0)">УИК</a></li>
-        <li data-id="searchUIK_2012"><a href="javascript:void(0)">УИК 2012</a></li>
+        <li class="active" data-id="searchUIK"><a href="javascript:void(0)">Объекты</a></li>
         <li data-id="searchAddress"><a href="javascript:void(0)">Адреса</a></li>
     </ul>
 
@@ -138,29 +137,6 @@
         </form>
 
         <div class="active searchResults" data-template="">
-            <p class="update">Запрос данных...</p>
-
-            <div></div>
-        </div>
-    </div>
-
-    <div id="searchUIK_2012" onsubmit="return false" class="search-block" data-trigger="/uik/uiks_2012/updateUiks"
-         data-isMapTriggered="true" data-filter="uik_2012">
-        <form class="form-search">
-            <fieldset>
-                <input type="text" class="name filterable" data-filter="number" data-validate="validateNumber"
-                       placeholder="Номер"/>
-                <input type="text" class="address filterable" data-filter="address" data-validate="validateDefault"
-                       placeholder="Адрес"/>
-
-                <div class="search" title="Поиск">
-                    <span></span>
-                </div>
-            </fieldset>
-            <a href="javascript:void(0)" class="clear-search">Очистить поля поиска</a>
-        </form>
-
-        <div class="active searchResults">
             <p class="update">Запрос данных...</p>
 
             <div></div>

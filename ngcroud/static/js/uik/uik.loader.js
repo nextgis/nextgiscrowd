@@ -25,7 +25,7 @@
         },
 
         initModules: function () {
-            try {
+//            try {
                 UIK.common.init();
                 UIK.popup.init();
                 UIK.alerts.init();
@@ -38,14 +38,14 @@
                 UIK.editor.init();
                 UIK.user.init();
                 UIK.uiks.init();
-                UIK.uiks_2012.init();
+//                UIK.uiks_2012.init();
                 UIK.regions.init();
                 UIK.josm.init();
                 UIK.editor.tab.init();
                 UIK.versions.init();
-            } catch (e) {
-                alert(e);
-            }
+//            } catch (e) {
+//                alert(e);
+//            }
         },
 
         setDomOptions: function () {

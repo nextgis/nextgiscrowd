@@ -51,8 +51,8 @@
                 url = document['url_root'] + 'uik/all',
                 filter = UIK.viewmodel.filter,
                 filter_json = {
-                    'uik' : filter.uik.json,
-                    'uik_2012' : filter.uik_2012.json
+                    'uik' : filter.uik.json
+//                    'uik_2012' : filter.uik_2012.json
                 };
             $.ajax({
                 type: "GET",

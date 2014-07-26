@@ -31,7 +31,7 @@
             view.$filterAddr = $('#filter_address');
             view.$searchButton = $('#search');
             view.$uiksSearchResults = $('#searchUIK').find('div.searchResults');
-            view.$uikspSearchResults = $('#searchUIK_2012').find('div.searchResults');
+//            view.$uikspSearchResults = $('#searchUIK_2012').find('div.searchResults');
             view.$clearSearch = view.$searchContainer.find('a.clear-search');
         },
 
@@ -259,28 +259,28 @@
             });
             $divSearchResults.prop('class', 'active');
 
-            $divSearchResults = UIK.view.$uikspSearchResults.find('div');
-            pointLayers = UIK.viewmodel.pointLayers.uiksp;
+//            $divSearchResults = UIK.view.$uikspSearchResults.find('div');
+//            pointLayers = UIK.viewmodel.pointLayers.uiksp;
+//
+//            $divSearchResults.empty();
+//            for (pointsType in pointLayers) {
+//                if (pointLayers.hasOwnProperty(pointsType)) {
+//                    html = UIK.templates.searchResultsTemplate({
+//                        cssClass: pointsConfig[pointsType].searchCssClass,
+//                        uiks: pointLayers[pointsType].elements,
+//                        isAuth: false
+//                    });
+//                    $divSearchResults.append(html);
+//                }
+//            }
 
-            $divSearchResults.empty();
-            for (pointsType in pointLayers) {
-                if (pointLayers.hasOwnProperty(pointsType)) {
-                    html = UIK.templates.searchResultsTemplate({
-                        cssClass: pointsConfig[pointsType].searchCssClass,
-                        uiks: pointLayers[pointsType].elements,
-                        isAuth: false
-                    });
-                    $divSearchResults.append(html);
-                }
-            }
-
-            $divSearchResults.find('a.target').on('click', function () {
-                var $li = $(this).parent();
-                UIK.viewmodel.map.setView(new L.LatLng($li.data('lat'), $li.data('lon')), 18);
-                $('#target').show().delay(1000).fadeOut(1000);
-            });
-
-            $divSearchResults.prop('class', 'active');
+//            $divSearchResults.find('a.target').on('click', function () {
+//                var $li = $(this).parent();
+//                UIK.viewmodel.map.setView(new L.LatLng($li.data('lat'), $li.data('lon')), 18);
+//                $('#target').show().delay(1000).fadeOut(1000);
+//            });
+//
+//            $divSearchResults.prop('class', 'active');
         },
 
         getHtmlForSearchResults: function (cssClass, uiks) {
