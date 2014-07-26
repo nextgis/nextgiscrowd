@@ -39,7 +39,7 @@
                 UIK.user.init();
                 UIK.uiks.init();
 //                UIK.uiks_2012.init();
-                UIK.regions.init();
+//                UIK.regions.init();
                 UIK.josm.init();
                 UIK.editor.tab.init();
                 UIK.versions.init();
