@@ -37,7 +37,7 @@
 
                 UIK.view.$document.trigger('/uik/popup/openPopup',
                     [
-                        'Добро пожаловать в проект УИК ГЕО!',
+                        'Добро пожаловать!',
                         UIK.templates.welcomeTemplate({
                             rootUrl: document.url_root,
                             first: true

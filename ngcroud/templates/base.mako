@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Отметь свой объект</title>
     <meta name="description"
-          content="УИК ГЕО - это краудсорсинговое приложение и проект для совместной работы с географической информацией, предназначенное для редактирования точек местоположений УИКов по территории России">
+          content="NextGIS Crowd - веб-приложение для краудсорсинга геоданных">
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css"/>
@@ -180,7 +180,7 @@
     <div class="log panel-item"><a target="_blank" href="${request.route_url('logs')}"
                                    title="Статистика пользователей"></a></div>
     <div class="stat panel-item"><a target="_blank" href="${request.route_url('statistic')}"
-                                    title="Статистика по УИКам"></a></div>
+                                    title="Статистика по объектам"></a></div>
     <div class="export panel-item"><a target="_blank" href="${request.route_url('uik_export_page')}"
                                       title="Выгрузки по регионам"></a></div>
 </div>
@@ -209,7 +209,7 @@
     <div class="form-wrap" id="editUIK">
         <form class="form-inline disabled" id="editorForm">
             <div class="group">
-                <span class="form-label">Номер УИКа</span>
+                <span class="form-label">Номер</span>
                 <span id="name" class="value"></span>
             </div>
             <div class="group">
@@ -270,7 +270,7 @@
             <div class="group-checkboxes">
                 <input id="is_applied" type="hidden" name="is_applied" value="0"/>
                 <input id="chb_is_applied" type="checkbox" class="stand" disabled="disabled" data-id="is_applied"/>
-                <label class="control-label top lbl-applied" for="chb_is_applied">УИК принят (точность до дома)</label>
+                <label class="control-label top lbl-applied" for="chb_is_applied">Принято (точность до дома)</label>
             </div>
             <div class="group-submit">
                 <button id="discard" type="button" class="btn btn-warning" disabled="disabled">Отменить</button>
