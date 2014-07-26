@@ -8,8 +8,10 @@ from sqlalchemy import (
     Sequence,
     Boolean,
     DateTime,
-    LargeBinary
+    Enum
 )
+
+import datetime
 
 from sqlalchemy.dialects.postgresql import DOUBLE_PRECISION, BYTEA
 
@@ -36,6 +38,24 @@ import json
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+
+class JsonifyMixin:
+    def __init__(self):
+        pass
+
+    def as_json_dict(self, **init):
+        d = dict()
+        for c in self.__table__.columns:
+            v = getattr(self, c.name)
+            if isinstance(v, datetime.datetime):
+                v = v.isoformat()
+            d[c.name] = v
+
+        for k, v in init.items():
+            d[k] = v
+
+        return d
 
 
 class District(Base):
@@ -275,3 +295,48 @@ class UikVersions(Base):
         json_object_str = zlib.compress(json_object)
         return base64.encodestring(json_object_str).strip()
 
+
+class Entity(Base):
+    __tablename__ = 'entities'
+
+    id = Column(Integer, Sequence('entities_id_seq'), primary_key=True)
+    point = GeometryColumn(Geometry(2, 4326, spatial_index=True))
+    approved = Column(Boolean,  index=True, default=False)
+    comment = Column(Text)
+    blocked = Column(Boolean, index=True, default=False)
+    values = relationship('EntityPropertyValue')
+
+
+class EntityProperty(Base, JsonifyMixin):
+    __tablename__ = 'entity_properties'
+
+    id = Column(Integer, Sequence('entity_properties_id_seq'), primary_key=True)
+    title = Column(Text, index=True)
+    editable = Column(Boolean)
+    type = Column(Enum('text', 'int', 'bool', 'reference_book', name='property_types'))
+    control = Column(Text, index=True)
+    searchable = Column(Boolean, index=True, default=False)
+
+
+class EntityPropertyValue(Base):
+    __tablename__ = 'entities_properties_values'
+
+    entity_property = relationship('EntityProperty')
+    entity_property_id = Column(Integer, ForeignKey('entity_properties.id'), primary_key=True)
+
+    entity = relationship('Entity')
+    entity_id = Column(Integer, ForeignKey('entities.id'), primary_key=True)
+
+    text = Column(Text, index=True)
+    int = Column(Integer, index=True)
+    bool = Column(Boolean, index=True)
+    reference_book = Column(Integer, ForeignKey('reference_books_values.id'), index=True)
+
+
+class ReferenceBookValue(Base):
+    __tablename__ = 'reference_books_values'
+
+    id = Column(Integer, Sequence('reference_books_value_id_seq'), primary_key=True)
+    reference_book = relationship('EntityProperty')
+    reference_book_id = Column(Integer, ForeignKey('entity_properties.id'))
+    value = Column(Text, index=True)
