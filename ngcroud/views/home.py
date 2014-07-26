@@ -13,13 +13,13 @@ def home(request):
         user_name = request.session['u_name']
 
     session = DBSession()
-    searchable_fields = session.query(EntityProperty).filter(EntityProperty.searchable==True).all()
+    fields = session.query(EntityProperty).order_by(EntityProperty.visible_order).all()
     session.close()
 
     return {
         'u_name': user_name,
         'project': 'ngcroud',
-        'searchable_fields': searchable_fields,
+        'fields': fields,
         'static_version': request.registry.settings['static_version']
     }
 
