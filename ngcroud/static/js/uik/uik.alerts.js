@@ -27,13 +27,13 @@
             'saveSuccessful' : {
                 id: 'saveSuccessful',
                 type: 'info',
-                text: 'УИК был успешно обновлен',
+                text: 'Объект успешно обновлен',
                 statusText: ''
             },
             saveError: {
                 id: 'saveError',
                 type: 'error',
-                text: 'УИК не был обновлен - произошла ошибка.',
+                text: 'Ошибка - объект не обновлен.',
                 statusText: 'Ошибка!'
             },
             changeCoordinates: {
@@ -45,7 +45,7 @@
             notAppliedCoordinates: {
                 id: 'notAppliedCoordinates',
                 type: 'error',
-                text: 'Вы не применили координаты к редактируемому УИКу. ',
+                text: 'Вы не применили координаты к редактируемому объекту. ',
                 statusText: 'Ошибка сохранения:'
             },
             validateCoordinatesError: {
