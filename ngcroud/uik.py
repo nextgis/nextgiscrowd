@@ -6,7 +6,8 @@ from helpers import *
 from decorators import authorized
 from pyramid.view import view_config
 from pyramid.response import Response
-from sqlalchemy import func, distinct, and_
+from sqlalchemy import func, distinct
+from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import asc, desc
 from geoalchemy import functions
 import transaction
@@ -40,6 +41,9 @@ def get_all(context, request):
 
     session = DBSession()
 
+    searchable_fields = [entityProperty.id for entityProperty in
+                         session.query(EntityProperty).filter(EntityProperty.searchable==True).all()]
+
     if is_filter_applied:
         contains = functions.gcontains(box_geom, Uik.point).label('contains')
 
@@ -59,18 +63,19 @@ def get_all(context, request):
                 .count()
     else:
         uiks_from_db = session.query(Entity, Entity.point.x, Entity.point.y) \
+            .options(joinedload('values')) \
             .filter(Entity.point.within(box_geom)) \
             .all()
         uiks_for_json['points']['count'] = len(uiks_from_db)
 
     for uik in uiks_from_db:
         if uik[0].blocked:
-            uiks_for_json['points']['layers']['blocked']['elements'].append(_get_uik_from_uik_db(uik))
+            uiks_for_json['points']['layers']['blocked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
             continue
         if uik[0].approved:
-            uiks_for_json['points']['layers']['checked']['elements'].append(_get_uik_from_uik_db(uik))
+            uiks_for_json['points']['layers']['checked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
             continue
-        uiks_for_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik))
+        uiks_for_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
 
     uiks_for_json['points']['layers']['blocked']['count'] = len(
         uiks_for_json['points']['layers']['blocked']['elements'])
@@ -84,11 +89,11 @@ def get_all(context, request):
     return Response(json.dumps(uiks_result), content_type='application/json')
 
 
-def _get_uik_from_uik_db(uik_from_db):
+def _get_uik_from_uik_db(uik_from_db, searchable_fields):
     return {
         'id': uik_from_db[0].id,
-        'name': uik_from_db[0].number_official,
-        'addr': uik_from_db[0].address_voting,
+        'name': [val for val in uik_from_db[0].values if val.entity_property_id == searchable_fields[0]][0].text,
+        'addr': [val for val in uik_from_db[0].values if val.entity_property_id == searchable_fields[1]][0].text,
         'lon': uik_from_db[1],
         'lat': uik_from_db[2]
     }
