@@ -12,14 +12,15 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css"/>
     <![endif]-->
 
-        <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
-        <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/main.css')}">
-        <link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.css')}" />
-       	<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.css')}" />
+    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/main.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.css')}"/>
+    <link rel="stylesheet"
+          href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.css')}"/>
 
-##    <link rel="stylesheet"
-##          href="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.css')}">
-    ##   	<!--[if lte IE 8]><!--<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.ie.css')}" />--><![endif]-->
+    ##    <link rel="stylesheet"
+    ##          href="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.css')}">
+        ##   	<!--[if lte IE 8]><!--<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.ie.css')}" />--><![endif]-->
 
 
     <script type="text/javascript">
@@ -64,7 +65,8 @@
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.josm.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.versions.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.editor.tab.js')}"></script>
-    <script type="text/javascript" src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
+    <script type="text/javascript"
+            src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
 
 </head>
 <body class="editor-collapsed loading">
@@ -124,9 +126,11 @@
          data-isMapTriggered="true" data-filter="uik">
         <form class="form-search">
             <fieldset>
-                % for searchable_field in searchable_fields:
-                    <input type="text" class="name filterable" data-filter="${searchable_field.id}"
-                           data-validate="validateDefault" placeholder="${searchable_field.title}"/>
+                % for field in fields:
+                    %if field.searchable:
+                        <input type="text" class="name filterable" data-filter="${field.id}"
+                               data-validate="validateDefault" placeholder="${field.title}"/>
+                    %endif
                 % endfor
                 <div class="search" title="Поиск">
                     <span></span>
@@ -208,26 +212,37 @@
 
     <div class="form-wrap" id="editUIK">
         <form class="form-inline disabled" id="editorForm">
-            <div class="group">
-                <span class="form-label">Номер УИКа</span>
-                <span id="name" class="value"></span>
-            </div>
-            <div class="group">
-                <span class="form-label">Регион</span>
-                <span id="region" class="value"></span>
-            </div>
-            <div class="group">
-                <span class="form-label">ТИК</span>
-                <span id="tik" class="value"></span>
-            </div>
-            <div class="group">
-                <label class="control-label top" for="address_voting">Адрес голосования</label>
-                <textarea id="address_voting" name="address_voting" disabled="disabled"></textarea>
-            </div>
-            <div class="group">
-                <label class="control-label top" for="place_voting">Место голосования</label>
-                <textarea id="place_voting" name="place_voting" disabled="disabled"></textarea>
-            </div>
+            %for field in fields:
+                <div class="group">
+                    <span class="form-label">${field.title}</span>
+                    %if field.type == 'area':
+                        <textarea id="field-${field.id}">Значение</textarea>
+                    %else:
+                        <span id="field-${field.id}" class="value"><p>Значение</p></span>
+                    %endif
+                </div>
+            %endfor
+
+            ##            <div class="group">
+            ##                <span class="form-label">Номер УИКа</span>
+            ##                <span id="name" class="value"></span>
+            ##            </div>
+            ##            <div class="group">
+            ##                <span class="form-label">Регион</span>
+            ##                <span id="region" class="value"></span>
+            ##            </div>
+            ##            <div class="group">
+            ##                <span class="form-label">ТИК</span>
+            ##                <span id="tik" class="value"></span>
+            ##            </div>
+            ##            <div class="group">
+            ##                <label class="control-label top" for="address_voting">Адрес голосования</label>
+            ##                <textarea id="address_voting" name="address_voting" disabled="disabled"></textarea>
+            ##            </div>
+            ##            <div class="group">
+            ##                <label class="control-label top" for="place_voting">Место голосования</label>
+            ##                <textarea id="place_voting" name="place_voting" disabled="disabled"></textarea>
+            ##            </div>
             ##            <div class="group">
             ##                <label class="control-label" for="geo_precision">Точность</label>
             ##                <select id="geo_precision" class="stand" name="geo_precision" disabled="disabled">
@@ -263,10 +278,11 @@
                     </button>
                 </div>
             </div>
-            <div class="group">
-                <label class="control-label top" for="comment">Коммента-</br>рий</label>
-                <textarea id="comment" name="comment" disabled="disabled"></textarea>
-            </div>
+            ##        <div class="group">
+            ##            <label class="control-label top" for="comment">Коммента-</br>рий</label>
+            ##            <textarea id="comment" name="comment" disabled="disabled"></textarea>
+            ##        </div>
+
             <div class="group-checkboxes">
                 <input id="is_applied" type="hidden" name="is_applied" value="0"/>
                 <input id="chb_is_applied" type="checkbox" class="stand" disabled="disabled" data-id="is_applied"/>
