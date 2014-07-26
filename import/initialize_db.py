@@ -18,7 +18,7 @@ import argparse
 parser = argparse.ArgumentParser(add_help=False)
 subparsers = parser.add_subparsers()
 
-config_parser = subparsers.add_parser('crouwd')
+config_parser = subparsers.add_parser('crowd')
 config_parser.add_argument('--csv', dest='csv', help='path to csv file')
 config_parser.add_argument('--conf', dest='config', help='path to json data config')
 config_parser.add_argument('--db_conf', dest='db_conf', help='path to sqlalchemy config')
