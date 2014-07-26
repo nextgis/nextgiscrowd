@@ -17,7 +17,7 @@
 
             $('div.help-panel div.help').off('click').on('click', function () {
                 UIK.view.$document.trigger('/uik/popup/openPopup',
-                    ['Добро пожаловать в проект УИК ГЕО!', UIK.templates.welcomeTemplate({
+                    ['Добро пожаловать!', UIK.templates.welcomeTemplate({
                         rootUrl: document.url_root
                     }) ]);
             });
