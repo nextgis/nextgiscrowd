@@ -1,0 +1,88 @@
+{
+    "properties": [
+        {
+            "field": "ID",
+            "title": "Номер",
+            "type": "text",
+            "editable": false,
+            "searchable": true
+        },
+        {
+            "field": "GEOCODE",
+            "title": "Точность",
+            "type": "reference_book",
+            "editable": false
+        },
+        {
+            "field": "COMMENT",
+            "title": "Комментарий",
+            "type": "text",
+            "editable": true,
+            "control": "area"
+        },
+        {
+            "field": "NAME",
+            "title": "Название",
+            "type": "text",
+            "editable": true,
+            "control": "textbox"
+        },
+        {
+            "field": "ADDRESS",
+            "title": "Адрес",
+            "type": "text",
+            "editable": true,
+            "control": "textbox",
+            "searchable": true
+
+        },
+        {
+            "field": "REGION",
+            "title": "Регион",
+            "type": "reference_book",
+            "editable": true,
+            "control": "textbox"
+        },
+        {
+            "field": "DISTRICT",
+            "title": "Район",
+            "type": "reference_book",
+            "editable": true,
+            "control": "textbox"
+        },
+        {
+            "field": "TYPE",
+            "title": "Тип",
+            "type": "reference_book",
+            "editable": true,
+            "control": "textbox"
+        },
+
+        {
+            "field": "DIRECTOR",
+            "title": "Директор",
+            "type": "text",
+            "editable": true,
+            "control": "textbox"
+        },
+        {
+            "field": "PHONE",
+            "title": "Телефон",
+            "type": "text",
+            "editable": true,
+            "control": "textbox"
+        },
+        {
+            "field": "URL",
+            "title": "Сайт",
+            "type": "text",
+            "editable": true,
+            "control": "textbox"
+        },
+        {
+            "type": "point",
+            "latlng": ["LAT", "LON"]
+        }
+    ]
+
+}
