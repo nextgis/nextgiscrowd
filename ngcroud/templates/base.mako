@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>Отметь свой УИК</title>
+    <title>Отметь свой объект</title>
     <meta name="description"
           content="УИК ГЕО - это краудсорсинговое приложение и проект для совместной работы с географической информацией, предназначенное для редактирования точек местоположений УИКов по территории России">
     <meta name="viewport" content="width=device-width">
@@ -64,8 +64,8 @@
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.josm.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.versions.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.editor.tab.js')}"></script>
-    <script type="text/javascript"
-            src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
+##    <script type="text/javascript"
+##            src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
 
 </head>
 <body class="editor-collapsed loading">
@@ -203,7 +203,7 @@
     <div class="title"><span>Редактор</span></div>
 
     <ul class="nav nav-tabs">
-        <li data-id="editUIK" id="editUIK-link"><a href="javascript:void(0)">Данные УИКа</a></li>
+        <li data-id="editUIK" id="editUIK-link"><a href="javascript:void(0)">Данные</a></li>
         <li class="active" data-id="versionsUIK" id="versionsUIK-link"><a href="javascript:void(0)">Версии</a></li>
     </ul>
 
