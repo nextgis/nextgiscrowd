@@ -11,6 +11,10 @@ Current limitations:
 
 * points only
 
+
+##Load data
+../../bin/python initialize_db.py crowd --csv data/input.csv --conf config.json --db_conf ../development.ini
+
 ##Start
 
 ```bash
