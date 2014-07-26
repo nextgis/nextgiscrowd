@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from ngcroud.models import DBSession, User, GeocodingPrecision
+from ngcroud.models import DBSession, User, EntityProperty
 from ngcroud.security import generate_session_id
 from pyramid.view import view_config
 from sqlalchemy.sql.expression import asc
@@ -13,13 +13,13 @@ def home(request):
         user_name = request.session['u_name']
 
     session = DBSession()
-    geocoding_precisions = session.query(GeocodingPrecision).order_by(asc(GeocodingPrecision.id)).all()
+    searchable_fields = session.query(EntityProperty).filter(EntityProperty.searchable==True).all()
     session.close()
 
     return {
         'u_name': user_name,
         'project': 'ngcroud',
-        'geocoding_precisions': geocoding_precisions,
+        'searchable_fields': searchable_fields,
         'static_version': request.registry.settings['static_version']
     }
 

@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Отметь свой УИК</title>
-    <meta name="description" content="УИК ГЕО - это краудсорсинговое приложение и проект для совместной работы с географической информацией, предназначенное для редактирования точек местоположений УИКов по территории России">
+    <meta name="description"
+          content="УИК ГЕО - это краудсорсинговое приложение и проект для совместной работы с географической информацией, предназначенное для редактирования точек местоположений УИКов по территории России">
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css"/>
@@ -11,22 +12,25 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css"/>
     <![endif]-->
 
-##    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
-##    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/main.css')}">
-##    <link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.css')}" />
-##   	<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.css')}" />
-    <link rel="stylesheet" href="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.css')}">
-##   	<!--[if lte IE 8]><!--<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.ie.css')}" />--><![endif]-->
+        <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
+        <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/main.css')}">
+        <link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.css')}" />
+       	<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.css')}" />
+
+##    <link rel="stylesheet"
+##          href="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.css')}">
+    ##   	<!--[if lte IE 8]><!--<link rel="stylesheet" href="${request.static_url('ngcroud:static/js/Leaflet.markercluster/MarkerCluster.Default.ie.css')}" />--><![endif]-->
 
 
     <script type="text/javascript">
         document['url_root'] = '${request.route_url('home')}';
     </script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+    <script type="text/javascript"
+            src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
 
-##    <script type="text/javascript" src="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.js')}"></script>
+    ##    <script type="text/javascript" src="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.js')}"></script>
 
     <script src="${request.static_url('ngcroud:static/js/Leaflet.markercluster/leaflet.markercluster-src.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/jquery/jquery.cookie.js')}"></script>
@@ -46,7 +50,8 @@
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.map.manager.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.geocoder.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.searcher.js')}"></script>
-    <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.searcher.address.js')}"></script>
+    <script type="text/javascript"
+            src="${request.static_url('ngcroud:static/js/uik/uik.searcher.address.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.searcher.tab.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.editor.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.uiks.js')}"></script>
@@ -59,7 +64,8 @@
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.josm.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.versions.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.editor.tab.js')}"></script>
-    <script type="text/javascript" src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
+    <script type="text/javascript"
+            src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
 
 </head>
 <body class="editor-collapsed loading">
@@ -70,6 +76,7 @@
 <div class="popup-background"></div>
 <div id="popup">
     <a class="close"></a>
+
     <div class="header"></div>
     <div class="content"></div>
 </div>
@@ -84,7 +91,7 @@
 </div>
 <div id="userContainer"
     % if u_name:
-        class="inner"
+     class="inner"
     % endif
         >
     <form id="signInForm" class="form-inline" method="post">
@@ -96,17 +103,18 @@
     <form id="signOutForm" class="form-inline" method="post">
         <fieldset>
             <label id="display-name" class="control-label">
-                    % if u_name:
+                % if u_name:
                         ${u_name}
-                    % endif
+                % endif
             </label>
-            <input type="hidden" name="sign_out" value="true" />
+            <input type="hidden" name="sign_out" value="true"/>
             <button type="submit" class="btn">Выйти</button>
         </fieldset>
     </form>
 </div>
 <div id="searchContainer" class="searchUIK">
     <span class="icon-collapse"></span>
+
     <div class="title"><span>Поиск</span></div>
     <ul class="nav nav-tabs">
         <li class="active" data-id="searchUIK"><a href="javascript:void(0)">УИК</a></li>
@@ -114,11 +122,14 @@
         <li data-id="searchAddress"><a href="javascript:void(0)">Адреса</a></li>
     </ul>
 
-    <div id="searchUIK" onsubmit="return false"  class="search-block" data-trigger="/uik/uiks/updateUiks" data-isMapTriggered="true" data-filter="uik">
+    <div id="searchUIK" onsubmit="return false" class="search-block" data-trigger="/uik/uiks/updateUiks"
+         data-isMapTriggered="true" data-filter="uik">
         <form class="form-search">
             <fieldset>
-                <input type="text" class="name filterable" data-filter="number" data-validate="validateNumber" placeholder="Номер" />
-                <input type="text" class="address filterable" data-filter="address" data-validate="validateDefault" placeholder="Адрес" />
+                % for searchable_field in searchable_fields:
+                    <input type="text" class="name filterable" data-filter="${searchable_field.id}"
+                           data-validate="validateDefault" placeholder="${searchable_field.title}"/>
+                % endfor
                 <div class="search" title="Поиск">
                     <span></span>
                 </div>
@@ -128,15 +139,20 @@
 
         <div class="active searchResults" data-template="">
             <p class="update">Запрос данных...</p>
+
             <div></div>
         </div>
     </div>
 
-    <div id="searchUIK_2012" onsubmit="return false"  class="search-block" data-trigger="/uik/uiks_2012/updateUiks" data-isMapTriggered="true"  data-filter="uik_2012">
+    <div id="searchUIK_2012" onsubmit="return false" class="search-block" data-trigger="/uik/uiks_2012/updateUiks"
+         data-isMapTriggered="true" data-filter="uik_2012">
         <form class="form-search">
             <fieldset>
-                <input type="text" class="name filterable" data-filter="number" data-validate="validateNumber" placeholder="Номер" />
-                <input type="text" class="address filterable" data-filter="address" data-validate="validateDefault" placeholder="Адрес" />
+                <input type="text" class="name filterable" data-filter="number" data-validate="validateNumber"
+                       placeholder="Номер"/>
+                <input type="text" class="address filterable" data-filter="address" data-validate="validateDefault"
+                       placeholder="Адрес"/>
+
                 <div class="search" title="Поиск">
                     <span></span>
                 </div>
@@ -146,15 +162,18 @@
 
         <div class="active searchResults">
             <p class="update">Запрос данных...</p>
+
             <div></div>
         </div>
     </div>
 
-    <div id="searchAddress" onsubmit="return false" class="search-block"  data-trigger="/uik/search/address"
+    <div id="searchAddress" onsubmit="return false" class="search-block" data-trigger="/uik/search/address"
          data-filter="address">
         <form class="form-search">
             <fieldset>
-                <input type="text" class="address filterable" data-filter="address" data-validate="validateDefault" placeholder="Адрес" />
+                <input type="text" class="address filterable" data-filter="address" data-validate="validateDefault"
+                       placeholder="Адрес"/>
+
                 <div class="search" title="Поиск">
                     <span></span>
                 </div>
@@ -164,6 +183,7 @@
 
         <div class="active searchResults">
             <p class="update">Запрос данных...</p>
+
             <div></div>
         </div>
     </div>
@@ -182,15 +202,23 @@
     </div>
 </div>
 <div class="stat-panel panel">
-    <div class="log panel-item"><a target="_blank" href="${request.route_url('logs')}" title="Статистика пользователей"></a></div>
-    <div class="stat panel-item"><a target="_blank" href="${request.route_url('statistic')}" title="Статистика по УИКам"></a></div>
-    <div class="export panel-item"><a target="_blank" href="${request.route_url('uik_export_page')}" title="Выгрузки по регионам"></a></div>
+    <div class="log panel-item"><a target="_blank" href="${request.route_url('logs')}"
+                                   title="Статистика пользователей"></a></div>
+    <div class="stat panel-item"><a target="_blank" href="${request.route_url('statistic')}"
+                                    title="Статистика по УИКам"></a></div>
+    <div class="export panel-item"><a target="_blank" href="${request.route_url('uik_export_page')}"
+                                      title="Выгрузки по регионам"></a></div>
 </div>
 <div class="help-panel panel">
     <div class="help panel-item"><a href="javascript:void(0)" title="Руководство пользователя"></a></div>
-    <div class="nextgis panel-item"><a target="_blank" href="http://nextgis.ru/" title="Перейти на сайт разработчика - NextGIS"></a></div>
-    <div class="facebook panel-item"><a target="_blank" title="Поделиться с друзьями на Facebook" href="https://www.facebook.com/sharer/sharer.php?u=uikgeo.gis-lab.info"></a></div>
-    <div class="twitter panel-item"><a target="_blank" title="Твитнуть"  href="https://twitter.com/intent/tweet?hashtags=uik_geo&original_referer=http%3A%2F%2Fuikgeo.gis-lab.info%2F&text=%D0%9E%D1%82%D0%BC%D0%B5%D1%82%D1%8C%20%D1%81%D0%B2%D0%BE%D0%B9%20%D0%A3%D0%98%D0%9A&tw_p=tweetbutton&url=http%3A%2F%2Fuikgeo.gis-lab.info%2F"></a></div>
+    <div class="nextgis panel-item"><a target="_blank" href="http://nextgis.ru/"
+                                       title="Перейти на сайт разработчика - NextGIS"></a></div>
+    <div class="facebook panel-item"><a target="_blank" title="Поделиться с друзьями на Facebook"
+                                        href="https://www.facebook.com/sharer/sharer.php?u=uikgeo.gis-lab.info"></a>
+    </div>
+    <div class="twitter panel-item"><a target="_blank" title="Твитнуть"
+                                       href="https://twitter.com/intent/tweet?hashtags=uik_geo&original_referer=http%3A%2F%2Fuikgeo.gis-lab.info%2F&text=%D0%9E%D1%82%D0%BC%D0%B5%D1%82%D1%8C%20%D1%81%D0%B2%D0%BE%D0%B9%20%D0%A3%D0%98%D0%9A&tw_p=tweetbutton&url=http%3A%2F%2Fuikgeo.gis-lab.info%2F"></a>
+    </div>
 </div>
 
 <div id="editorContainer" class="versionsUIK">
@@ -225,14 +253,15 @@
                 <label class="control-label top" for="place_voting">Место голосования</label>
                 <textarea id="place_voting" name="place_voting" disabled="disabled"></textarea>
             </div>
-            <div class="group">
-                <label class="control-label" for="geo_precision">Точность</label>
-                <select id="geo_precision" class="stand" name="geo_precision" disabled="disabled">
-                    % for geocoding_precision in geocoding_precisions:
-                        <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
-                    % endfor
-                </select>
-            </div>
+            ##            <div class="group">
+            ##                <label class="control-label" for="geo_precision">Точность</label>
+            ##                <select id="geo_precision" class="stand" name="geo_precision" disabled="disabled">
+            ##                    % for geocoding_precision in geocoding_precisions:
+            ##                        <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
+            ##                    % endfor
+            ##                </select>
+            ##            </div>
+
             <div class="geographic">
                 <div class="group">
                     <label class="control-label" for="lat">Широта</label>
@@ -244,15 +273,19 @@
                 </div>
                 <div class="wrapper-coordinates">
                     <button id="regeocode" class="btn btn-small" disabled="disabled" type="button">
-                        Перегеокодировать</button>
+                        Перегеокодировать
+                    </button>
                     <button id="resetCenter" class="btn btn-small" disabled="disabled" type="button">
-                        Перецентрировать</button>
+                        Перецентрировать
+                    </button>
                 </div>
                 <div class="wrapper-coordinates">
                     <button id="applyCoordinates" class="btn btn-small" disabled="disabled" type="button">
-                        Применить</button>
+                        Применить
+                    </button>
                     <button id="undoCoordinates" class="btn btn-small" disabled="disabled" type="button">
-                        Отменить</button>
+                        Отменить
+                    </button>
                 </div>
             </div>
             <div class="group">

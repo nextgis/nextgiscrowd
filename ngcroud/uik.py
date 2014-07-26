@@ -21,16 +21,11 @@ def get_all(context, request):
     filter = json.loads(request.GET['filter'])
     clauses = []
     if filter['uik']:
-        filter['uik']['address'] = filter['uik']['address'].encode('UTF-8').strip()
-        filter['uik']['number'] = filter['uik']['number'].encode('UTF-8').strip()
-        if filter['uik']['address'] or filter['uik']['number']:
-            is_filter_applied = True
-            if filter['uik']['address'].__len__() > 3:
-                address = '%' + filter['uik']['address'] + '%'
-                clauses.append(Uik.address_voting.ilike(address))
-            if filter['uik']['number']:
-                number = filter['uik']['number']
-                clauses.append(Uik.number_official == number)
+        for filter_item_id in filter['uik'].keys():
+            filter_item_value = filter['uik'][filter_item_id].encode('UTF-8').strip()
+            if filter_item_value:
+                clauses.append(EntityPropertyValue.entity_property_id == int(filter_item_id))
+                clauses.append(EntityPropertyValue.text == filter_item_value)
 
     bbox = json.loads(request.params.getall('bbox')[0])
     box_geom = leaflet_bbox_to_polygon(bbox)
@@ -44,13 +39,18 @@ def get_all(context, request):
         }}}
 
     session = DBSession()
+
     if is_filter_applied:
         contains = functions.gcontains(box_geom, Uik.point).label('contains')
-        uiks_from_db = session.query(Uik, Uik.point.x, Uik.point.y) \
+
+        uiks_from_db = session.query(EntityPropertyValue) \
+            .join(EntityPropertyValue.entity) \
+            .join(EntityPropertyValue.entity_property) \
             .filter(*clauses) \
             .order_by(contains.desc()) \
             .limit(page_size) \
             .all()
+
         if len(uiks_from_db) < page_size:
             uiks_for_json['points']['count'] = len(uiks_from_db)
         else:
@@ -58,23 +58,26 @@ def get_all(context, request):
                 .filter(*clauses) \
                 .count()
     else:
-        uiks_from_db = session.query(Uik, Uik.point.x, Uik.point.y) \
-            .filter(Uik.point.within(box_geom)) \
+        uiks_from_db = session.query(Entity, Entity.point.x, Entity.point.y) \
+            .filter(Entity.point.within(box_geom)) \
             .all()
         uiks_for_json['points']['count'] = len(uiks_from_db)
 
     for uik in uiks_from_db:
-        if uik[0].is_blocked:
+        if uik[0].blocked:
             uiks_for_json['points']['layers']['blocked']['elements'].append(_get_uik_from_uik_db(uik))
             continue
-        if uik[0].is_applied:
+        if uik[0].approved:
             uiks_for_json['points']['layers']['checked']['elements'].append(_get_uik_from_uik_db(uik))
             continue
         uiks_for_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik))
 
-    uiks_for_json['points']['layers']['blocked']['count'] = len(uiks_for_json['points']['layers']['blocked']['elements'])
-    uiks_for_json['points']['layers']['checked']['count'] = len(uiks_for_json['points']['layers']['checked']['elements'])
-    uiks_for_json['points']['layers']['unchecked']['count'] = len(uiks_for_json['points']['layers']['unchecked']['elements'])
+    uiks_for_json['points']['layers']['blocked']['count'] = len(
+        uiks_for_json['points']['layers']['blocked']['elements'])
+    uiks_for_json['points']['layers']['checked']['count'] = len(
+        uiks_for_json['points']['layers']['checked']['elements'])
+    uiks_for_json['points']['layers']['unchecked']['count'] = len(
+        uiks_for_json['points']['layers']['unchecked']['elements'])
 
     uiks_result = {'data': uiks_for_json}
     session.close()
@@ -137,7 +140,7 @@ def get_uik(context, request):
 
     uik_res['uik']['is_unblocked'] = ''
     if 'u_id' in request.session and uik[0].is_blocked and \
-        request.session['u_id'] == uik[0].user_block.id:
+                    request.session['u_id'] == uik[0].user_block.id:
         uik_res['uik']['is_unblocked'] = True
 
     session.close()
@@ -157,15 +160,16 @@ def update_uik(context, request):
     with transaction.manager:
         session = DBSession()
         from helpers import str_to_boolean
+
         session.query(Uik).filter(Uik.id == uik['id']).update({
-            Uik.address_voting: uik['address_voting'],
-            Uik.place_voting: uik['place_voting'],
-            Uik.is_applied: str_to_boolean(uik['is_applied']),
-            Uik.comment: uik['comment'],
-            Uik.geocoding_precision_id: uik['geo_precision'],
-            Uik.is_blocked: False,
-            Uik.user_block_id: None
-        }, synchronize_session=False)
+                                                                  Uik.address_voting: uik['address_voting'],
+                                                                  Uik.place_voting: uik['place_voting'],
+                                                                  Uik.is_applied: str_to_boolean(uik['is_applied']),
+                                                                  Uik.comment: uik['comment'],
+                                                                  Uik.geocoding_precision_id: uik['geo_precision'],
+                                                                  Uik.is_blocked: False,
+                                                                  Uik.user_block_id: None
+                                                              }, synchronize_session=False)
         sql = 'UPDATE uiks SET point=ST_GeomFromText(:wkt, 4326) WHERE id = :uik_id'
         session.execute(sql, {
             'wkt': 'POINT(%s %s)' % (uik['geom']['lng'], uik['geom']['lat']),
@@ -176,6 +180,7 @@ def update_uik(context, request):
         log.uik_id = uik['id']
         log.user_id = request.session['u_id']
         from datetime import datetime
+
         log.time = datetime.now()
         log.dump = log.to_json_binary_dump(uik)
         session.add(log)
@@ -331,7 +336,7 @@ def get_stat(context, request):
         if exist_filter_parameter('user_id', request):
             user_uiks_subq = (session.query(distinct(UikVersions.uik_id).label("uik_id"))
                               .filter(UikVersions.user_id == int(request.POST['user_id']))) \
-                              .subquery()
+                .subquery()
             uiks_from_db = uiks_from_db.join(user_uiks_subq, and_(Uik.id == user_uiks_subq.c.uik_id))
 
     uiks_from_db = uiks_from_db.filter(*clauses)

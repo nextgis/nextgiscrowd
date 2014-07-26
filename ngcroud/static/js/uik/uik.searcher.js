@@ -130,6 +130,7 @@
                                     } else {
                                         isValid = context[$this.data('validate')]($this.val());
                                         $this.toggleClass('invalid', !isValid);
+                                        elementName = $this.data('filter');
                                         filterBlock.elements[elementName].is_valid = isValid;
                                         isValidFilter = context.validateFilter(filterBlock);
                                         filterBlock.btn_search.toggleClass('active', isValidFilter);

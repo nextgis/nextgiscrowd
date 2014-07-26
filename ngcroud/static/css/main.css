@@ -435,12 +435,12 @@ body.searcher-collapsed #map .leaflet-control-container .leaflet-left {
 }
 
 #searchAddress input.address {
-    width: 225px;
+    width: 158px;
     margin-left: 4px;
 }
 
 #searchContainer input.name {
-    width: 90px;
+    width: 102px;
 }
 
 #searchContainer div.is_help {
