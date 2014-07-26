@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+
 # Run:
 # env/bin/python import/initialize_db.py --d ngcroud --h localhost --u ngcroud --p ngcroud  --s import/data/RU-MOW.shp  --tik import/data/tik.csv  --reg import/data/auto_codes.csv --config development.ini
 
 
 from sqlalchemy import engine_from_config
 from pyramid.paster import get_appsettings, setup_logging
-from ngcroud.models import DBSession, Base, Entity, EntityProperty, EntityPropertyValue
+from ngcroud.models import DBSession, Base, Entity, EntityProperty, EntityPropertyValue, User
 from geoalchemy import WKTSpatialElement
 import transaction
+import datetime
 
 # Read command line arguments
 # ---------------------------
@@ -107,3 +110,11 @@ for row in csv:
                 session.add(entityPropertyValue)
                 print 'value added'
         session.flush()
+
+with transaction.manager:
+    user = User()
+    user.display_name = 'Пользователь'
+    user.email = 'test@mail.com'
+    user.password = User.password_hash('test', 'rte45EWRRT')
+    user.registered_time = datetime.datetime.now()
+    session.add(user)
