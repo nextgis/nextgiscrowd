@@ -13,8 +13,10 @@ Current limitations:
 
 
 ##Load data
+```bash
 cd /home/user/projects/ngcrowd/nextgiscrowd/import
 ../../bin/python initialize_db.py crowd --csv data/input.csv --conf config.json --db_conf ../development.ini
+```
 
 ##Start
 
