@@ -117,7 +117,7 @@
     <div class="title"><span>Поиск</span></div>
     <ul class="nav nav-tabs">
         <li class="active" data-id="searchUIK"><a href="javascript:void(0)">Объекты</a></li>
-        <li data-id="searchAddress"><a href="javascript:void(0)">Адреса</a></li>
+        <li data-id="searchAddress"><a href="javascript:void(0)">Поиск по адресу</a></li>
     </ul>
 
     <div id="searchUIK" onsubmit="return false" class="search-block" data-trigger="/uik/uiks/updateUiks"
