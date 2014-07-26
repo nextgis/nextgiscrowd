@@ -42,7 +42,7 @@ def get_all(context, request):
     session = DBSession()
 
     searchable_fields = [entityProperty.id for entityProperty in
-                         session.query(EntityProperty).filter(EntityProperty.searchable==True).all()]
+                         session.query(EntityProperty).filter(EntityProperty.searchable == True).all()]
 
     if is_filter_applied:
         contains = functions.gcontains(box_geom, Uik.point).label('contains')
@@ -70,10 +70,12 @@ def get_all(context, request):
 
     for uik in uiks_from_db:
         if uik[0].blocked:
-            uiks_for_json['points']['layers']['blocked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
+            uiks_for_json['points']['layers']['blocked']['elements'].append(
+                _get_uik_from_uik_db(uik, searchable_fields))
             continue
         if uik[0].approved:
-            uiks_for_json['points']['layers']['checked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
+            uiks_for_json['points']['layers']['checked']['elements'].append(
+                _get_uik_from_uik_db(uik, searchable_fields))
             continue
         uiks_for_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
 
@@ -101,35 +103,50 @@ def _get_uik_from_uik_db(uik_from_db, searchable_fields):
 
 @view_config(route_name='uik', request_method='GET')
 def get_uik(context, request):
-    clauses = []
-
     id = request.matchdict.get('id', None)
     region_id = request.matchdict.get('region_id', None)
     uik_official_number = request.matchdict.get('official_number', None)
 
+    clauses = []
     if id is not None:
-        clauses.append(Uik.id == id)
-    elif (region_id is not None) and (uik_official_number is not None):
-        clauses.append(Uik.number_official == uik_official_number)
-        clauses.append(Uik.region_id == int(region_id))
+        clauses.append(Entity.id == id)
+    # elif (region_id is not None) and (uik_official_number is not None):
+    #     clauses.append(Uik.number_official == uik_official_number)
+    #     clauses.append(Uik.region_id == int(region_id))
 
     session = DBSession()
-    uik = session.query(Uik, Uik.point.x, Uik.point.y, GeocodingPrecision, Region, Tik, User) \
-        .outerjoin((GeocodingPrecision, Uik.geocoding_precision_id == GeocodingPrecision.id)) \
-        .outerjoin((Region, Uik.region_id == Region.id)) \
-        .outerjoin((Tik, Uik.tik_id == Tik.id)) \
-        .outerjoin((User, Uik.user_block_id == User.id)) \
+
+    props = dict((entityProperty.id, {
+        'id': entityProperty.id,
+        'title': entityProperty.title,
+        'type': entityProperty.type,
+        'val': '',
+        'visible_order': entityProperty.visible_order
+    }) for entityProperty in session.query(EntityProperty).order_by(EntityProperty.visible_order).all())
+
+    uik = session.query(Entity, Entity.point.x, Entity.point.y, User) \
+        .options(joinedload(Entity.values)) \
+        .outerjoin((User, Entity.user_block_id == User.id)) \
         .filter(*clauses).one()
 
-    versions = session.query(UikVersions, User.display_name, UikVersions.time) \
-        .outerjoin((User, UikVersions.user_id == User.id)) \
-        .filter(UikVersions.uik_id == id).order_by(UikVersions.time).all()
+    for value in uik[0].values:
+        props_for_val = props[value.entity_property_id]
 
+        # todo change when reference_book type will be supported
+        if props_for_val['type'] == 'reference_book':
+            props_for_val['type'] = 'text'
+
+        props_for_val['val'] = getattr(value, props_for_val['type'])
+
+    versions = session.query(EntityVersions, User.display_name, EntityVersions.time) \
+        .outerjoin((User, EntityVersions.user_id == User.id)) \
+        .filter(EntityVersions.uik_id == id).order_by(EntityVersions.time).all()
+
+    props_json = [props[prop_key] for prop_key in props.keys()]
+    props_json.sort(key=lambda x: x['visible_order'])
     uik_res = {
-        'uik': uik[0].to_dict(),
-        'geo_precision': uik[3].to_dict(),
-        'region': uik[4].to_dict(),
-        'tik': uik[5].to_dict(),
+        'uik': uik[0].as_json_dict(),
+        'props': props_json,
         'versions': [{'display_name': version[1],
                       'time': to_russian_datetime_format(version[2])}
                      for version in versions]
@@ -139,12 +156,12 @@ def get_uik(context, request):
 
     uik_res['uik']['user_blocked'] = ''
     uik_res['uik']['is_blocked'] = False
-    if uik[0].is_blocked:
+    if uik[0].blocked:
         uik_res['uik']['is_blocked'] = True
         uik_res['uik']['user_blocked'] = uik[0].user_block.display_name
 
     uik_res['uik']['is_unblocked'] = ''
-    if 'u_id' in request.session and uik[0].is_blocked and \
+    if 'u_id' in request.session and uik[0].blocked and \
                     request.session['u_id'] == uik[0].user_block.id:
         uik_res['uik']['is_unblocked'] = True
 

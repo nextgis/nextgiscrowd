@@ -133,13 +133,11 @@
 
         buildUikPopup: function (ajaxUik) {
             var html = UIK.templates.uikPopupInfoTemplate({
+                props: ajaxUik.props,
                 uik: ajaxUik.uik,
-                tik: ajaxUik.tik,
-                region: ajaxUik.region,
-                geo_precision: ajaxUik.geo_precision,
                 isUserEditor: UIK.viewmodel.isAuth,
                 editDenied: UIK.viewmodel.editable || ajaxUik.uik.is_blocked,
-                isBlocked: ajaxUik.uik.is_blocked,
+                isBlocked: ajaxUik.uik.blocked,
                 userBlocked: ajaxUik.uik.user_blocked,
                 isUnBlocked: ajaxUik.uik.is_unblocked
             });
