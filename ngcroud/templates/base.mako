@@ -64,8 +64,7 @@
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.josm.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.versions.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcroud:static/js/uik/uik.editor.tab.js')}"></script>
-##    <script type="text/javascript"
-##            src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
+    <script type="text/javascript" src="${request.static_url('ngcroud:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
 
 </head>
 <body class="editor-collapsed loading">
