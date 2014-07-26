@@ -102,10 +102,10 @@
     </script>
 </head>
 <body style="margin: 10px;">
-<h2>Список УИКов</h2>
+<h2>Список объектов</h2>
 <div class="header-table">
     <div class="column">
-        <label for="user">Выбрать УИКи пользователя: </label>
+        <label for="user">Выбрать объекты пользователя: </label>
         <select id="user" name="user">
             <option selected="selected" value="">Любой</option>
             % for user in users:
