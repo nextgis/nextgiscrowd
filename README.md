@@ -13,12 +13,16 @@ Current limitations:
 
 ##Start
 
+```bash
 cd /home/user/projects/ngcrowd/nextgiscrowd
 git pull
 ../bin/pserve development.ini --daemon start
+```
 
 ##Restart
 
+```bash
 cd /home/user/projects/ngcrowd/nextgiscrowd
 git pull
 ../bin/pserve development.ini --daemon restart
+```
