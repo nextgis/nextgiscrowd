@@ -19,8 +19,10 @@ from geoalchemy import (
     GeometryColumn,
     Geometry,
     Polygon,
-    WKTSpatialElement
+    WKBSpatialElement
 )
+
+from geoalchemy.postgis import PGPersistentSpatialElement
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -50,6 +52,8 @@ class JsonifyMixin:
             v = getattr(self, c.name)
             if isinstance(v, datetime.datetime):
                 v = v.isoformat()
+            if isinstance(v, PGPersistentSpatialElement):
+                v = {}
             d[c.name] = v
 
         for k, v in init.items():
@@ -296,14 +300,18 @@ class UikVersions(Base):
         return base64.encodestring(json_object_str).strip()
 
 
-class Entity(Base):
+class Entity(Base, JsonifyMixin):
     __tablename__ = 'entities'
 
     id = Column(Integer, Sequence('entities_id_seq'), primary_key=True)
     point = GeometryColumn(Geometry(2, 4326, spatial_index=True))
     approved = Column(Boolean,  index=True, default=False)
     comment = Column(Text)
+
+    user_block = relationship('User')
+    user_block_id = Column(Integer, ForeignKey('users.id'), nullable=True)
     blocked = Column(Boolean, index=True, default=False)
+
     values = relationship('EntityPropertyValue')
 
 
@@ -312,6 +320,7 @@ class EntityProperty(Base, JsonifyMixin):
 
     id = Column(Integer, Sequence('entity_properties_id_seq'), primary_key=True)
     title = Column(Text, index=True)
+    visible_order = Column(Integer, index=True)
     editable = Column(Boolean)
     type = Column(Enum('text', 'int', 'bool', 'reference_book', name='property_types'))
     control = Column(Text, index=True)
@@ -340,3 +349,27 @@ class ReferenceBookValue(Base):
     reference_book = relationship('EntityProperty')
     reference_book_id = Column(Integer, ForeignKey('entity_properties.id'))
     value = Column(Text, index=True)
+
+
+class EntityVersions(Base):
+    __tablename__ = 'entity_versions'
+
+    uik = relationship('Entity')
+    uik_id = Column(Integer, ForeignKey('entities.id'), primary_key=True)
+    user = relationship('User')
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    time = Column(DateTime, nullable=False, primary_key=True)
+    dump = Column(BYTEA, nullable=False)
+
+    def to_dict(self):
+        return dict(
+            uik_id=self.uik_id,
+            user_id=self.user_id,
+            time=self.time.isoformat(),
+            dump=json.loads(zlib.decompress(base64.decodestring(self.dump)))
+        )
+
+    def to_json_binary_dump(self, json_object):
+        json_object = json.dumps(json_object)
+        json_object_str = zlib.compress(json_object)
+        return base64.encodestring(json_object_str).strip()
