@@ -26,10 +26,17 @@
     <script type="text/javascript">
         document['url_root'] = '${request.route_url('home')}';
     </script>
-    <script type="text/javascript"
-            src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+##    <script type="text/javascript"
+##            src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+##    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+##    <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+
+
+    <script type="text/javascript" src="${request.static_url('ngcroud:static/js/mustache.js')}"></script>
+    <script type="text/javascript" src="${request.static_url('ngcroud:static/js/jquery-2.0.2.min.js')}"></script>
+    <script type="text/javascript" src="${request.static_url('ngcroud:static/js/leaflet/leaflet.js')}"></script>c
+
+
 
     ##    <script type="text/javascript" src="${request.static_url('ngcroud:static/build/uik-' + request.registry.settings['static_version'] + '.js')}"></script>
 
