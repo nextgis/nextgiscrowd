@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from ngcroud.models import DBSession, User
+from ngcrowd.models import DBSession, User
 from pyramid.view import view_config
 import transaction
 import datetime

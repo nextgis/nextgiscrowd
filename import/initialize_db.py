@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 # Run:
-# env/bin/python import/initialize_db.py --d ngcroud --h localhost --u ngcroud --p ngcroud  --s import/data/RU-MOW.shp  --tik import/data/tik.csv  --reg import/data/auto_codes.csv --config development.ini
+# env/bin/python import/initialize_db.py --d ngcrowd --h localhost --u ngcrowd --p ngcrowd  --s import/data/RU-MOW.shp  --tik import/data/tik.csv  --reg import/data/auto_codes.csv --config development.ini
 
 
 from sqlalchemy import engine_from_config
 from pyramid.paster import get_appsettings, setup_logging
-from ngcroud.models import DBSession, Base, Entity, EntityProperty, EntityPropertyValue, User
+from ngcrowd.models import DBSession, Base, Entity, EntityProperty, EntityPropertyValue, User
 from geoalchemy import WKTSpatialElement
 import transaction
 import datetime

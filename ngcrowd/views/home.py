@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from ngcroud.models import DBSession, User, EntityProperty
-from ngcroud.security import generate_session_id
+from ngcrowd.models import DBSession, User, EntityProperty
+from ngcrowd.security import generate_session_id
 from pyramid.view import view_config
 from sqlalchemy.sql.expression import asc
 
@@ -18,7 +18,7 @@ def home(request):
 
     return {
         'u_name': user_name,
-        'project': 'ngcroud',
+        'project': 'ngcrowd',
         'fields': fields,
         'static_version': request.registry.settings['static_version']
     }

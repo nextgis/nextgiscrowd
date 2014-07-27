@@ -2,7 +2,7 @@ from os import listdir, remove
 from os.path import isfile, join
 from shutil import rmtree
 
-from ngcroud.helpers import zip_dir
+from ngcrowd.helpers import zip_dir
 
 import zipfile
 

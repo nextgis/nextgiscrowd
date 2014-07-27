@@ -1,2 +1,2 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include ngcroud *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml
+recursive-include ngcrowd *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml

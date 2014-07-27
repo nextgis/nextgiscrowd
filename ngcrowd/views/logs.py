@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'karavanjo'
 
-from ngcroud.models import *
+from ngcrowd.models import *
 from pyramid.view import view_config
 from sqlalchemy import func
 from sqlalchemy.sql.expression import desc

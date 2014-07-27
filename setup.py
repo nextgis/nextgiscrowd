@@ -23,9 +23,9 @@ requires = [
     'APScheduler==2.0.3'
     ]
 
-setup(name='ngcroud',
+setup(name='ngcrowd',
       version='0.0',
-      description='ngcroud',
+      description='ngcrowd',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -42,11 +42,11 @@ setup(name='ngcroud',
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="ngcroud",
+      test_suite="ngcrowd",
       entry_points="""\
       [paste.app_factory]
-      main = ngcroud:main
+      main = ngcrowd:main
       [console_scripts]
-      initialize_ngcroud_db = ngcroud.scripts.initializedb:main
+      initialize_ngcrowd_db = ngcrowd.scripts.initializedb:main
       """,
       )

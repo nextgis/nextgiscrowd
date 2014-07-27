@@ -6,7 +6,7 @@
     <meta name="description" content="участковая избирательная комиссия выборы адрес">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/bootstrap.min.css')}">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
 <body style="margin: 10px;">

@@ -1,5 +1,5 @@
-from ngcroud.models import *
-from ngcroud.helpers import get_utf_encoded_value
+from ngcrowd.models import *
+from ngcrowd.helpers import get_utf_encoded_value
 
 from sqlalchemy.orm import joinedload
 from os import path, makedirs

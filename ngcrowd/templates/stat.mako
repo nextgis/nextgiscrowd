@@ -6,16 +6,16 @@
     <meta name="description" content="участковая избирательная комиссия выборы адрес">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/bootstrap.min.css')}">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/stat.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/stat.css')}">
     <link rel="stylesheet"
-          href="${request.static_url('ngcroud:static/frameworks/jtable.2.3.0/themes/lightcolor/gray/jtable.css')}">
+          href="${request.static_url('ngcrowd:static/frameworks/jtable.2.3.0/themes/lightcolor/gray/jtable.css')}">
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script type="text/javascript"
-            src="${request.static_url('ngcroud:static/frameworks/jtable.2.3.0/jquery.jtable.js')}"></script>
+            src="${request.static_url('ngcrowd:static/frameworks/jtable.2.3.0/jquery.jtable.js')}"></script>
 
     <script type="text/javascript">
 

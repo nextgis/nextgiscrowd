@@ -6,7 +6,7 @@
     <meta name="description" content="объекты">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="${request.static_url('ngcroud:static/css/bootstrap.min.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/bootstrap.min.css')}">
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 

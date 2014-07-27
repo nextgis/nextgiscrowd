@@ -1,5 +1,5 @@
 <project name="moscow_stops">
-    <property name="rootProjectDirName" value="ngcroud"/>
+    <property name="rootProjectDirName" value="ngcrowd"/>
     <property name="cssJsFileName" value="uik"/>
     <tstamp>
         <format property="datetime" pattern="yyyyMMddHHmmss" locale="en"/>
