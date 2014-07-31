@@ -15,7 +15,7 @@ Current limitations:
 
 Updated from repo, so reflects all issues.
 
-http://demo.nextgis.ru/ngcrowd
+http://demo.nextgis.ru/ngcrowd/
 
 ##Load data
 ```bash
