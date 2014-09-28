@@ -33,7 +33,7 @@
 
 
     <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/mustache.js')}"></script>
-    <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/jquery-2.0.2.min.js')}"></script>
+    <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/jquery-2.1.1.min.js')}"></script>
     <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/leaflet/leaflet.js')}"></script>
 
 
