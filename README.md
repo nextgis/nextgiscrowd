@@ -11,6 +11,11 @@ Current limitations:
 
 * points only
 
+##Demo
+
+Updated from repo, so reflects all issues.
+
+http://demo.nextgis.ru/ngcrowd/
 
 ##Load data
 ```bash
