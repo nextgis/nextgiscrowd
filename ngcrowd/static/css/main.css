@@ -930,6 +930,7 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
 
 #uik-popup .table {
     margin-bottom: 5px;
+    table-layout: fixed;
 }
 
 #uik-popup .table th, #uik-popup .table td {
