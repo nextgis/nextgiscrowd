@@ -637,10 +637,10 @@ body {
   margin: 0 auto; }
 
 a {
-  color: #D8232A;
+  color: #204a87;
   text-decoration: underline; }
   a:visited {
-    color: #D8232A; }
+    color: #204a87; }
   a:hover {
     color: #61A1A9; }
 
@@ -784,8 +784,8 @@ small {
     -o-transition: all 0.3s;
     transition: all 0.3s; }
     .intro-center .ghost-button-red:hover {
-      border-color: #D8232A;
-      color: #D8232A;
+      border-color: #204a87;
+      color: #204a87;
       background: rgba(216, 35, 42, 0.1); }
 
 .details {
@@ -819,7 +819,7 @@ small {
       .details article .pic i {
         font-size: 70px;
         font-weight: normal;
-        color: #D8232A; }
+        color: #204a87; }
 
 .dev-info .avatar {
   float: left;
@@ -843,7 +843,7 @@ small {
 .dev-info .cf + p {
   padding-top: 22px; }
   .dev-info .cf + p i {
-    color: #D8232A;
+    color: #204a87;
     font-style: normal; }
 
 .action {
@@ -952,8 +952,8 @@ small {
     position: absolute;
     top: -7px;
     right: -7px;
-    border: 1px solid #D8232A;
-    background: #D8232A;
+    border: 1px solid #204a87;
+    background: #204a87;
     color: #ffffff;
     text-align: center;
     width: 21px;
