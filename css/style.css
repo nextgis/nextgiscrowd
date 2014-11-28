@@ -764,8 +764,8 @@ small {
         display: block; } }
   .intro-center .ghost-button-red {
     display: inline-block;
-    color: rgba(216, 35, 42, 0.85);
-    border: 3px solid rgba(216, 35, 42, 0.85);
+    color: rgba(32, 74, 135, 0.85);
+    border: 3px solid rgba(32, 74, 135, 0.85);
     background-color: transparent;
     cursor: pointer;
     text-transform: uppercase;
@@ -786,7 +786,7 @@ small {
     .intro-center .ghost-button-red:hover {
       border-color: #204a87;
       color: #204a87;
-      background: rgba(216, 35, 42, 0.1); }
+      background: rgba(32, 74, 135, 0.1); }
 
 .details {
   background: #F1F8F9;
