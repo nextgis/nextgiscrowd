@@ -936,6 +936,7 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
 #uik-popup .table th, #uik-popup .table td {
     line-height: normal;
     padding: 4px;
+    word-wrap: break-word;
 }
 
 #uik-popup div.edit {

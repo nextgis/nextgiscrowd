@@ -6,7 +6,7 @@ from helpers import *
 from decorators import authorized
 from pyramid.view import view_config
 from pyramid.response import Response
-from sqlalchemy import func, distinct
+from sqlalchemy import func, distinct, and_
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import asc, desc
 from geoalchemy import functions
@@ -104,15 +104,10 @@ def _get_uik_from_uik_db(uik_from_db, searchable_fields):
 @view_config(route_name='uik', request_method='GET')
 def get_uik(context, request):
     id = request.matchdict.get('id', None)
-    region_id = request.matchdict.get('region_id', None)
-    uik_official_number = request.matchdict.get('official_number', None)
 
     clauses = []
     if id is not None:
         clauses.append(Entity.id == id)
-    # elif (region_id is not None) and (uik_official_number is not None):
-    #     clauses.append(Uik.number_official == uik_official_number)
-    #     clauses.append(Uik.region_id == int(region_id))
 
     session = DBSession()
 
@@ -140,7 +135,7 @@ def get_uik(context, request):
 
     versions = session.query(EntityVersions, User.display_name, EntityVersions.time) \
         .outerjoin((User, EntityVersions.user_id == User.id)) \
-        .filter(EntityVersions.uik_id == id).order_by(EntityVersions.time).all()
+        .filter(EntityVersions.entity_id == id).order_by(EntityVersions.time).all()
 
     props_json = [props[prop_key] for prop_key in props.keys()]
     props_json.sort(key=lambda x: x['visible_order'])
@@ -177,34 +172,57 @@ def get_uik_by_off_number(context, request):
 @view_config(route_name='uik', request_method='POST')
 @authorized()
 def update_uik(context, request):
-    uik = json.loads(request.POST['uik'])
+    entity_from_client = json.loads(request.POST['entity'])
 
     with transaction.manager:
         session = DBSession()
         from helpers import str_to_boolean
 
-        session.query(Uik).filter(Uik.id == uik['id']).update({
-                                                                  Uik.address_voting: uik['address_voting'],
-                                                                  Uik.place_voting: uik['place_voting'],
-                                                                  Uik.is_applied: str_to_boolean(uik['is_applied']),
-                                                                  Uik.comment: uik['comment'],
-                                                                  Uik.geocoding_precision_id: uik['geo_precision'],
-                                                                  Uik.is_blocked: False,
-                                                                  Uik.user_block_id: None
-                                                              }, synchronize_session=False)
-        sql = 'UPDATE uiks SET point=ST_GeomFromText(:wkt, 4326) WHERE id = :uik_id'
+        entity = session.query(Entity).filter(Entity.id == entity_from_client['id'])\
+            .options(joinedload(Entity.values))
+
+        current_values = entity.one().values
+
+        entity.update({
+              Entity.approved: str_to_boolean(entity_from_client['is_applied']),
+              Entity.blocked: False,
+              Entity.user_block_id: None
+        }, synchronize_session=False)
+
+        sql = 'UPDATE entities SET point=ST_GeomFromText(:wkt, 4326) WHERE id = :entity_id'
         session.execute(sql, {
-            'wkt': 'POINT(%s %s)' % (uik['geom']['lng'], uik['geom']['lat']),
-            'uik_id': uik['id']
+            'wkt': 'POINT(%s %s)' % (entity_from_client['geom']['lng'], entity_from_client['geom']['lat']),
+            'entity_id': entity_from_client['id']
         })
 
-        log = UikVersions()
-        log.uik_id = uik['id']
+        entity_properties = session.query(EntityProperty)
+
+        for entity_property in entity_properties:
+            if next((x for x in current_values if x.entity_property_id == entity_property.id), None) is None:
+                entity_value = session.add(EntityPropertyValue(
+                    entity_property_id=entity_property.id,
+                    entity_id=entity_from_client['id']
+                ))
+
+            entity_value = session.query(EntityPropertyValue)\
+                .filter(and_(EntityPropertyValue.entity_id == entity_from_client['id'],
+                             EntityPropertyValue.entity_property_id == entity_property.id))
+
+            if entity_property.type == 'text':
+                session.query(EntityPropertyValue)\
+                    .filter(and_(EntityPropertyValue.entity_id == entity_from_client['id'],\
+                                 EntityPropertyValue.entity_property_id == entity_property.id))\
+                    .update({
+                        EntityPropertyValue.text: entity_from_client['ep_' + str(entity_property.id)]
+                    }, synchronize_session=False)
+
+        log = EntityVersions()
+        log.entity_id = entity_from_client['id']
         log.user_id = request.session['u_id']
         from datetime import datetime
 
         log.time = datetime.now()
-        log.dump = log.to_json_binary_dump(uik)
+        log.dump = log.to_json_binary_dump(entity_from_client)
         session.add(log)
 
     return Response()

@@ -320,10 +320,10 @@
             $.ajax({
                 type: 'POST',
                 url: url,
-                data: { 'uik': JSON.stringify(saved_uik)}
+                data: { 'entity': JSON.stringify(saved_uik)}
             }).done(function () {
                 UIK.alerts.showAlert('saveSuccessful');
-                context.finishEditing();
+                context.finishAjaxEdition();
             }).error(function () {
                 UIK.alerts.showAlert('saveError');
             });

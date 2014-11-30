@@ -225,7 +225,7 @@
                     %if field.type == 'area':
                         <textarea id="field-${field.id}">Значение</textarea>
                     %else:
-                        <input type="text" id="field-${field.id}" name="${field.id}" class="stand"/>
+                        <input type="text" id="field-${field.id}" name="ep_${field.id}" class="stand"/>
 ##                        <span id="field-${field.id}" class="value"><p>Значение</p></span>
                     %endif
                 </div>

@@ -354,8 +354,8 @@ class ReferenceBookValue(Base):
 class EntityVersions(Base):
     __tablename__ = 'entity_versions'
 
-    uik = relationship('Entity')
-    uik_id = Column(Integer, ForeignKey('entities.id'), primary_key=True)
+    entity = relationship('Entity')
+    entity_id = Column(Integer, ForeignKey('entities.id'), primary_key=True)
     user = relationship('User')
     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     time = Column(DateTime, nullable=False, primary_key=True)
