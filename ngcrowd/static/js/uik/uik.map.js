@@ -41,7 +41,10 @@
                 var map = UIK.viewmodel.map;
 
                 map.panTo(latlng);
-                map.openPopup(L.popup().setLatLng(latlng).setContent(html));
+                map.openPopup(L.popup({
+                    maxHeight: 300,
+                    minWidth: 300
+                }).setLatLng(latlng).setContent(html));
             });
         },
 

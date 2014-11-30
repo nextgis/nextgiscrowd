@@ -920,7 +920,7 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
 }
 
 #uik-popup.loader {
-    width: 250px;
+    width: 100%;
     height: 100px;
 }
 
