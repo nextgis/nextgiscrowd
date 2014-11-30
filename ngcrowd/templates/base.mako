@@ -202,7 +202,7 @@
     <div class="nextgis panel-item"><a target="_blank" href="http://nextgis.ru/"
                                        title="Перейти на сайт разработчика - NextGIS"></a></div>
     <div class="facebook panel-item"><a target="_blank" title="Поделиться с друзьями на Facebook"
-                                        href="${'https://www.facebook.com/sharer/sharer.php?u=' + app.facebook_account}"></a>
+                                        href="${'https://www.facebook.com/sharer/sharer.php?u=' + request.route_url('home')}"></a>
     </div>
     <div class="twitter panel-item">
         <a target="_blank" title="Твитнуть"
