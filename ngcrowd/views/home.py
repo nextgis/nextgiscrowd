@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from ngcrowd.models import DBSession, User, EntityProperty
+from ngcrowd.models import DBSession, User, EntityProperty, Application
 from ngcrowd.security import generate_session_id
 from pyramid.view import view_config
 from sqlalchemy.sql.expression import asc
@@ -14,13 +14,15 @@ def home(request):
 
     session = DBSession()
     fields = session.query(EntityProperty).order_by(EntityProperty.visible_order).all()
+    app = session.query(Application).one()
     session.close()
 
     return {
         'u_name': user_name,
         'project': 'ngcrowd',
         'fields': fields,
-        'static_version': request.registry.settings['static_version']
+        'static_version': request.registry.settings['static_version'],
+        'app': app
     }
 
 @view_config(route_name='home', request_method='POST', renderer='base.mako')

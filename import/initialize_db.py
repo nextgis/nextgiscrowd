@@ -6,7 +6,7 @@
 
 from sqlalchemy import engine_from_config
 from pyramid.paster import get_appsettings, setup_logging
-from ngcrowd.models import DBSession, Base, Entity, EntityProperty, EntityPropertyValue, User
+from ngcrowd.models import *
 from geoalchemy import WKTSpatialElement
 import transaction
 import datetime
@@ -53,6 +53,16 @@ csv = DictReader(open(args.csv), skipinitialspace=True)
 
 with open(args.config) as config_file:
     config = json.load(config_file)
+
+with transaction.manager:
+    session = DBSession()
+    app = Application(
+        title=config['application']['title'],
+        facebook_account=config['application']['facebook'],
+        twitter_hash_tags=config['application']['twitterHashTags'],
+        description=config['application']['description']
+    )
+    session.add(app)
 
 with transaction.manager:
     session = DBSession()

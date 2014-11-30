@@ -1,4 +1,10 @@
 {
+    "application": {
+        "title": "Отметь детский дом",
+        "description": "NextGIS Crowd - это краудсорсинговое приложение для совместной работы с геоданными, предназначенное для редактирования точек местоположений объектов",
+        "twitterHashTags": "nextgis",
+        "facebook": "NextGIS"
+    },
     "properties": [
         {
             "field": "ID",

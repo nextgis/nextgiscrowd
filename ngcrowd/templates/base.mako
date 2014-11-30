@@ -2,9 +2,8 @@
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>Отметь свой объект</title>
-    <meta name="description"
-          content="NextGIS Crod - это краудсорсинговое приложение для совместной работы с геоданными, предназначенное для редактирования точек местоположений объектов">
+    <title>${app.title}</title>
+    <meta name="description" content="${app.description}">
     <meta name="viewport" content="width=device-width">
 
 
@@ -203,10 +202,11 @@
     <div class="nextgis panel-item"><a target="_blank" href="http://nextgis.ru/"
                                        title="Перейти на сайт разработчика - NextGIS"></a></div>
     <div class="facebook panel-item"><a target="_blank" title="Поделиться с друзьями на Facebook"
-                                        href="https://www.facebook.com/sharer/sharer.php?u=uikgeo.gis-lab.info"></a>
+                                        href="${'https://www.facebook.com/sharer/sharer.php?u=' + app.facebook_account}"></a>
     </div>
-    <div class="twitter panel-item"><a target="_blank" title="Твитнуть"
-                                       href="https://twitter.com/intent/tweet?hashtags=uik_geo&original_referer=http%3A%2F%2Fuikgeo.gis-lab.info%2F&text=%D0%9E%D1%82%D0%BC%D0%B5%D1%82%D1%8C%20%D1%81%D0%B2%D0%BE%D0%B9%20%D0%A3%D0%98%D0%9A&tw_p=tweetbutton&url=http%3A%2F%2Fuikgeo.gis-lab.info%2F"></a>
+    <div class="twitter panel-item">
+        <a target="_blank" title="Твитнуть"
+            href="${'https://twitter.com/intent/tweet?hashtags=' + app.twitter_hash_tags + '&original_referer=' + request.route_url('home') + '&text=' + app.title + ' &tw_p=tweetbutton&url=' + request.route_url('home')}"></a>
     </div>
 </div>
 
