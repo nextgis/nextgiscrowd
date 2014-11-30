@@ -187,7 +187,7 @@
             var context = this,
                 viewmodel = UIK.viewmodel,
                 alerts = UIK.alerts,
-                address = $('#address_voting').val(),
+                address = $('#editorForm input[data-address-field]').val(),
                 newCoords;
             UIK.geocoder.directGeocode(address, function (result) {
                 if (result.find) {
@@ -287,6 +287,9 @@
             $.each(uik.props, function (i, prop) {
                 $('#field-' + prop.id).val(prop.val);
             });
+
+            $('#lat').val(uik.uik.geom.lat);
+            $('#lng').val(uik.uik.geom.lng);
 
             if (uik.uik.approved) {
                 $('#is_applied').val(1);

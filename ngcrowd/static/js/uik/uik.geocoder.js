@@ -16,7 +16,7 @@
         },
 
         directGeocode: function (geocodingSearch, callback) {
-            var url = 'http://beta.openstreetmap.ru/api/search?callback=?&q=' + geocodingSearch;
+            var url = 'http://openstreetmap.ru/api/search?callback=?&q=' + geocodingSearch;
             $.ajax({
                 type: 'GET',
                 url: url,

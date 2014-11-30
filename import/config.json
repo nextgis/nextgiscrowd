@@ -40,6 +40,7 @@
         {
             "field": "ADDRESS",
             "title": "Адрес",
+            "addressField": true,
             "type": "text",
             "editable": true,
             "control": "textbox",

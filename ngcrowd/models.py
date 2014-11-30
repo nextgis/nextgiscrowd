@@ -116,6 +116,7 @@ class EntityProperty(Base, JsonifyMixin):
     type = Column(Enum('text', 'int', 'bool', 'reference_book', name='property_types'))
     control = Column(Text, index=True)
     searchable = Column(Boolean, index=True, default=False)
+    address_field = Column(Boolean, index=True, default=False)
 
 
 class EntityPropertyValue(Base):

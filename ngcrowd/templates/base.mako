@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
@@ -228,9 +228,8 @@
                     %if field.type == 'area':
                         <textarea id="field-${field.id}">Значение</textarea>
                     %else:
-                        <input type="text" id="field-${field.id}" name="ep_${field.id}" class="stand"/>
-                    ##                        <span id="field-${field.id}" class="value"><p>Значение</p></span>
-                                        %endif
+                        <input type="text" id="field-${field.id}" name="ep_${field.id}" class="stand"  ${'data-address-field="true"' if field.address_field else '' | n}/>
+                    %endif
                 </div>
             %endfor
 

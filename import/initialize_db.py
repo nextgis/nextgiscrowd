@@ -73,6 +73,7 @@ with transaction.manager:
         prop = EntityProperty(
             title=prop_from_config['title'],
             editable=prop_from_config['editable'] if 'editable' in prop_from_config else True,
+            address_field='addressField' in prop_from_config and prop_from_config['addressField'],
             type=prop_from_config['type'],
             control=prop_from_config['control'] if 'control' in prop_from_config else None,
             visible_order=int(prop_from_config['order']) if 'order' in prop_from_config else None,
