@@ -12,14 +12,17 @@
             "type": "text",
             "editable": false,
             "searchable": true,
-            "order": 1
+            "number": true,
+            "order": 1,
+            "tableWidth": "8.6%"
         },
         {
             "field": "GEOCODE",
             "title": "Точность",
             "type": "reference_book",
             "editable": false,
-            "order": 11
+            "order": 11,
+            "tableWidth": "8.6%"
         },
         {
             "field": "COMMENT",
@@ -27,7 +30,8 @@
             "type": "text",
             "editable": true,
             "control": "area",
-            "order": 10
+            "order": 10,
+            "tableWidth": "8.6%"
         },
         {
             "field": "NAME",
@@ -35,7 +39,8 @@
             "type": "text",
             "editable": true,
             "control": "textbox",
-            "order": 2
+            "order": 2,
+            "tableWidth": "8.6%"
         },
         {
             "field": "ADDRESS",
@@ -45,7 +50,8 @@
             "editable": true,
             "control": "textbox",
             "searchable": true,
-            "order": 3
+            "order": 3,
+            "tableWidth": "8.6%"
         },
         {
             "field": "REGION",
@@ -53,7 +59,8 @@
             "type": "reference_book",
             "editable": true,
             "control": "textbox",
-            "order": 4
+            "order": 4,
+            "tableWidth": "8.6%"
         },
         {
             "field": "DISTRICT",
@@ -61,7 +68,8 @@
             "type": "reference_book",
             "editable": true,
             "control": "textbox",
-            "order": 5
+            "order": 5,
+            "tableWidth": "8.6%"
         },
         {
             "field": "TYPE",
@@ -69,7 +77,8 @@
             "type": "reference_book",
             "editable": true,
             "control": "textbox",
-            "order": 6
+            "order": 6,
+            "tableWidth": "8.6%"
         },
 
         {
@@ -78,7 +87,8 @@
             "type": "text",
             "editable": true,
             "control": "textbox",
-            "order": 7
+            "order": 7,
+            "tableWidth": "8.6%"
         },
         {
             "field": "PHONE",
@@ -86,7 +96,8 @@
             "type": "text",
             "editable": true,
             "control": "textbox",
-            "order": 8
+            "order": 8,
+            "tableWidth": "8.6%"
         },
         {
             "field": "URL",
@@ -94,7 +105,8 @@
             "type": "text",
             "editable": true,
             "control": "textbox",
-            "order": 9
+            "order": 9,
+            "tableWidth": "8.6%"
         },
         {
             "type": "point",

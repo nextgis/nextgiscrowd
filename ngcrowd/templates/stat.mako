@@ -6,11 +6,12 @@
     <meta name="description" content="участковая избирательная комиссия выборы адрес">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/bootstrap.min.css')}">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/stat.css')}">
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/bootstrap.min.css')}"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/stat.css')}"/>
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/user.css')}"/>
     <link rel="stylesheet"
-          href="${request.static_url('ngcrowd:static/frameworks/jtable.2.3.0/themes/lightcolor/gray/jtable.css')}">
+          href="${request.static_url('ngcrowd:static/frameworks/jtable.2.3.0/themes/lightcolor/gray/jtable.css')}"/>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -32,12 +33,13 @@
                 fields: {
                     %for property in properties:
                         ep_${property.id}: {
-                            title: "${property.title}"
+                            title: "${property.title}",
+                            width: '${property.table_width}'
                         },
                     %endfor
                     is_applied: {
                         title: 'Принят',
-                        width: '10%',
+                        width: '5%',
                         display: function (data) {
                             if (data.record.is_applied === true) {
                                 return $('<div class="green" >' + 'Да' + '</div>');
@@ -84,37 +86,42 @@
     </div>
 </div>
 <div class="filtering">
-    <div class="filter f5">
-        <input type="text" name="number_official" id="number_official"/>
-    </div>
-    <div class="filter f20">
-        <select id="tik" name="tik">
-            <option selected="selected" value="">Любой</option>
-##            % for tik in tiks:
-##                    <option value="${tik.id}">${tik.name}</option>
-##            % endfor
-        </select>
-    </div>
-    <div class="filter f20">
-        <select id="region" name="region">
-            <option selected="selected" value="">Любой</option>
-##            % for region in regions:
-##                    <option value="${region.id}">${region.name}</option>
-##            % endfor
-        </select>
-    </div>
-    <div class="filter f20">
-        <input type="text" name="place_voting" id="place_voting"/>
-    </div>
-    <div class="filter f10">
-        <select id="geocoding_precision" name="geocoding_precision">
-            <option selected="selected" value="">Любая</option>
-##            % for geocoding_precision in geocoding_precisions:
-##                    <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
-##            % endfor
-        </select>
-    </div>
-    <div class="filter f10">
+    %for property in properties:
+        <div class="filter" style="width: ${property.table_width}">
+            <input type="text" name="ep_${property.id}" id="ep_${property.id}"/>
+        </div>
+    %endfor
+##    <div class="filter f5">
+##        <input type="text" name="number_official" id="number_official"/>
+##    </div>
+##    <div class="filter f20">
+##        <select id="tik" name="tik">
+##            <option selected="selected" value="">Любой</option>
+####            % for tik in tiks:
+####                    <option value="${tik.id}">${tik.name}</option>
+####            % endfor
+##        </select>
+##    </div>
+##    <div class="filter f20">
+##        <select id="region" name="region">
+##            <option selected="selected" value="">Любой</option>
+####            % for region in regions:
+####                    <option value="${region.id}">${region.name}</option>
+####            % endfor
+##        </select>
+##    </div>
+##    <div class="filter f20">
+##        <input type="text" name="place_voting" id="place_voting"/>
+##    </div>
+##    <div class="filter f10">
+##        <select id="geocoding_precision" name="geocoding_precision">
+##            <option selected="selected" value="">Любая</option>
+####            % for geocoding_precision in geocoding_precisions:
+####                    <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
+####            % endfor
+##        </select>
+##    </div>
+    <div class="filter" style="width: 5%">
         <select id="is_applied" name="is_applied">
             <option selected="selected" value="">Не важно</option>
             <option value="True">Да</option>

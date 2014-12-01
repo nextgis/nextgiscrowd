@@ -110,6 +110,7 @@ class EntityProperty(Base, JsonifyMixin):
     __tablename__ = 'entity_properties'
 
     id = Column(Integer, Sequence('entity_properties_id_seq'), primary_key=True)
+    source_title = Column(Text, index=True)
     title = Column(Text, index=True)
     visible_order = Column(Integer, index=True)
     editable = Column(Boolean)
@@ -117,6 +118,8 @@ class EntityProperty(Base, JsonifyMixin):
     control = Column(Text, index=True)
     searchable = Column(Boolean, index=True, default=False)
     address_field = Column(Boolean, index=True, default=False)
+    number_field = Column(Boolean, index=True, default=False)
+    table_width = Column(Text)
 
 
 class EntityPropertyValue(Base):

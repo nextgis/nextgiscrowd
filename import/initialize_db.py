@@ -71,12 +71,15 @@ with transaction.manager:
         if prop_from_config['type'] == 'point':
             continue
         prop = EntityProperty(
+            source_title=prop_from_config['field'],
             title=prop_from_config['title'],
             editable=prop_from_config['editable'] if 'editable' in prop_from_config else True,
             address_field='addressField' in prop_from_config and prop_from_config['addressField'],
+            number_field='number' in prop_from_config and prop_from_config['number'],
             type=prop_from_config['type'],
             control=prop_from_config['control'] if 'control' in prop_from_config else None,
             visible_order=int(prop_from_config['order']) if 'order' in prop_from_config else None,
+            table_width=prop_from_config['tableWidth']
         )
         if 'searchable' in prop_from_config and prop_from_config['searchable']:
             prop.searchable = True
