@@ -45,9 +45,9 @@ def get_all(context, request):
                          session.query(EntityProperty).filter(EntityProperty.searchable == True).all()]
 
     if is_filter_applied:
-        contains = functions.gcontains(box_geom, Uik.point).label('contains')
+        contains = functions.gcontains(box_geom, Entity.point).label('contains')
 
-        uiks_from_db = session.query(EntityPropertyValue) \
+        entities_from_db = session.query(EntityPropertyValue) \
             .join(EntityPropertyValue.entity) \
             .join(EntityPropertyValue.entity_property) \
             .filter(*clauses) \
@@ -55,20 +55,20 @@ def get_all(context, request):
             .limit(page_size) \
             .all()
 
-        if len(uiks_from_db) < page_size:
-            uiks_for_json['points']['count'] = len(uiks_from_db)
+        if len(entities_from_db) < page_size:
+            uiks_for_json['points']['count'] = len(entities_from_db)
         else:
-            uiks_for_json['points']['count'] = session.query(Uik.id) \
+            uiks_for_json['points']['count'] = session.query(Entity.id) \
                 .filter(*clauses) \
                 .count()
     else:
-        uiks_from_db = session.query(Entity, Entity.point.x, Entity.point.y) \
+        entities_from_db = session.query(Entity, Entity.point.x, Entity.point.y) \
             .options(joinedload('values')) \
             .filter(Entity.point.within(box_geom)) \
             .all()
-        uiks_for_json['points']['count'] = len(uiks_from_db)
+        uiks_for_json['points']['count'] = len(entities_from_db)
 
-    for uik in uiks_from_db:
+    for uik in entities_from_db:
         if uik[0].blocked:
             uiks_for_json['points']['layers']['blocked']['elements'].append(
                 _get_uik_from_uik_db(uik, searchable_fields))
@@ -203,9 +203,13 @@ def update_entity(context, request):
                 .filter(and_(EntityPropertyValue.entity_id == entity_from_client['id'],
                              EntityPropertyValue.entity_property_id == entity_property.id))
 
-            if entity_property.type == 'text':
+            if entity_property.type == 'text' or entity_property.type == 'reference_book':
                 entity_value.update({
                         EntityPropertyValue.text: entity_from_client['ep_' + str(entity_property.id)]
+                    }, synchronize_session=False)
+            elif entity_property.type == 'int':
+                entity_value.update({
+                        EntityPropertyValue.int: int(entity_from_client['ep_' + str(entity_property.id)])
                     }, synchronize_session=False)
 
         log = EntityVersions()
@@ -253,16 +257,13 @@ def obj_unblock(context, request):
 @view_config(route_name='stat_json', request_method='POST')
 def get_stat(context, request):
     user_name = None
-    # if hasattr(request, 'cookies') and 'sk' in request.cookies.keys() and 'sk' in request.session and \
-    #                 request.session['sk'] == request.cookies['sk'] and 'u_name' in request.session:
-    #     user_name = request.session['u_name']
-    #
-    # session = DBSession()
-    # uiks_from_db = session.query(Uik, Uik.point.x, Uik.point.y) \
-    #     .join('geocoding_precision') \
-    #     .join('tik') \
-    #     .join('region')
-    #
+    if hasattr(request, 'cookies') and 'sk' in request.cookies.keys() and 'sk' in request.session and \
+                    request.session['sk'] == request.cookies['sk'] and 'u_name' in request.session:
+        user_name = request.session['u_name']
+
+    session = DBSession()
+    entities_from_db = session.query(Entity).options(joinedload('values'))
+
     # clauses = []
     # if request.POST:
     #     if exist_filter_parameter('geocoding_precision', request):
@@ -281,48 +282,49 @@ def get_stat(context, request):
     #         user_uiks_subq = (session.query(distinct(UikVersions.uik_id).label("uik_id"))
     #                           .filter(UikVersions.user_id == int(request.POST['user_id']))) \
     #             .subquery()
-    #         uiks_from_db = uiks_from_db.join(user_uiks_subq, and_(Uik.id == user_uiks_subq.c.uik_id))
+    #         entities_from_db = entities_from_db.join(user_uiks_subq, and_(Uik.id == user_uiks_subq.c.uik_id))
     #
-    # uiks_from_db = uiks_from_db.filter(*clauses)
+    # entities_from_db = entities_from_db.filter(*clauses)
     #
     # if 'jtSorting' in request.params:
     #     sort = request.params['jtSorting']
     #     sort = sort.split(' ')
     #     if sort[1] == 'ASC':
-    #         uiks_from_db = uiks_from_db.order_by(asc(get_sort_param(sort[0])))
+    #         entities_from_db = entities_from_db.order_by(asc(get_sort_param(sort[0])))
     #     if sort[1] == 'DESC':
-    #         uiks_from_db = uiks_from_db.order_by(desc(get_sort_param(sort[0])))
+    #         entities_from_db = entities_from_db.order_by(desc(get_sort_param(sort[0])))
     # else:
-    #     uiks_from_db = uiks_from_db.order_by(asc(Uik.number_official))
-    #
-    # count = uiks_from_db.count()
-    #
-    # uiks_from_db = uiks_from_db.offset(request.params['jtStartIndex']) \
-    #     .limit(request.params['jtPageSize']) \
-    #     .all()
-    #
-    # records = [create_uik_stat(uik) for uik in uiks_from_db]
-    # session.close()
-    #
-    # return Response(json.dumps({
-    #     'Result': 'OK',
-    #     'Records': records,
-    #     'TotalRecordCount': count
-    # }), content_type='application/json')
+    #     entities_from_db = entities_from_db.order_by(asc(Uik.number_official))
+
+    count = entities_from_db.count()
+
+    entities_from_db = entities_from_db\
+        .offset(request.params['jtStartIndex']) \
+        .limit(request.params['jtPageSize']) \
+        .all()
+
+    records = [create_entity_stat(entity) for entity in entities_from_db]
+    session.close()
+
+    return Response(json.dumps({
+        'Result': 'OK',
+        'Records': records,
+        'TotalRecordCount': count
+    }), content_type='application/json')
 
 
 def exist_filter_parameter(param, request):
     return (param in request.POST) and (len(request.POST[param].encode('UTF-8').strip()) > 0)
 
 
-def create_uik_stat(uik_from_db):
-    uik = uik_from_db[0].to_dict()
-    # uik['tik'] = uik_from_db[0].tik.name
-    # uik['geocoding_precision'] = uik_from_db[0].geocoding_precision.name_ru
-    # uik['region'] = uik_from_db[0].region.name
-    # uik['lng'] = uik_from_db[1]
-    # uik['lat'] = uik_from_db[2]
-    # return uik
+def create_entity_stat(entity_from_db):
+    entity = {
+        'id': entity_from_db.id,
+        'approved': entity_from_db.approved
+    }
+    for value in entity_from_db.values:
+        entity['ep_' + str(value.entity_property_id)] = value.text
+    return entity
 
 
 params = {
@@ -348,21 +350,21 @@ def build_filtering_query(request, query):
 @view_config(route_name='statistic', request_method='GET', renderer='stat.mako')
 def get_stat_page(context, request):
     session = DBSession()
-    #
-    # user_uiks_count_sbq = session \
-    #     .query(UikVersions.user_id.label('user_id'), func.count(UikVersions.uik_id.distinct()).label('count_uiks')) \
-    #     .group_by(UikVersions.user_id) \
-    #     .subquery()
-    #
-    # user_uiks_logs = session.query(User, user_uiks_count_sbq.c.count_uiks) \
-    #     .outerjoin(user_uiks_count_sbq, User.id == user_uiks_count_sbq.c.user_id) \
-    #     .order_by(User.display_name)
-    #
-    # session.close()
-    #
-    # return {
-    #     'tiks': session.query(Tik).order_by(Tik.name).all(),
-    #     'geocoding_precisions': session.query(GeocodingPrecision).order_by(GeocodingPrecision.name_ru).all(),
-    #     'regions': session.query(Region).order_by(Region.name).all(),
-    #     'users': user_uiks_logs.all()
-    # }
+
+    user_entities_count_sbq = session \
+        .query(EntityVersions.user_id.label('user_id'), func.count(EntityVersions.entity_id.distinct()).label('count_entities')) \
+        .group_by(EntityVersions.user_id) \
+        .subquery()
+
+    user_uiks_logs = session.query(User, user_entities_count_sbq.c.count_entities) \
+        .outerjoin(user_entities_count_sbq, User.id == user_entities_count_sbq.c.user_id) \
+        .order_by(User.display_name)
+
+    properties = session.query(EntityProperty).order_by(EntityProperty.visible_order).all()
+
+    session.close()
+
+    return {
+        'properties': properties,
+        'users': user_uiks_logs.all()
+    }

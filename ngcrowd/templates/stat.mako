@@ -30,43 +30,11 @@
                     listAction: '${request.route_url('home')}uik/stat/json'
                 },
                 fields: {
-                    number_official: {
-                        title: 'Номер',
-                        width: '5%',
-                        display: function (data) {
-                            return $('<a target="_blank" href="${request.route_url('home')}' +
-                                    '?lat=' + data.record.lat + '&lon=' + data.record.lng + '&zoom=' + 18 + '" >' +
-                                    data.record.number_official + '</a>');
-                        }
-                    },
-                    tik: {
-                        title: 'ТИК',
-                        width: '20%'
-                    },
-                    region: {
-                        title: 'Регион',
-                        width: '20%'
-                    },
-                    place_voting: {
-                        title: 'Место',
-                        width: '20%'
-                    },
-                    geocoding_precision: {
-                        title: 'Точность',
-                        width: '10%',
-                        display: function (data) {
-                            var geocoding_precision = data.record.geocoding_precision;
-                            if (geocoding_precision === 'Район') {
-                                return $('<div class="red" >' + 'Район' + '</div>');
-                            } else if (geocoding_precision === 'Населенный пункт') {
-                                return $('<div class="rose" >' + 'Нас. пункт' + '</div>');
-                            } else if (geocoding_precision === 'Улица') {
-                                return $('<div class="yellow" >' + 'Улица' + '</div>');
-                            } else if (geocoding_precision === 'Дом') {
-                                return $('<div class="green" >' + 'Дом' + '</div>');
-                            }
-                        }
-                    },
+                    %for property in properties:
+                        ep_${property.id}: {
+                            title: "${property.title}"
+                        },
+                    %endfor
                     is_applied: {
                         title: 'Принят',
                         width: '10%',
@@ -76,10 +44,6 @@
                             }
                             return $('<div class="red" >' + 'Нет' + '</div>');
                         }
-                    },
-                    comment: {
-                        title: 'Комментарий',
-                        width: '15%'
                     }
                 }
             });
@@ -126,17 +90,17 @@
     <div class="filter f20">
         <select id="tik" name="tik">
             <option selected="selected" value="">Любой</option>
-            % for tik in tiks:
-                    <option value="${tik.id}">${tik.name}</option>
-            % endfor
+##            % for tik in tiks:
+##                    <option value="${tik.id}">${tik.name}</option>
+##            % endfor
         </select>
     </div>
     <div class="filter f20">
         <select id="region" name="region">
             <option selected="selected" value="">Любой</option>
-            % for region in regions:
-                    <option value="${region.id}">${region.name}</option>
-            % endfor
+##            % for region in regions:
+##                    <option value="${region.id}">${region.name}</option>
+##            % endfor
         </select>
     </div>
     <div class="filter f20">
@@ -145,9 +109,9 @@
     <div class="filter f10">
         <select id="geocoding_precision" name="geocoding_precision">
             <option selected="selected" value="">Любая</option>
-            % for geocoding_precision in geocoding_precisions:
-                    <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
-            % endfor
+##            % for geocoding_precision in geocoding_precisions:
+##                    <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
+##            % endfor
         </select>
     </div>
     <div class="filter f10">

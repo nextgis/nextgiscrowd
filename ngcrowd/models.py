@@ -95,7 +95,7 @@ class Entity(Base, JsonifyMixin):
     __tablename__ = 'entities'
 
     id = Column(Integer, Sequence('entities_id_seq'), primary_key=True)
-    point = GeometryColumn(Geometry(2, 4326, spatial_index=True))
+    point = Geometry('POINT')
     approved = Column(Boolean,  index=True, default=False)
     comment = Column(Text)
 
