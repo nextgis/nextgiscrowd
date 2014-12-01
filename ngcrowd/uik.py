@@ -6,7 +6,7 @@ from helpers import *
 from decorators import authorized
 from pyramid.view import view_config
 from pyramid.response import Response
-from sqlalchemy import func, distinct, and_
+from sqlalchemy import func, distinct, and_, or_
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import asc, desc
 from geoalchemy import functions
@@ -15,7 +15,7 @@ import transaction
 import json
 
 
-@view_config(route_name='uiks', request_method='GET')
+@view_config(route_name='entities_list', request_method='GET')
 def get_all(context, request):
     page_size = 50
     is_filter_applied = False
@@ -25,8 +25,10 @@ def get_all(context, request):
         for filter_item_id in filter['uik'].keys():
             filter_item_value = filter['uik'][filter_item_id].encode('UTF-8').strip()
             if filter_item_value:
-                clauses.append(EntityPropertyValue.entity_property_id == int(filter_item_id))
-                clauses.append(EntityPropertyValue.text == filter_item_value)
+                item_clauses = [EntityPropertyValue.entity_property_id == int(filter_item_id),
+                                EntityPropertyValue.text.ilike('%' + filter_item_value + '%')]
+                clauses.append(and_(*item_clauses).self_group())
+                is_filter_applied = True
 
     bbox = json.loads(request.params.getall('bbox')[0])
     box_geom = leaflet_bbox_to_polygon(bbox)
@@ -45,14 +47,17 @@ def get_all(context, request):
                          session.query(EntityProperty).filter(EntityProperty.searchable == True).all()]
 
     if is_filter_applied:
-        contains = functions.gcontains(box_geom, Entity.point).label('contains')
+        from sqlalchemy import func
+        entities_from_db = session.query(EntityPropertyValue.entity_id, func.count('*')) \
+            .join(Entity, EntityPropertyValue.entity_id==Entity.id) \
+            .filter(or_(*clauses)) \
+            .filter(Entity.point.ST_Intersects('SRID=4326;' + box_geom)) \
+            .group_by(EntityPropertyValue.entity_id) \
+            .having(func.count('*') == len(clauses)) \
+            .all()
 
-        entities_from_db = session.query(EntityPropertyValue) \
-            .join(EntityPropertyValue.entity) \
-            .join(EntityPropertyValue.entity_property) \
-            .filter(*clauses) \
-            .order_by(contains.desc()) \
-            .limit(page_size) \
+        entities_from_db = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y())\
+            .filter(Entity.id.in_([ent[0] for ent in entities_from_db]))\
             .all()
 
         if len(entities_from_db) < page_size:
@@ -64,7 +69,8 @@ def get_all(context, request):
     else:
         from sqlalchemy import func
         entities_from_db = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y()) \
-            .options(joinedload('values')) \
+            .join(EntityPropertyValue.entity) \
+            .distinct(Entity.id) \
             .filter(Entity.point.ST_Intersects('SRID=4326;' + box_geom)) \
             .all()
         uiks_for_json['points']['count'] = len(entities_from_db)

@@ -48,7 +48,7 @@
 
         updateUiksByAjax: function () {
             var context = this,
-                url = document['url_root'] + 'uik/all',
+                url = document['url_root'] + 'entity/all',
                 filter = UIK.viewmodel.filter,
                 filter_json = {
                     'uik' : filter.uik.json

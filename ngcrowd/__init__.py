@@ -47,7 +47,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_static_view('data', 'data', cache_max_age=3600)
     config.add_route('home', '/')
-    config.add_route('uiks', '/uik/all')
+    config.add_route('entities_list', '/entity/all')
     config.add_route('stat_json', '/uik/stat/json')
     config.add_route('statistic', '/uik/stat')
     config.add_route('uik_export_page', '/uik/export')
