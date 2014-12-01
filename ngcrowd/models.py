@@ -15,11 +15,8 @@ import datetime
 
 from sqlalchemy.dialects.postgresql import DOUBLE_PRECISION, BYTEA
 
-from geoalchemy import (
-    GeometryColumn,
-    Geometry,
-    Polygon,
-    WKBSpatialElement
+from geoalchemy2 import (
+    Geometry, WKBElement
 )
 
 from geoalchemy.postgis import PGPersistentSpatialElement
@@ -52,7 +49,7 @@ class JsonifyMixin:
             v = getattr(self, c.name)
             if isinstance(v, datetime.datetime):
                 v = v.isoformat()
-            if isinstance(v, PGPersistentSpatialElement):
+            if isinstance(v, WKBElement):
                 v = {}
             d[c.name] = v
 
@@ -95,7 +92,7 @@ class Entity(Base, JsonifyMixin):
     __tablename__ = 'entities'
 
     id = Column(Integer, Sequence('entities_id_seq'), primary_key=True)
-    point = Geometry('POINT')
+    point = Column(Geometry(geometry_type='POINT', srid=4326))
     approved = Column(Boolean,  index=True, default=False)
     comment = Column(Text)
 

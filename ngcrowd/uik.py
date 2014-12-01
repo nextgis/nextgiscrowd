@@ -62,9 +62,10 @@ def get_all(context, request):
                 .filter(*clauses) \
                 .count()
     else:
-        entities_from_db = session.query(Entity, Entity.point.x, Entity.point.y) \
+        from sqlalchemy import func
+        entities_from_db = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y()) \
             .options(joinedload('values')) \
-            .filter(Entity.point.within(box_geom)) \
+            .filter(Entity.point.ST_Intersects('SRID=4326;' + box_geom)) \
             .all()
         uiks_for_json['points']['count'] = len(entities_from_db)
 
@@ -119,7 +120,7 @@ def get_entity(context, request):
         'visible_order': entityProperty.visible_order
     }) for entityProperty in session.query(EntityProperty).order_by(EntityProperty.visible_order).all())
 
-    uik = session.query(Entity, Entity.point.x, Entity.point.y, User) \
+    uik = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
         .options(joinedload(Entity.values)) \
         .outerjoin((User, Entity.user_block_id == User.id)) \
         .filter(*clauses).one()
@@ -262,7 +263,7 @@ def get_stat(context, request):
         user_name = request.session['u_name']
 
     session = DBSession()
-    entities_from_db = session.query(Entity).options(joinedload('values'))
+    entities_from_db = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y()).options(joinedload('values'))
 
     # clauses = []
     # if request.POST:
@@ -303,7 +304,7 @@ def get_stat(context, request):
         .limit(request.params['jtPageSize']) \
         .all()
 
-    records = [create_entity_stat(entity) for entity in entities_from_db]
+    records = [create_entity_stat(entity[0]) for entity in entities_from_db]
     session.close()
 
     return Response(json.dumps({
