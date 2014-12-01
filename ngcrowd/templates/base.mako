@@ -26,6 +26,8 @@
               href="${request.static_url('ngcrowd:static/js/Leaflet.markercluster/MarkerCluster.Default.css')}"/>
     % endif
 
+    <link rel="stylesheet" href="${request.static_url('ngcrowd:static/css/user.css')}"/>
+
     <script type="text/javascript">
         document['url_root'] = '${request.route_url('home')}';
     </script>
