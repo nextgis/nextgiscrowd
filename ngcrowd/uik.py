@@ -180,34 +180,44 @@ def update_entity(context, request):
         session = DBSession()
         from helpers import str_to_boolean
 
-        entity = session.query(Entity).filter(Entity.id == entity_from_client['id'])\
-            .options(joinedload(Entity.values))
+        if ('id' in entity_from_client) and entity_from_client['id']:
+            entity = session.query(Entity).filter(Entity.id == entity_from_client['id'])\
+                .options(joinedload(Entity.values))
+            entity.update({
+                  Entity.approved: str_to_boolean(entity_from_client['is_applied']),
+                  Entity.blocked: False,
+                  Entity.user_block_id: None
+            }, synchronize_session=False)
+            entity = entity.one()
+        else:
+            entity = Entity(
+                approved=str_to_boolean(entity_from_client['is_applied']),
+                blocked=False,
+                user_block_id=None
+            )
+            session.add(entity)
+            session.flush()
+            session.refresh(entity)
 
-        current_values = entity.one().values
-
-        entity.update({
-              Entity.approved: str_to_boolean(entity_from_client['is_applied']),
-              Entity.blocked: False,
-              Entity.user_block_id: None
-        }, synchronize_session=False)
 
         sql = 'UPDATE entities SET point=ST_GeomFromText(:wkt, 4326) WHERE id = :entity_id'
         session.execute(sql, {
             'wkt': 'POINT(%s %s)' % (entity_from_client['geom']['lng'], entity_from_client['geom']['lat']),
-            'entity_id': entity_from_client['id']
+            'entity_id': entity.id
         })
 
         entity_properties = session.query(EntityProperty)
+        current_values = entity.values
 
         for entity_property in entity_properties:
             if next((x for x in current_values if x.entity_property_id == entity_property.id), None) is None:
                 session.add(EntityPropertyValue(
                     entity_property_id=entity_property.id,
-                    entity_id=entity_from_client['id']
+                    entity_id=entity.id
                 ))
 
             entity_value = session.query(EntityPropertyValue)\
-                .filter(and_(EntityPropertyValue.entity_id == entity_from_client['id'],
+                .filter(and_(EntityPropertyValue.entity_id == entity.id,
                              EntityPropertyValue.entity_property_id == entity_property.id))
 
             if entity_property.type == 'text' or entity_property.type == 'reference_book':
@@ -220,7 +230,7 @@ def update_entity(context, request):
                     }, synchronize_session=False)
 
         log = EntityVersions()
-        log.entity_id = entity_from_client['id']
+        log.entity_id = entity.id
         log.user_id = request.session['u_id']
         from datetime import datetime
 
@@ -250,6 +260,8 @@ def obj_block(context, request):
 @authorized()
 def obj_unblock(context, request):
     obj_id = request.matchdict.get('id', None)
+    if obj_id is None:
+        return Response()
 
     with transaction.manager:
         session = DBSession()

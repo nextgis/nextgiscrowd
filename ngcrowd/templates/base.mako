@@ -199,6 +199,10 @@
     <div class="export panel-item"><a target="_blank" href="${request.route_url('uik_export_page')}"
                                       title="Выгрузки по регионам"></a></div>
 </div>
+<div class="edit-panel panel">
+    <div class="point panel-item"><a id="newPointCreator" target="_blank" href="javascript:void(0)"
+                                   title="Создать новый объект"></a></div>
+</div>
 <div class="help-panel panel">
     <div class="help panel-item"><a href="javascript:void(0)" title="Руководство пользователя"></a></div>
     <div class="nextgis panel-item"><a target="_blank" href="http://nextgis.ru/"
