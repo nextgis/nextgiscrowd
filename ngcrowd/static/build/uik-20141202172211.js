@@ -4006,6 +4006,10 @@ UIK.templates = {};
             $('#regeocode').off('click').on('click', function () {
                 context.regeocode();
             });
+
+            $('#newPointCreator').off('click').on('click', function () {
+                context.createNewPoint();
+            });
         },
 
         toggleEditor: function () {
@@ -4198,8 +4202,10 @@ UIK.templates = {};
                 $('#field-' + prop.id).val(prop.val);
             });
 
-            $('#lat').val(uik.uik.geom.lat);
-            $('#lng').val(uik.uik.geom.lng);
+            if (uik.uik.geom) {
+                $('#lat').val(uik.uik.geom.lat);
+                $('#lng').val(uik.uik.geom.lng);
+            }
 
             if (uik.uik.approved) {
                 $('#is_applied').val(1);
@@ -4258,6 +4264,11 @@ UIK.templates = {};
 
         finishAjaxEdition: function () {
             var context = this;
+            if (!UIK.viewmodel.uikSelected.uik.id) {
+                context.finishEditing();
+                return false;
+            }
+
             $.ajax({
                 type: 'GET',
                 url: document['url_root'] + 'object/unblock/' + UIK.viewmodel.uikSelected.uik.id
@@ -4281,6 +4292,25 @@ UIK.templates = {};
             UIK.view.$document.trigger('/uik/versions/clearUI');
             UIK.view.$document.trigger('/uik/map/updateAllLayers');
 
+        },
+
+        createNewPoint: function () {
+            var center = UIK.viewmodel.map.getCenter();
+
+            UIK.viewmodel.uikSelected = ({
+                uik: {
+                    approved: false,
+                    blocked: false,
+                    geom: {
+                        lat: center.lat,
+                        lng: center.lng
+                    }
+                },
+                props: [],
+                versions: []
+            });
+
+            this.startEdit();
         }
     });
 })(jQuery, UIK);

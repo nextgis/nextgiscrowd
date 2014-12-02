@@ -225,10 +225,20 @@ body div.panel {
 
 body div.stat-panel {
     left: 309px;
-    top: 172px;
+    top: 221px;
 }
 
 body.searcher-collapsed div.stat-panel {
+    top: 259px;
+    left: 3px;
+}
+
+body div.edit-panel {
+    left: 309px;
+    top: 172px;
+}
+
+body.searcher-collapsed div.edit-panel {
     top: 210px;
     left: 3px;
 }
@@ -275,11 +285,11 @@ div.panel div.export:hover a {
 
 body div.help-panel {
     left: 309px;
-    top: 302px;
+    top: 350px;
 }
 
 body.searcher-collapsed div.help-panel {
-    top: 338px;
+    top: 388px;
     left: 3px;
 }
 
@@ -314,6 +324,15 @@ div.panel div.twitter a {
 div.panel div.twitter:hover a {
     background: url('../img/sm-icons.png') -31px -256px;
 }
+
+div.panel div.point a {
+    background: url('../img/sm-icons.png') 0 -289px;
+}
+
+div.panel div.point:hover a {
+    background: url('../img/sm-icons.png') -30px -289px;
+}
+
 
 #searchContainer .title,
 #editorContainer .title {
