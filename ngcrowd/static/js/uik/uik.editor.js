@@ -98,7 +98,11 @@
             });
 
             $('#newPointCreator').off('click').on('click', function () {
-                context.createNewPoint();
+                if (UIK.viewmodel.isAuth) {
+                    context.createNewPoint();
+                } else {
+                    UIK.alerts.showAlert('creatorFail');
+                }
             });
         },
 
