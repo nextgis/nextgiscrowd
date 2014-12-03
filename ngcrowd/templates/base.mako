@@ -200,7 +200,7 @@
                                       title="Выгрузки по регионам"></a></div>
 </div>
 <div class="edit-panel panel">
-    <div class="point panel-item"><a id="newPointCreator" target="_blank" href="javascript:void(0)"
+    <div class="point panel-item"><a id="newPointCreator" href="javascript:void(0)"
                                    title="Создать новый объект"></a></div>
 </div>
 <div class="help-panel panel">
