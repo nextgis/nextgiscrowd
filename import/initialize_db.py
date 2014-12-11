@@ -94,6 +94,7 @@ with transaction.manager:
 
 
 props = session.query(EntityProperty).all()
+reference_books = {}
 i = 0
 for row in csv:
     with transaction.manager:
@@ -117,10 +118,23 @@ for row in csv:
                 if field_type == 'int':
                     value = int(value)
                     entityPropertyValue.int = value
-                elif field_type == 'text' or field_type == 'reference_book':
+                elif field_type == 'text':
                     entityPropertyValue.text = value
                 elif field_type == 'bool':
                     entityPropertyValue.bool = bool(value)
+                elif field_type == 'reference_book':
+                    if not prop['id'] in reference_books:
+                        reference_books[prop['id']] = {}
+                    if not value in reference_books[prop['id']]:
+                        reference_book_value = ReferenceBookValue(
+                            reference_book_id=prop['id'],
+                            value=value
+                        )
+                        session.add(reference_book_value)
+                        session.flush()
+                        session.refresh(reference_book_value)
+                        reference_books[prop['id']][value] = reference_book_value.id
+                    entityPropertyValue.reference_book_id = reference_books[prop['id']][value]
                 session.add(entityPropertyValue)
                 print 'value added'
         session.flush()
