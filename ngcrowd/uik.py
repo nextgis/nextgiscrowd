@@ -126,11 +126,6 @@ def get_entity(context, request):
         'visible_order': entityProperty.visible_order
     }) for entityProperty in session.query(EntityProperty).order_by(EntityProperty.visible_order).all())
 
-    # uik = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
-    #     .options(joinedload(Entity.values), joinedload(EntityPropertyValue.reference_book)) \
-    #     .outerjoin((User, Entity.user_block_id == User.id)) \
-    #     .filter(*clauses).one()
-
     uik = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
         .options(joinedload(Entity.values, EntityPropertyValue.reference_book)) \
         .outerjoin((User, Entity.user_block_id == User.id)) \
