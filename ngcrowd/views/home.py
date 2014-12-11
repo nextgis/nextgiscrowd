@@ -4,6 +4,7 @@ from ngcrowd.models import DBSession, User, EntityProperty, Application
 from ngcrowd.security import generate_session_id
 from pyramid.view import view_config
 from sqlalchemy.sql.expression import asc
+from sqlalchemy.orm import joinedload
 
 @view_config(route_name='home', renderer='base.mako')
 def home(request):
@@ -13,7 +14,12 @@ def home(request):
         user_name = request.session['u_name']
 
     session = DBSession()
-    fields = session.query(EntityProperty).order_by(EntityProperty.visible_order).all()
+
+    fields = session.query(EntityProperty)\
+        .options(joinedload('reference_book_values'))\
+        .order_by(EntityProperty.visible_order)\
+        .all()
+
     app = session.query(Application).one()
     session.close()
 
