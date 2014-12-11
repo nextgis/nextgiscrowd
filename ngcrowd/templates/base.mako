@@ -201,7 +201,7 @@
 </div>
 <div class="edit-panel panel">
     <div class="point panel-item"><a id="newPointCreator" href="javascript:void(0)"
-                                   title="Создать новый объект"></a></div>
+                                     title="Создать новый объект"></a></div>
 </div>
 <div class="help-panel panel">
     <div class="help panel-item"><a href="javascript:void(0)" title="Руководство пользователя"></a></div>
@@ -212,7 +212,7 @@
     </div>
     <div class="twitter panel-item">
         <a target="_blank" title="Твитнуть"
-            href="${'https://twitter.com/intent/tweet?hashtags=' + app.twitter_hash_tags + '&original_referer=' + request.route_url('home') + '&text=' + app.title + ' &tw_p=tweetbutton&url=' + request.route_url('home')}"></a>
+           href="${'https://twitter.com/intent/tweet?hashtags=' + app.twitter_hash_tags + '&original_referer=' + request.route_url('home') + '&text=' + app.title + ' &tw_p=tweetbutton&url=' + request.route_url('home')}"></a>
     </div>
 </div>
 
@@ -231,42 +231,18 @@
             %for field in fields:
                 <div class="group">
                     <span class="form-label">${field.title}</span>
-                    %if field.type == 'area':
-                        <textarea id="field-${field.id}">Значение</textarea>
+                    %if field.type == 'reference_book':
+                        <select id="field-${field.id}" name="ep_${field.id}" class="stand" disabled="disabled">
+                            % for reference_book_value in sorted(field.reference_book_values, key=lambda k: k.value):
+                                <option value="${reference_book_value.id}">${reference_book_value.value}</option>
+                            % endfor
+                        </select>
                     %else:
-                        <input type="text" id="field-${field.id}" name="ep_${field.id}" class="stand"  ${'data-address-field="true"' if field.address_field else '' | n}/>
+                        <input type="text" id="field-${field.id}" name="ep_${field.id}"
+                               class="stand"  ${'data-address-field="true"' if field.address_field else '' | n}/>
                     %endif
                 </div>
             %endfor
-
-            ##            <div class="group">
-            ##                <span class="form-label">Номер</span>
-            ##                <span id="name" class="value"></span>
-            ##            </div>
-            ##            <div class="group">
-            ##                <span class="form-label">Регион</span>
-            ##                <span id="region" class="value"></span>
-            ##            </div>
-            ##            <div class="group">
-            ##                <span class="form-label">ТИК</span>
-            ##                <span id="tik" class="value"></span>
-            ##            </div>
-            ##            <div class="group">
-            ##                <label class="control-label top" for="address_voting">Адрес голосования</label>
-            ##                <textarea id="address_voting" name="address_voting" disabled="disabled"></textarea>
-            ##            </div>
-            ##            <div class="group">
-            ##                <label class="control-label top" for="place_voting">Место голосования</label>
-            ##                <textarea id="place_voting" name="place_voting" disabled="disabled"></textarea>
-            ##            </div>
-            ##            <div class="group">
-            ##                <label class="control-label" for="geo_precision">Точность</label>
-            ##                <select id="geo_precision" class="stand" name="geo_precision" disabled="disabled">
-            ##                    % for geocoding_precision in geocoding_precisions:
-            ##                        <option value="${geocoding_precision.id}">${geocoding_precision.name_ru}</option>
-            ##                    % endfor
-            ##                </select>
-            ##            </div>
 
             <div class="geographic">
                 <div class="group">
@@ -294,10 +270,6 @@
                     </button>
                 </div>
             </div>
-            ##        <div class="group">
-            ##            <label class="control-label top" for="comment">Коммента-</br>рий</label>
-            ##            <textarea id="comment" name="comment" disabled="disabled"></textarea>
-            ##        </div>
 
             <div class="group-checkboxes">
                 <input id="is_applied" type="hidden" name="is_applied" value="0"/>
