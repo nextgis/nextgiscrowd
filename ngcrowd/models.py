@@ -117,6 +117,7 @@ class EntityProperty(Base, JsonifyMixin):
     address_field = Column(Boolean, index=True, default=False)
     number_field = Column(Boolean, index=True, default=False)
     table_width = Column(Text)
+    reference_book_values = relationship('ReferenceBookValue')
 
 
 class EntityPropertyValue(Base):
@@ -131,7 +132,8 @@ class EntityPropertyValue(Base):
     text = Column(Text, index=True)
     int = Column(Integer, index=True)
     bool = Column(Boolean, index=True)
-    reference_book = Column(Integer, ForeignKey('reference_books_values.id'), index=True)
+    reference_book = relationship('ReferenceBookValue')
+    reference_book_id = Column(Integer, ForeignKey('reference_books_values.id'), index=True)
 
 
 class ReferenceBookValue(Base):

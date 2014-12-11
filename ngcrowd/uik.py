@@ -7,7 +7,7 @@ from decorators import authorized
 from pyramid.view import view_config
 from pyramid.response import Response
 from sqlalchemy import func, distinct, and_, or_
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, subqueryload_all
 from sqlalchemy.sql.expression import asc, desc
 from geoalchemy import functions
 import transaction
@@ -126,19 +126,25 @@ def get_entity(context, request):
         'visible_order': entityProperty.visible_order
     }) for entityProperty in session.query(EntityProperty).order_by(EntityProperty.visible_order).all())
 
+    # uik = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
+    #     .options(joinedload(Entity.values), joinedload(EntityPropertyValue.reference_book)) \
+    #     .outerjoin((User, Entity.user_block_id == User.id)) \
+    #     .filter(*clauses).one()
+
     uik = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
-        .options(joinedload(Entity.values)) \
+        .options(joinedload(Entity.values, EntityPropertyValue.reference_book)) \
         .outerjoin((User, Entity.user_block_id == User.id)) \
         .filter(*clauses).one()
+
 
     for value in uik[0].values:
         props_for_val = props[value.entity_property_id]
 
-        # todo change when reference_book type will be supported
         if props_for_val['type'] == 'reference_book':
-            props_for_val['type'] = 'text'
-
-        props_for_val['val'] = getattr(value, props_for_val['type'])
+            props_for_val['val'] = value.reference_book_id
+            props_for_val['text'] = value.reference_book.value
+        else:
+            props_for_val['val'] = getattr(value, props_for_val['type'])
 
     versions = session.query(EntityVersions, User.display_name, EntityVersions.time) \
         .outerjoin((User, EntityVersions.user_id == User.id)) \

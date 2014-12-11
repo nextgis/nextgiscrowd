@@ -2,7 +2,13 @@
     {{#props}}
     <tr>
         <td>{{title}}</td>
-        <td>{{val}}</td>
+
+        {{#text}}
+            <td>{{text}}</td>
+        {{/text}}
+        {{^text}}
+            <td>{{val}}</td>
+        {{/text}}
     </tr>
     {{/props}}
     <tr>
