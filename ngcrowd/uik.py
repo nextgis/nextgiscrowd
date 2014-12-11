@@ -221,13 +221,17 @@ def update_entity(context, request):
                 .filter(and_(EntityPropertyValue.entity_id == entity.id,
                              EntityPropertyValue.entity_property_id == entity_property.id))
 
-            if entity_property.type == 'text' or entity_property.type == 'reference_book':
+            if entity_property.type == 'text':
                 entity_value.update({
                         EntityPropertyValue.text: entity_from_client['ep_' + str(entity_property.id)]
                     }, synchronize_session=False)
             elif entity_property.type == 'int':
                 entity_value.update({
                         EntityPropertyValue.int: int(entity_from_client['ep_' + str(entity_property.id)])
+                    }, synchronize_session=False)
+            elif entity_property.type == 'reference_book':
+                entity_value.update({
+                        EntityPropertyValue.reference_book_id: int(entity_from_client['ep_' + str(entity_property.id)])
                     }, synchronize_session=False)
 
         log = EntityVersions()
