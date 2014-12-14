@@ -1,4 +1,3 @@
-*.ini
 *.egg-info
 dist/*
 build/bdist*
