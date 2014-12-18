@@ -32,7 +32,7 @@
             });
 
             view.$document.on('/ngc/map/updateAllLayers', function () {
-                NGC.view.$document.trigger('/ngc/entities/updateUiks');
+                NGC.view.$document.trigger('/ngc/entities/update');
 
             });
 

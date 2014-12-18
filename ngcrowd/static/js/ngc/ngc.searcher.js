@@ -9,8 +9,7 @@
         $filterName: null,
         $filterAddr: null,
         $searchButton: null,
-        $uiksSearchResults: null,
-        $uikspSearchResults: null,
+        $entitiesSearchResults: null,
         $clearSearch: null
     });
     NGC.searcher = {};
@@ -30,7 +29,7 @@
             view.$filterName = $('#filter_name');
             view.$filterAddr = $('#filter_address');
             view.$searchButton = $('#search');
-            view.$uiksSearchResults = $('#searchEntity').find('div.searchResults');
+            view.$entitiesSearchResults = $('#searchEntity').find('div.searchResults');
             view.$clearSearch = view.$searchContainer.find('a.clear-search');
         },
 
@@ -224,7 +223,7 @@
             var pointLayers = NGC.viewmodel.pointLayers.entities,
                 pointsConfig = NGC.config.data.points,
                 pointsType,
-                $divSearchResults = NGC.view.$uiksSearchResults.find('div'),
+                $divSearchResults = NGC.view.$entitiesSearchResults.find('div'),
                 html;
 
             $divSearchResults.empty();
@@ -245,11 +244,12 @@
             $divSearchResults.find('a.edit').on('click', function () {
                 if (NGC.viewmodel.editable) { return false; }
 
-                var $li = $(this).parent(), uikId;
+                var $li = $(this).parent(),
+                    entityId;
                 NGC.viewmodel.map.setView(new L.LatLng($li.data('lat'), $li.data('lon')), 18);
                 $('#target').show().delay(1000).fadeOut(1000);
-                uikId = $li.data('id');
-                $.getJSON(document['url_root'] + 'uik/' + uikId, function (data) {
+                entityId = $li.data('id');
+                $.getJSON(document['url_root'] + 'entity/' + entityId, function (data) {
                     if (!NGC.viewmodel.editable) {
                         NGC.viewmodel.entitySelected = data;
                         NGC.view.$document.trigger('/ngc/editor/startEdit');
@@ -257,29 +257,6 @@
                 });
             });
             $divSearchResults.prop('class', 'active');
-
-//            $divSearchResults = NGC.view.$uikspSearchResults.find('div');
-//            pointLayers = NGC.viewmodel.pointLayers.uiksp;
-//
-//            $divSearchResults.empty();
-//            for (pointsType in pointLayers) {
-//                if (pointLayers.hasOwnProperty(pointsType)) {
-//                    html = NGC.templates.searchResultsTemplate({
-//                        cssClass: pointsConfig[pointsType].searchCssClass,
-//                        uiks: pointLayers[pointsType].elements,
-//                        isAuth: false
-//                    });
-//                    $divSearchResults.append(html);
-//                }
-//            }
-
-//            $divSearchResults.find('a.target').on('click', function () {
-//                var $li = $(this).parent();
-//                NGC.viewmodel.map.setView(new L.LatLng($li.data('lat'), $li.data('lon')), 18);
-//                $('#target').show().delay(1000).fadeOut(1000);
-//            });
-//
-//            $divSearchResults.prop('class', 'active');
         },
 
         getHtmlForSearchResults: function (cssClass, entities) {

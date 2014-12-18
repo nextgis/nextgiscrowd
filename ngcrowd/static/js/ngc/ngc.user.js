@@ -26,9 +26,9 @@
 
 
         handleFirstUser: function () {
-            var isUserKnown = $.cookie('uik.user.known');
+            var isUserKnown = $.cookie('ngc.user.known');
             if (!isUserKnown) {
-                $.cookie('uik.user.known', 'True', { expires: 200, path: '/' });
+                $.cookie('ngc.user.known', 'True', { expires: 200, path: '/' });
 
                 NGC.view.$document.on('/ngc/popup/welcome/opened', function () {
                     $('#welcomePopup div.start input').off('click').on('click', function () {

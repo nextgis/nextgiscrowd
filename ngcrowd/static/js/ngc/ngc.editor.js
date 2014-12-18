@@ -215,7 +215,7 @@
             var context = this;
             $.ajax({
                 type: 'GET',
-                url: document.url_root + 'object/block/' + NGC.viewmodel.entitySelected.obj.id
+                url: document.url_root + 'entity/block/' + NGC.viewmodel.entitySelected.obj.id
             }).done(function () {
                 context.startEdit();
             });
@@ -320,7 +320,7 @@
                 data_serialized_length = data_serialized.length,
                 entitySelected = NGC.viewmodel.entitySelected,
                 savedEntityId = { 'id': entitySelected.obj.id },
-                url = document['url_root'] + 'uik/' + savedEntityId.id,
+                url = document['url_root'] + 'entity/' + savedEntityId.id,
                 i = 0;
 
             for (i; i < data_serialized_length; i += 1) {
@@ -364,7 +364,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: document['url_root'] + 'object/unblock/' + NGC.viewmodel.entitySelected.obj.id
+                url: document['url_root'] + 'entity/unblock/' + NGC.viewmodel.entitySelected.obj.id
             }).done(function () {
                 context.finishEditing();
             });
@@ -391,7 +391,7 @@
             var center = NGC.viewmodel.map.getCenter();
 
             NGC.viewmodel.entitySelected = ({
-                uik: {
+                obj: {
                     approved: false,
                     blocked: false,
                     geom: {

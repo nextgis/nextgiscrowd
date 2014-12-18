@@ -21,9 +21,9 @@ def get_all(context, request):
     is_filter_applied = False
     filter = json.loads(request.GET['filter'])
     clauses = []
-    if filter['uik']:
-        for filter_item_id in filter['uik'].keys():
-            filter_item_value = filter['uik'][filter_item_id].encode('UTF-8').strip()
+    if filter['entity']:
+        for filter_item_id in filter['entity'].keys():
+            filter_item_value = filter['entity'][filter_item_id].encode('UTF-8').strip()
             if filter_item_value:
                 item_clauses = [EntityPropertyValue.entity_property_id == int(filter_item_id),
                                 EntityPropertyValue.text.ilike('%' + filter_item_value + '%')]
@@ -78,16 +78,17 @@ def get_all(context, request):
             .all()
         entities_as_json['points']['count'] = len(entities_from_db)
 
-    for uik in entities_from_db:
-        if uik[0].blocked:
+    for entity_from_db in entities_from_db:
+        if entity_from_db[0].blocked:
             entities_as_json['points']['layers']['blocked']['elements'].append(
-                _get_uik_from_uik_db(uik, searchable_fields))
+                _get_entity_from_entity_db(entity_from_db, searchable_fields))
             continue
-        if uik[0].approved:
+        if entity_from_db[0].approved:
             entities_as_json['points']['layers']['checked']['elements'].append(
-                _get_uik_from_uik_db(uik, searchable_fields))
+                _get_entity_from_entity_db(entity_from_db, searchable_fields))
             continue
-        entities_as_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
+        entities_as_json['points']['layers']['unchecked']['elements'].append(
+            _get_entity_from_entity_db(entity_from_db, searchable_fields))
 
     entities_as_json['points']['layers']['blocked']['count'] = len(
         entities_as_json['points']['layers']['blocked']['elements'])
@@ -101,7 +102,7 @@ def get_all(context, request):
     return Response(json.dumps({'data': entities_as_json}), content_type='application/json')
 
 
-def _get_uik_from_uik_db(entity_from_db, searchable_fields):
+def _get_entity_from_entity_db(entity_from_db, searchable_fields):
     return {
         'id': entity_from_db[0].id,
         'name': [val for val in entity_from_db[0].values if val.entity_property_id == searchable_fields[0]][0].text,
@@ -248,14 +249,14 @@ def update_entity(context, request):
     return Response()
 
 
-@view_config(route_name='obj_block', request_method='GET')
+@view_config(route_name='entity_block', request_method='GET')
 @authorized()
-def obj_block(context, request):
-    obj_id = request.matchdict.get('id', None)
+def entity_block(context, request):
+    entity_id = request.matchdict.get('id', None)
 
     with transaction.manager:
         session = DBSession()
-        session.query(Entity).filter(Entity.id == obj_id).update({
+        session.query(Entity).filter(Entity.id == entity_id).update({
             Entity.blocked: True,
             Entity.user_block_id: request.session['u_id']
         })
@@ -263,16 +264,16 @@ def obj_block(context, request):
     return Response()
 
 
-@view_config(route_name='obj_unblock', request_method='GET')
+@view_config(route_name='entity_unblock', request_method='GET')
 @authorized()
-def obj_unblock(context, request):
-    obj_id = request.matchdict.get('id', None)
-    if obj_id is None:
+def entity_unblock(context, request):
+    entity_id = request.matchdict.get('id', None)
+    if entity_id is None:
         return Response()
 
     with transaction.manager:
         session = DBSession()
-        session.query(Entity).filter(Entity.id == obj_id).update({
+        session.query(Entity).filter(Entity.id == entity_id).update({
             Entity.blocked: False,
             Entity.user_block_id: None
         })

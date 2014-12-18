@@ -24,8 +24,8 @@ requires = [
     ]
 
 setup(name='ngcrowd',
-      version='0.0',
-      description='ngcrowd',
+      version='0.1',
+      description='NextGIS Crowd',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",

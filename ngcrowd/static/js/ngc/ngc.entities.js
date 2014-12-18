@@ -4,9 +4,10 @@
         entitySelectedId: null,
         pointLayers: {}
     });
-    $.extend(NGC.view, {
 
+    $.extend(NGC.view, {
     });
+
     NGC.entities = {};
     $.extend(NGC.entities, {
         init: function () {
@@ -19,12 +20,12 @@
         bindEvents: function () {
             var context = this;
 
-            NGC.view.$document.on('/ngc/entities/updateUiks', function () {
+            NGC.view.$document.on('/ngc/entities/update', function () {
                 context.updatePoints();
             });
 
-            NGC.subscribe('/ngc/entities/popup/openByUik', function (uik) {
-                context.openUikPopupByUik(uik);
+            NGC.subscribe('/ngc/entities/popup/openByEntity', function (entity) {
+                context.openPopupByEntity(entity);
             });
         },
 
@@ -34,7 +35,7 @@
             this.clearLayers();
             if (!validateZoom) { return; }
             NGC.view.$document.trigger('/ngc/entities/startUpdate');
-            this.updateUiksByAjax();
+            this.updateEntitiesByAjax();
         },
 
 
@@ -46,12 +47,12 @@
         },
 
 
-        updateUiksByAjax: function () {
+        updateEntitiesByAjax: function () {
             var context = this,
                 url = document['url_root'] + 'entity/all',
                 filter = NGC.viewmodel.filter,
                 filter_json = {
-                    'uik' : filter.uik.json
+                    'entity' : filter.entity.json
                 };
             $.ajax({
                 type: "GET",
@@ -63,7 +64,7 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                    context.renderUiks(data);
+                    context.renderEntities(data);
                     NGC.view.$document.trigger('/sm/searcher/update');
                     NGC.view.$document.trigger('/sm/stops/endUpdate');
                 },
@@ -72,7 +73,7 @@
         },
 
 
-        renderUiks: function (data) {
+        renderEntities: function (data) {
             var viewmodel = NGC.viewmodel,
                 pointsLayers = viewmodel.mapLayers.points,
                 pointsConfig = NGC.config.data.points,
@@ -99,7 +100,7 @@
                         marker = L.marker([dataPoint.lat, dataPoint.lon], {icon: icon}).on('click', function (e) {
                             var marker = e.target;
                             NGC.call('/ngc/map/openPopup', [marker.getLatLng(), htmlPopup]);
-                            context.buildUikPopupByClick(marker.id);
+                            context.buildEntityPopupByClick(marker.id);
                         });
                         marker.id = dataPoint.id;
                         pointsLayers[dataPointType].addLayer(marker);
@@ -109,28 +110,28 @@
         },
 
 
-        buildUikPopupByClick: function (uikId) {
+        buildEntityPopupByClick: function (entityId) {
             var context = this;
 
-            return $.getJSON(document.url_root + 'uik/' + uikId, function (uikData) {
-                context.setUikSelected(uikData);
-                context.buildUikPopup(uikData);
+            return $.getJSON(document.url_root + 'entity/' + entityId, function (entity) {
+                context.setEntitySelected(entity);
+                context.buildEntityPopup(entity);
             }).error(function () {
                 $('#entity-popup').removeClass('loader').empty().append('Error connection');
             });
         },
 
 
-        setUikSelected: function (uik) {
+        setEntitySelected: function (entity) {
             var viewmodel = NGC.viewmodel;
 
             if (!viewmodel.editable) {
-                viewmodel.entitySelected = uik;
+                viewmodel.entitySelected = entity;
             }
         },
 
 
-        buildUikPopup: function (entity) {
+        buildEntityPopup: function (entity) {
             var html = NGC.templates.entityPopupInfoTemplate({
                 props: entity.props,
                 obj: entity.obj,
@@ -151,7 +152,7 @@
                 $('#unblock').off('click').on('click', function () {
                     $.ajax({
                         type: 'GET',
-                        url: document['url_root'] + 'object/unblock/' + NGC.viewmodel.entitySelected.obj.id
+                        url: document['url_root'] + 'entity/unblock/' + NGC.viewmodel.entitySelected.obj.id
                     }).done(function () {
                             NGC.viewmodel.map.closePopup();
                             NGC.view.$document.trigger('/ngc/map/updateAllLayers');
@@ -161,14 +162,14 @@
         },
 
 
-        openUikPopupByUik: function (entity) {
+        openPopupByEntity: function (entity) {
             var entityObj = entity.obj,
                 latlng = [entityObj.geom.lat, entityObj.geom.lng],
                 html = NGC.templates.entityPopupTemplate({ css: 'edit' });
 
             NGC.call('/ngc/map/openPopup', [latlng, html]);
-            this.setUikSelected(ajaxUik);
-            this.buildUikPopup(ajaxUik);
+            this.setEntitySelected(entity);
+            this.buildEntityPopup(entity);
         },
 
 

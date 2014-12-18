@@ -10,26 +10,26 @@
 
         handleUrl: function () {
             var context =  this,
-                uikFromUrl = this.getUikFromUrl();
+                entityFromUrl = this.getEntityFromUrl();
 
-            if (uikFromUrl) {
-                if (uikFromUrl.editable === true && NGC.viewmodel.isAuth === true) {
-                    $.when(this.getAjaxUik(uikFromUrl)).then(function (ajaxUik) {
-                        NGC.call('/ngc/map/setView', [[ajaxUik.uik.geom.lat, ajaxUik.uik.geom.lng], 17]);
-                        context.setUikSelected(ajaxUik);
+            if (entityFromUrl) {
+                if (entityFromUrl.editable === true && NGC.viewmodel.isAuth === true) {
+                    $.when(this.getAjaxEntity(entityFromUrl)).then(function (entity) {
+                        NGC.call('/ngc/map/setView', [[entity.obj.geom.lat, entity.obj.geom.lng], 17]);
+                        context.setEntitySelected(entity);
                         NGC.view.$document.trigger('/ngc/editor/startEdit');
                     });
                 } else {
-                    $.when(this.getAjaxUik(uikFromUrl)).then(function (uik) {
+                    $.when(this.getAjaxEntity(entityFromUrl)).then(function (entity) {
                         NGC.viewmodel.map.setZoom(17);
-                        NGC.call('/ngc/entities/popup/openByUik', [uik]);
+                        NGC.call('/ngc/entities/popup/openByEntity', [entity]);
                     });
                 }
             }
         },
 
 
-        getUikFromUrl: function () {
+        getEntityFromUrl: function () {
             var helpers = NGC.helpers,
                 uikOfficialNumber = helpers.getURLParameter('uik'),
                 regionCode = helpers.getURLParameter('reg'),
@@ -47,8 +47,8 @@
         },
 
 
-        getAjaxUik: function (uikFromUrl) {
-            return $.getJSON(document.url_root + 'uik/' + uikFromUrl.regionCode + '/' + uikFromUrl.uikOfficialNumber);
+        getAjaxEntity: function (entityFromUrl) {
+            return $.getJSON(document.url_root + 'uik/' + entityFromUrl.regionCode + '/' + entityFromUrl.uikOfficialNumber);
         }
     });
 })(jQuery, NGC);

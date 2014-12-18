@@ -132,8 +132,8 @@
         <li data-id="searchAddress"><a href="javascript:void(0)">Поиск по адресу</a></li>
     </ul>
 
-    <div id="searchEntity" onsubmit="return false" class="search-block" data-trigger="/uik/uiks/updateUiks"
-         data-isMapTriggered="true" data-filter="uik">
+    <div id="searchEntity" onsubmit="return false" class="search-block" data-trigger="/ngc/entities/update"
+         data-isMapTriggered="true" data-filter="entity">
         <form class="form-search">
             <fieldset>
                 % for field in fields:
@@ -156,7 +156,7 @@
         </div>
     </div>
 
-    <div id="searchAddress" onsubmit="return false" class="search-block" data-trigger="/uik/search/address"
+    <div id="searchAddress" onsubmit="return false" class="search-block" data-trigger="/ngc/search/address"
          data-filter="address">
         <form class="form-search">
             <fieldset>
