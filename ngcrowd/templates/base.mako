@@ -193,9 +193,9 @@
 <div class="stat-panel panel">
     <div class="log panel-item"><a target="_blank" href="${request.route_url('logs')}"
                                    title="Статистика пользователей"></a></div>
-    <div class="stat panel-item"><a target="_blank" href="${request.route_url('statistic')}"
+    <div class="stat panel-item"><a target="_blank" href="${request.route_url('entities_table_page')}"
                                     title="Статистика по объектам"></a></div>
-    <div class="export panel-item"><a target="_blank" href="${request.route_url('uik_export_page')}"
+    <div class="export panel-item"><a target="_blank" href="${request.route_url('export_page')}"
                                       title="Выгрузки по регионам"></a></div>
 </div>
 <div class="edit-panel panel">

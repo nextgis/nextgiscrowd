@@ -281,8 +281,8 @@ def entity_unblock(context, request):
     return Response()
 
 
-@view_config(route_name='stat_json', request_method='POST')
-def get_stat(context, request):
+@view_config(route_name='entities_table_json', request_method='POST')
+def get_table_data(context, request):
     user_name = None
     if hasattr(request, 'cookies') and 'sk' in request.cookies.keys() and 'sk' in request.session and \
                     request.session['sk'] == request.cookies['sk'] and 'u_name' in request.session:
@@ -374,8 +374,8 @@ def build_filtering_query(request, query):
         return request
 
 
-@view_config(route_name='statistic', request_method='GET', renderer='stat.mako')
-def get_stat_page(context, request):
+@view_config(route_name='entities_table_page', request_method='GET', renderer='stat.mako')
+def get_entities_table_page(context, request):
     session = DBSession()
 
     user_entities_count_sbq = session \
@@ -383,7 +383,7 @@ def get_stat_page(context, request):
         .group_by(EntityVersions.user_id) \
         .subquery()
 
-    user_uiks_logs = session.query(User, user_entities_count_sbq.c.count_entities) \
+    user_entities_logs = session.query(User, user_entities_count_sbq.c.count_entities) \
         .outerjoin(user_entities_count_sbq, User.id == user_entities_count_sbq.c.user_id) \
         .order_by(User.display_name)
 
@@ -393,5 +393,5 @@ def get_stat_page(context, request):
 
     return {
         'properties': properties,
-        'users': user_uiks_logs.all()
+        'users': user_entities_logs.all()
     }
