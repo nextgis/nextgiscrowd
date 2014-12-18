@@ -371,19 +371,17 @@ div.panel div.point:hover a {
     line-height: 14px;
 }
 
-#searchUIK,
-#searchUIK_2012,
+#searchEntity,
 #searchAddress,
-#editUIK, 
-#versionsUIK {
+#editEntity,
+#versionsEntity {
     display: none;
 }
 
-#searchContainer.searchUIK #searchUIK,
-#searchContainer.searchUIK_2012 #searchUIK_2012,
+#searchContainer.searchEntity #searchEntity,
 #searchContainer.searchAddress #searchAddress,
-#editorContainer.editUIK #editUIK, 
-#editorContainer.versionsUIK #versionsUIK {
+#editorContainer.editEntity #editEntity,
+#editorContainer.versionsEntity #versionsEntity {
     display: block;
 }
 
@@ -530,7 +528,7 @@ body.searcher-collapsed #map .leaflet-control-container .leaflet-left {
 }
 
 #searchContainer div.searchResults.active ul,
-#versionsUIK ul {
+#versionsEntity ul {
     display: block;
     text-align: left;
     list-style-type: none;
@@ -538,7 +536,7 @@ body.searcher-collapsed #map .leaflet-control-container .leaflet-left {
 }
 
 #searchContainer div.searchResults.active ul li,
-#versionsUIK ul li {
+#versionsEntity ul li {
     margin: 2px;
     color: #676767;
     font-size: 13px;
@@ -547,7 +545,7 @@ body.searcher-collapsed #map .leaflet-control-container .leaflet-left {
 }
 
 #searchContainer div.searchResults.active ul li:first-child,
-#versionsUIK ul li:first-child {
+#versionsEntity ul li:first-child {
     border-top: none;
 }
 
@@ -583,10 +581,6 @@ body.searcher-collapsed #map .leaflet-control-container .leaflet-left {
 
 #searchContainer div.searchResults.active ul.non-checked li {
     color: #BD9C19;
-}
-
-#searchContainer div.searchResults.active ul.uik2012 li {
-    color: #95898f;
 }
 
 body #manager {
@@ -897,21 +891,21 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
     z-index: 300 !important;
 }
 
-#map .uik-unchecked {
+#map .entity-unchecked {
     background: url('../img/sm-icons.png') -0px -145px;
     z-index: 310 !important;
 }
 
-#map .uik-unchecked:hover {
+#map .entity-unchecked:hover {
     background: url('../img/sm-icons.png') -20px -145px;
 }
 
-#map .uik-checked {
+#map .entity-checked {
     background: url('../img/sm-icons.png') -40px -145px;
     z-index: 305 !important;
 }
 
-#map .uik-checked:hover {
+#map .entity-checked:hover {
     background: url('../img/sm-icons.png') -60px -145px;
 }
 
@@ -920,25 +914,25 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
     z-index: 320 !important;
 }
 
-#map .uik-blocked {
+#map .entity-blocked {
     background: url('../img/sm-icons.png') -80px -145px;
     z-index: 315 !important;
 }
 
-#map .uik-blocked:hover {
+#map .entity-blocked:hover {
     background: url('../img/sm-icons.png') -100px -145px;
 }
 
-#map .uik-2012 {
+#map .entity-2012 {
     background: url('../img/sm-icons.png') -120px -145px;
     z-index: 300 !important;
 }
 
-#map .uik-2012:hover {
+#map .entity-2012:hover {
     background: url('../img/sm-icons.png') -140px -145px;
 }
 
-#uik-popup.loader {
+#entity-popup.loader {
     width: 100%;
     height: 100px;
 }
@@ -947,39 +941,39 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
     /*min-width: 250px;*/
 }
 
-#uik-popup .table {
+#entity-popup .table {
     margin-bottom: 5px;
     table-layout: fixed;
 }
 
-#uik-popup .table th, #uik-popup .table td {
+#entity-popup .table th, #entity-popup .table td {
     line-height: normal;
     padding: 4px;
     word-wrap: break-word;
 }
 
-#uik-popup div.edit {
+#entity-popup div.edit {
     text-align: right;
 }
 
-#uik-popup div.edit a {
+#entity-popup div.edit a {
     cursor: pointer;
 }
 
-#uik-popup #edit {
+#entity-popup #edit {
     padding: 5px;
 }
 
-#uik-popup tr.block {
+#entity-popup tr.block {
     color: red;
     font-weight: bold;
 }
 
-#uik-popup a.output {
+#entity-popup a.output {
 
 }
 
-#uik-popup a.output span {
+#entity-popup a.output span {
     display: inline-block;
     width: 17px;
     height: 17px;
@@ -990,18 +984,18 @@ body.editor-collapsed #map .leaflet-control-container .leaflet-right {
     float: right;
 }
 
-#uik-popup div.edit button.block {
+#entity-popup div.edit button.block {
     color: #ffdbd6;
     background-color: #cc8774;
     background-image: none;
 }
 
-#uik-popup div.header {
+#entity-popup div.header {
     margin-bottom: 5px;
     text-align: center;
 }
 
-#uik-popup  a.btn {
+#entity-popup  a.btn {
     color: #FFFFFF;
     padding: 5px;
 }

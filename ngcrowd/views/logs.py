@@ -27,17 +27,17 @@ def get_logs(context, request):
             # 'editable': count_editable_uiks,
             'approved': count_approved_entities
         },
-        'uiks_by_users': []}
+        'entities_by_users': []}
     rank = 1
-    for user_uiks_log in user_entities_logs:
+    for user_entities_log in user_entities_logs:
         registered_time = ''
-        if user_uiks_log[0].registered_time:
-            registered_time = user_uiks_log[0].registered_time.strftime('%Y-%m-%d %H:%m')
-        if user_uiks_log[1]:
-            results['uiks_by_users'].append({
-                'user_name': user_uiks_log[0].display_name,
+        if user_entities_log[0].registered_time:
+            registered_time = user_entities_log[0].registered_time.strftime('%Y-%m-%d %H:%m')
+        if user_entities_log[1]:
+            results['entities_by_users'].append({
+                'user_name': user_entities_log[0].display_name,
                 'registered_time': registered_time,
-                'count_uiks': user_uiks_log[1],
+                'count_entities': user_entities_log[1],
                 'rank': rank
             })
             rank += 1

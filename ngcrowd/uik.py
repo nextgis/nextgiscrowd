@@ -33,13 +33,16 @@ def get_all(context, request):
     bbox = json.loads(request.params.getall('bbox')[0])
     box_geom = leaflet_bbox_to_polygon(bbox)
 
-    uiks_for_json = {'points': {
-        'count': 0,
-        'layers': {
-            'checked': {'elements': [], 'count': 0},
-            'unchecked': {'elements': [], 'count': 0},
-            'blocked': {'elements': [], 'count': 0}
-        }}}
+    entities_as_json = {
+        'points': {
+            'count': 0,
+            'layers': {
+                'checked': {'elements': [], 'count': 0},
+                'unchecked': {'elements': [], 'count': 0},
+                'blocked': {'elements': [], 'count': 0}
+            }
+        }
+    }
 
     session = DBSession()
 
@@ -61,9 +64,9 @@ def get_all(context, request):
             .all()
 
         if len(entities_from_db) < page_size:
-            uiks_for_json['points']['count'] = len(entities_from_db)
+            entities_as_json['points']['count'] = len(entities_from_db)
         else:
-            uiks_for_json['points']['count'] = session.query(Entity.id) \
+            entities_as_json['points']['count'] = session.query(Entity.id) \
                 .filter(*clauses) \
                 .count()
     else:
@@ -73,38 +76,38 @@ def get_all(context, request):
             .distinct(Entity.id) \
             .filter(Entity.point.ST_Intersects('SRID=4326;' + box_geom)) \
             .all()
-        uiks_for_json['points']['count'] = len(entities_from_db)
+        entities_as_json['points']['count'] = len(entities_from_db)
 
     for uik in entities_from_db:
         if uik[0].blocked:
-            uiks_for_json['points']['layers']['blocked']['elements'].append(
+            entities_as_json['points']['layers']['blocked']['elements'].append(
                 _get_uik_from_uik_db(uik, searchable_fields))
             continue
         if uik[0].approved:
-            uiks_for_json['points']['layers']['checked']['elements'].append(
+            entities_as_json['points']['layers']['checked']['elements'].append(
                 _get_uik_from_uik_db(uik, searchable_fields))
             continue
-        uiks_for_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
+        entities_as_json['points']['layers']['unchecked']['elements'].append(_get_uik_from_uik_db(uik, searchable_fields))
 
-    uiks_for_json['points']['layers']['blocked']['count'] = len(
-        uiks_for_json['points']['layers']['blocked']['elements'])
-    uiks_for_json['points']['layers']['checked']['count'] = len(
-        uiks_for_json['points']['layers']['checked']['elements'])
-    uiks_for_json['points']['layers']['unchecked']['count'] = len(
-        uiks_for_json['points']['layers']['unchecked']['elements'])
+    entities_as_json['points']['layers']['blocked']['count'] = len(
+        entities_as_json['points']['layers']['blocked']['elements'])
+    entities_as_json['points']['layers']['checked']['count'] = len(
+        entities_as_json['points']['layers']['checked']['elements'])
+    entities_as_json['points']['layers']['unchecked']['count'] = len(
+        entities_as_json['points']['layers']['unchecked']['elements'])
 
-    uiks_result = {'data': uiks_for_json}
     session.close()
-    return Response(json.dumps(uiks_result), content_type='application/json')
+
+    return Response(json.dumps({'data': entities_as_json}), content_type='application/json')
 
 
-def _get_uik_from_uik_db(uik_from_db, searchable_fields):
+def _get_uik_from_uik_db(entity_from_db, searchable_fields):
     return {
-        'id': uik_from_db[0].id,
-        'name': [val for val in uik_from_db[0].values if val.entity_property_id == searchable_fields[0]][0].text,
-        'addr': [val for val in uik_from_db[0].values if val.entity_property_id == searchable_fields[1]][0].text,
-        'lon': uik_from_db[1],
-        'lat': uik_from_db[2]
+        'id': entity_from_db[0].id,
+        'name': [val for val in entity_from_db[0].values if val.entity_property_id == searchable_fields[0]][0].text,
+        'addr': [val for val in entity_from_db[0].values if val.entity_property_id == searchable_fields[1]][0].text,
+        'lon': entity_from_db[1],
+        'lat': entity_from_db[2]
     }
 
 
@@ -126,13 +129,12 @@ def get_entity(context, request):
         'visible_order': entityProperty.visible_order
     }) for entityProperty in session.query(EntityProperty).order_by(EntityProperty.visible_order).all())
 
-    uik = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
+    entity = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y(), User) \
         .options(joinedload(Entity.values, EntityPropertyValue.reference_book)) \
         .outerjoin((User, Entity.user_block_id == User.id)) \
         .filter(*clauses).one()
 
-
-    for value in uik[0].values:
+    for value in entity[0].values:
         props_for_val = props[value.entity_property_id]
 
         if props_for_val['type'] == 'reference_book':
@@ -147,29 +149,29 @@ def get_entity(context, request):
 
     props_json = [props[prop_key] for prop_key in props.keys()]
     props_json.sort(key=lambda x: x['visible_order'])
-    uik_res = {
-        'uik': uik[0].as_json_dict(),
+    entity_as_json = {
+        'obj': entity[0].as_json_dict(),
         'props': props_json,
-        'versions': [{'display_name': version[1],
-                      'time': to_russian_datetime_format(version[2])}
-                     for version in versions]
+        'versions': [{
+                         'display_name': version[1],
+                         'time': to_russian_datetime_format(version[2])
+                     } for version in versions]
     }
 
-    uik_res['uik']['geom'] = {'lng': uik[1], 'lat': uik[2]}
+    entity_as_json['obj']['geom'] = {'lng': entity[1], 'lat': entity[2]}
 
-    uik_res['uik']['user_blocked'] = ''
-    uik_res['uik']['is_blocked'] = False
-    if uik[0].blocked:
-        uik_res['uik']['is_blocked'] = True
-        uik_res['uik']['user_blocked'] = uik[0].user_block.display_name
+    entity_as_json['obj']['user_blocked'] = ''
+    entity_as_json['obj']['is_blocked'] = False
+    if entity[0].blocked:
+        entity_as_json['obj']['is_blocked'] = True
+        entity_as_json['obj']['user_blocked'] = entity[0].user_block.display_name
 
-    uik_res['uik']['is_unblocked'] = ''
-    if 'u_id' in request.session and uik[0].blocked and \
-                    request.session['u_id'] == uik[0].user_block.id:
-        uik_res['uik']['is_unblocked'] = True
+    entity_as_json['obj']['is_unblocked'] = ''
+    if 'u_id' in request.session and entity[0].blocked and request.session['u_id'] == entity[0].user_block.id:
+        entity_as_json['obj']['is_unblocked'] = True
 
     session.close()
-    return Response(json.dumps(uik_res), content_type='application/json')
+    return Response(json.dumps(entity_as_json), content_type='application/json')
 
 
 @view_config(route_name='entity', request_method='POST')

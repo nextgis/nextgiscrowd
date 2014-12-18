@@ -1,10 +1,10 @@
 <ul class="{{cssClass}}">
-    {{#uiks}}
+    {{#entities}}
     <li data-lat={{lat}} data-lon={{lon}} data-id={{id}}>
         <span>{{name}}</span>
         {{addr}}
         <a class="target" title="Перейти"></a>
         {{#isAuth}}<a class="edit" title="Редактировать"></a>{{/isAuth}}
     </li>
-    {{/uiks}}
+    {{/entities}}
 </ul>

@@ -14,7 +14,7 @@
 
     % if request.registry.settings['useCompilledStaticScripts']=='True':
         <link rel="stylesheet"
-              href="${request.static_url('ngcrowd:static/build/uik-' + request.registry.settings['static_version'] + '.css')}">
+              href="${request.static_url('ngcrowd:static/build/ngcrowd-' + request.registry.settings['static_version'] + '.css')}">
         <!--[if lte IE 8]><!--<link rel="stylesheet" href="${request.static_url('ngcrowd:static/js/Leaflet.markercluster/MarkerCluster.Default.ie.css')}" />-->
         <![endif]-->
     % else:
@@ -38,7 +38,7 @@
 
     % if request.registry.settings['useCompilledStaticScripts']=='True':
         <script type="text/javascript"
-                src="${request.static_url('ngcrowd:static/build/uik-' + request.registry.settings['static_version'] + '.js')}"></script>
+                src="${request.static_url('ngcrowd:static/build/ngcrowd-' + request.registry.settings['static_version'] + '.js')}"></script>
     % else:
         <script src="${request.static_url('ngcrowd:static/js/Leaflet.markercluster/leaflet.markercluster-src.js')}"></script>
         <script type="text/javascript"
@@ -46,34 +46,33 @@
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/jquery.imagesloaded.js')}"></script>
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/leaflet/bing.js')}"></script>
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/mustache.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.config.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.subscriber.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.loader.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.helpers.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.common.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.popup.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.map.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.map.url.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.map.history.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.map.helpers.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.map.manager.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.geocoder.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.searcher.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.config.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.subscriber.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.loader.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.helpers.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.common.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.popup.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.map.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.map.url.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.map.history.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.map.helpers.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.map.manager.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.geocoder.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.searcher.js')}"></script>
         <script type="text/javascript"
-                src="${request.static_url('ngcrowd:static/js/uik/uik.searcher.address.js')}"></script>
+                src="${request.static_url('ngcrowd:static/js/ngc/ngc.searcher.address.js')}"></script>
         <script type="text/javascript"
-                src="${request.static_url('ngcrowd:static/js/uik/uik.searcher.tab.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.editor.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.uiks.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.uiks.url.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.uiks_2012.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.regions.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.alerts.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.user.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.permalink.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.josm.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.versions.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/uik/uik.editor.tab.js')}"></script>
+                src="${request.static_url('ngcrowd:static/js/ngc/ngc.searcher.tab.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.editor.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.entities.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.entities.url.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.regions.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.alerts.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.user.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.permalink.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.josm.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.versions.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.editor.tab.js')}"></script>
         <script type="text/javascript"
                 src="${request.static_url('ngcrowd:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
     % endif
@@ -124,16 +123,16 @@
         </fieldset>
     </form>
 </div>
-<div id="searchContainer" class="searchUIK">
+<div id="searchContainer" class="searchEntity">
     <span class="icon-collapse"></span>
 
     <div class="title"><span>Поиск</span></div>
     <ul class="nav nav-tabs">
-        <li class="active" data-id="searchUIK"><a href="javascript:void(0)">Объекты</a></li>
+        <li class="active" data-id="searchEntity"><a href="javascript:void(0)">Объекты</a></li>
         <li data-id="searchAddress"><a href="javascript:void(0)">Поиск по адресу</a></li>
     </ul>
 
-    <div id="searchUIK" onsubmit="return false" class="search-block" data-trigger="/uik/uiks/updateUiks"
+    <div id="searchEntity" onsubmit="return false" class="search-block" data-trigger="/uik/uiks/updateUiks"
          data-isMapTriggered="true" data-filter="uik">
         <form class="form-search">
             <fieldset>
@@ -216,17 +215,17 @@
     </div>
 </div>
 
-<div id="editorContainer" class="versionsUIK">
+<div id="editorContainer" class="versionsEntity">
     <span class="icon-collapse"></span>
 
     <div class="title"><span>Редактор</span></div>
 
     <ul class="nav nav-tabs">
-        <li data-id="editUIK" id="editUIK-link"><a href="javascript:void(0)">Данные</a></li>
-        <li class="active" data-id="versionsUIK" id="versionsUIK-link"><a href="javascript:void(0)">Версии</a></li>
+        <li data-id="editEntity" id="editEntity-link"><a href="javascript:void(0)">Данные</a></li>
+        <li class="active" data-id="versionsEntity" id="versionsEntity-link"><a href="javascript:void(0)">Версии</a></li>
     </ul>
 
-    <div class="form-wrap" id="editUIK">
+    <div class="form-wrap" id="editEntity">
         <form class="form-inline disabled" id="editorForm">
             %for field in fields:
                 <div class="group">
@@ -283,7 +282,7 @@
         </form>
     </div>
 
-    <div id="versionsUIK"></div>
+    <div id="versionsEntity"></div>
 </div>
 <div class="permalink">
     <a id="permalink" name="Ссылка на текущую область">Ссылка на карту</a></br>

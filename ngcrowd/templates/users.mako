@@ -30,12 +30,12 @@
     </tr>
 </thead>
 <tbody>
-    % for user in results['uiks_by_users']:
-        % if user['count_uiks']:
+    % for user in results['entities_by_users']:
+        % if user['count_entities']:
             <tr>
                 <td>${user['rank']}</td>
                 <td>${user['user_name']}</td>
-                <td>${user['count_uiks']}</td>
+                <td>${user['count_entities']}</td>
                 <td>${user['registered_time']}</td>
             </tr>
         % endif

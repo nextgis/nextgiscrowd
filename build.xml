@@ -1,6 +1,6 @@
-<project name="moscow_stops">
+<project name="ngw">
     <property name="rootProjectDirName" value="ngcrowd"/>
-    <property name="cssJsFileName" value="uik"/>
+    <property name="cssJsFileName" value="ngcrowd"/>
     <tstamp>
         <format property="datetime" pattern="yyyyMMddHHmmss" locale="en"/>
     </tstamp>
@@ -39,32 +39,31 @@
             <file file="${rootProjectDirName}/static/js/jquery.imagesloaded.js"/>
             <file file="${rootProjectDirName}/static/js/leaflet/bing.js"/>
             <file file="${rootProjectDirName}/static/js/mustache.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.config.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.loader.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.subscriber.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.helpers.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.common.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.popup.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.map.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.map.url.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.map.history.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.map.helpers.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.map.manager.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.geocoder.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.searcher.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.searcher.address.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.searcher.tab.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.editor.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.uiks.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.uiks.url.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.uiks_2012.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.regions.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.alerts.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.user.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.permalink.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.josm.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.versions.js"/>
-            <file file="${rootProjectDirName}/static/js/uik/uik.editor.tab.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.config.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.loader.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.subscriber.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.helpers.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.common.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.popup.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.map.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.map.url.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.map.history.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.map.helpers.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.map.manager.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.geocoder.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.searcher.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.searcher.address.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.searcher.tab.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.editor.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.entities.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.entities.url.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.regions.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.alerts.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.user.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.permalink.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.josm.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.versions.js"/>
+            <file file="${rootProjectDirName}/static/js/ngc/ngc.editor.tab.js"/>
             <file file="${rootProjectDirName}/static/build/compile-templates-${datetime}.js"/>
         </concat>
     </target>
@@ -103,7 +102,7 @@
     </target>
 
     <property name="src-templates" location="${rootProjectDirName}/static/templates"/>
-    <property name="namespace" value="UIK"/>
+    <property name="namespace" value="NGC"/>
     <target name="python-build-scripts">
         <exec dir="build/" executable="python" failonerror="true">
             <arg line="build-js-templates.py --ns ${namespace} --src ${src-templates} --target ${basedir}/${rootProjectDirName}/static/build/compile-templates-${datetime}.js"/>

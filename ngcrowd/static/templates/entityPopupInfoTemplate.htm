@@ -1,0 +1,42 @@
+<table class="table table-striped">
+    {{#props}}
+    <tr>
+        <td>{{title}}</td>
+
+        {{#text}}
+            <td>{{text}}</td>
+        {{/text}}
+        {{^text}}
+            <td>{{val}}</td>
+        {{/text}}
+    </tr>
+    {{/props}}
+    <tr>
+        <td>Проверен</td>
+        <td>
+            {{#obj.approved}}Да{{/obj.approved}}
+            {{^obj.approved}}Нет{{/obj.approved}}
+        </td>
+    </tr>
+    {{#isBlocked}}
+    <tr class="block">
+        {{#isUnBlocked}}
+        <td>Заблокирована вами</td>
+        <td>
+            <button class="btn btn-small btn-primary block" id="unblock" type="button">Разблокировать</button>
+        </td>
+        {{/isUnBlocked}}
+        {{^isUnBlocked}}
+        <td>Заблокировал</td>
+        <td>{{userBlocked}}</td>
+        {{/isUnBlocked}}
+    </tr>
+    {{/isBlocked}}
+</table>
+
+<div class="edit">
+    {{#isUserEditor}}
+    <button class="btn btn-small btn-primary {{#isBlock}}block{{/isBlock}}" id="edit" type="button"
+    {{#editDenied}}disabled="disabled"{{/editDenied}}>Редактировать</button>
+    {{/isUserEditor}}
+</div>
