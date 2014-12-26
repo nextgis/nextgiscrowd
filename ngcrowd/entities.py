@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = 'karavanjo'
 
+import json
+
+from pyramid.view import view_config
+from pyramid.response import Response
+from sqlalchemy import func, and_, or_
+from sqlalchemy.orm import joinedload
+import transaction
+
 from models import *
 from helpers import *
 from decorators import authorized
-from pyramid.view import view_config
-from pyramid.response import Response
-from sqlalchemy import func, distinct, and_, or_
-from sqlalchemy.orm import joinedload, subqueryload_all
-from sqlalchemy.sql.expression import asc, desc
-from geoalchemy import functions
-import transaction
-
-import json
-
+import re
+from collections import defaultdict
 
 @view_config(route_name='entities_list', request_method='GET')
 def get_all(context, request):
@@ -52,7 +52,7 @@ def get_all(context, request):
     if is_filter_applied:
         from sqlalchemy import func
         entities_from_db = session.query(EntityPropertyValue.entity_id, func.count('*')) \
-            .join(Entity, EntityPropertyValue.entity_id==Entity.id) \
+            .join(Entity, EntityPropertyValue.entity_id == Entity.id) \
             .filter(or_(*clauses)) \
             .filter(Entity.point.ST_Intersects('SRID=4326;' + box_geom)) \
             .group_by(EntityPropertyValue.entity_id) \
@@ -280,6 +280,7 @@ def entity_unblock(context, request):
 
     return Response()
 
+property_name_regex = re.compile('ep_(\d+)')
 
 @view_config(route_name='entities_table_json', request_method='POST')
 def get_table_data(context, request):
@@ -289,39 +290,44 @@ def get_table_data(context, request):
         user_name = request.session['u_name']
 
     session = DBSession()
-    entities_from_db = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y()).options(joinedload('values'))
 
-    # clauses = []
-    # if request.POST:
-    #     if exist_filter_parameter('geocoding_precision', request):
-    #         clauses.append(Uik.geocoding_precision_id == request.POST['geocoding_precision'])
-    #     if exist_filter_parameter('is_applied', request):
-    #         clauses.append(Uik.is_applied == (request.POST['is_applied'] == 'True'))
-    #     if exist_filter_parameter('number_official', request):
-    #         clauses.append(Uik.number_official == request.POST['number_official'])
-    #     if exist_filter_parameter('region', request):
-    #         clauses.append(Uik.region_id == int(request.POST['region']))
-    #     if exist_filter_parameter('place_voting', request):
-    #         clauses.append(Uik.place_voting.ilike('%' + request.POST['place_voting'].encode('UTF-8').strip() + '%'))
-    #     if exist_filter_parameter('tik', request):
-    #         clauses.append(Uik.tik_id == int(request.POST['tik']))
-    #     if exist_filter_parameter('user_id', request):
-    #         user_uiks_subq = (session.query(distinct(UikVersions.uik_id).label("uik_id"))
-    #                           .filter(UikVersions.user_id == int(request.POST['user_id']))) \
-    #             .subquery()
-    #         entities_from_db = entities_from_db.join(user_uiks_subq, and_(Uik.id == user_uiks_subq.c.uik_id))
-    #
-    # entities_from_db = entities_from_db.filter(*clauses)
-    #
-    # if 'jtSorting' in request.params:
-    #     sort = request.params['jtSorting']
-    #     sort = sort.split(' ')
-    #     if sort[1] == 'ASC':
-    #         entities_from_db = entities_from_db.order_by(asc(get_sort_param(sort[0])))
-    #     if sort[1] == 'DESC':
-    #         entities_from_db = entities_from_db.order_by(desc(get_sort_param(sort[0])))
-    # else:
-    #     entities_from_db = entities_from_db.order_by(asc(Uik.number_official))
+    entity_properties = session.query(EntityProperty).all()
+    entity_properties_dict = dict()
+    for entity_property in entity_properties:
+        entity_properties_dict[entity_property.id] = entity_property
+
+    clauses = []
+    filter_applied = False
+
+    if request.POST:
+        for post_parameter in request.POST:
+            property_name_math = property_name_regex.search(post_parameter)
+            if property_name_math:
+                filter_applied = True
+                property_id = int(property_name_math.group(1))
+                if property_id in entity_properties_dict:
+                    entity_property_type = entity_properties_dict[property_id].type
+                    if entity_property_type == 'int':
+                        item_clauses = [EntityPropertyValue.entity_property_id == int(property_id),
+                                        EntityPropertyValue.int == request.POST[post_parameter]]
+                        clauses.append(and_(*item_clauses).self_group())
+                    elif entity_property_type == 'text':
+                        item_clauses = [EntityPropertyValue.entity_property_id == int(property_id),
+                                        EntityPropertyValue.text.ilike('%' + request.POST[post_parameter] + '%')]
+                        clauses.append(and_(*item_clauses).self_group())
+
+    if filter_applied:
+        entities_from_db = session.query(EntityPropertyValue.entity_id, func.count('*')) \
+                .join(Entity, EntityPropertyValue.entity_id == Entity.id) \
+                .filter(or_(*clauses)) \
+                .group_by(EntityPropertyValue.entity_id) \
+                .having(func.count('*') == len(clauses)) \
+                .all()
+
+    entities_from_db = session.query(Entity, Entity.point.ST_X(), Entity.point.ST_Y())
+
+    if filter_applied:
+        entities_from_db.filter(Entity.id.in_([ent[0] for ent in entities_from_db]))
 
     count = entities_from_db.count()
 
@@ -374,7 +380,7 @@ def build_filtering_query(request, query):
         return request
 
 
-@view_config(route_name='entities_table_page', request_method='GET', renderer='stat.mako')
+@view_config(route_name='entities_table_page', request_method='GET', renderer='table.mako')
 def get_entities_table_page(context, request):
     session = DBSession()
 
