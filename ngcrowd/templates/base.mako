@@ -48,7 +48,7 @@
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/mustache.js')}"></script>
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.config.js')}"></script>
         <script type="text/javascript"
-                src="${request.static_url('ngcrowd:static/build/compile-templates-' + request.registry.settings['static_version'] + '.js')}"></script>
+                src="${request.static_url('ngcrowd:static/build/compile-templates.js')}?${timestamp}"></script>
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.subscriber.js')}"></script>
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.loader.js')}"></script>
         <script type="text/javascript" src="${request.static_url('ngcrowd:static/js/ngc/ngc.helpers.js')}"></script>

@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import time
+
+from pyramid.view import view_config
+from sqlalchemy.orm import joinedload
+
 from ngcrowd.models import DBSession, User, EntityProperty, Application
 from ngcrowd.security import generate_session_id
-from pyramid.view import view_config
-from sqlalchemy.sql.expression import asc
-from sqlalchemy.orm import joinedload
+
 
 @view_config(route_name='home', renderer='base.mako')
 def home(request):
@@ -28,7 +31,8 @@ def home(request):
         'project': 'ngcrowd',
         'fields': fields,
         'static_version': request.registry.settings['static_version'],
-        'app': app
+        'app': app,
+        'timestamp': str(int(time.time()))
     }
 
 @view_config(route_name='home', request_method='POST', renderer='base.mako')
