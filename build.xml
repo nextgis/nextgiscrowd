@@ -20,6 +20,11 @@
                        replace="static_version=${datetime}"
                        byline="true"
         />
+        <replaceregexp file="development.example.ini"
+                       match="static_version=(.*)"
+                       replace="static_version=${datetime}"
+                       byline="true"
+        />
         <replaceregexp file="production.ini"
                        match="static_version=(.*)"
                        replace="static_version=${datetime}"
