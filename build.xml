@@ -110,7 +110,7 @@
     <property name="namespace" value="NGC"/>
     <target name="python-build-scripts">
         <exec dir="build/" executable="python" failonerror="true">
-            <arg line="build-js-templates.py --ns ${namespace} --src ${src-templates} --target ${basedir}/${rootProjectDirName}/static/build/compile-templates-${datetime}.js"/>
+            <arg line="build-js-templates.py --ns ${namespace} --src ${src-templates} --target ${basedir}/${rootProjectDirName}/static/build/compile-templates.js"/>
         </exec>
     </target>
 </project>
