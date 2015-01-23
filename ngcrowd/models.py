@@ -124,10 +124,10 @@ class EntityPropertyValue(Base):
     __tablename__ = 'entities_properties_values'
 
     entity_property = relationship('EntityProperty')
-    entity_property_id = Column(Integer, ForeignKey('entity_properties.id'), primary_key=True)
+    entity_property_id = Column(Integer, ForeignKey('entity_properties.id'), primary_key=True, index=True)
 
     entity = relationship('Entity')
-    entity_id = Column(Integer, ForeignKey('entities.id'), primary_key=True)
+    entity_id = Column(Integer, ForeignKey('entities.id'), primary_key=True, index=True)
 
     text = Column(Text, index=True)
     int = Column(Integer, index=True)

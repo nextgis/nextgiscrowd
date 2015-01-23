@@ -10,6 +10,7 @@ from ngcrowd.models import *
 from geoalchemy import WKTSpatialElement
 import transaction
 import datetime
+import time
 
 # Read command line arguments
 # ---------------------------
@@ -96,6 +97,7 @@ with transaction.manager:
 props = session.query(EntityProperty).all()
 reference_books = {}
 i = 0
+start_time = time.time()
 for row in csv:
     with transaction.manager:
         session = DBSession()
@@ -103,16 +105,17 @@ for row in csv:
             point=WKTSpatialElement("POINT(%s %s)" % (row['LON'], row['LAT']), 4326)
         )
         session.add(entity)
-        session.flush()
-        session.refresh(entity)
-        print 'object {0} added'.format(i)
+
         i += 1
+        if i % 100 == 0:
+            print 'object {0} added'.format(i)
+
         for prop in imported_properties:
             value = row[prop['field']]
             if value:
                 entityPropertyValue = EntityPropertyValue(
                     entity_property_id=prop['id'],
-                    entity_id=entity.id
+                    entity=entity
                 )
                 field_type = prop['type']
                 if field_type == 'int':
@@ -136,8 +139,9 @@ for row in csv:
                         reference_books[prop['id']][value] = reference_book_value.id
                     entityPropertyValue.reference_book_id = reference_books[prop['id']][value]
                 session.add(entityPropertyValue)
-                print 'value added'
         session.flush()
+
+print 'Time' + str(time.time() - start_time)
 
 with transaction.manager:
     user = User()
