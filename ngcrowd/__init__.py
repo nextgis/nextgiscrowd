@@ -43,6 +43,7 @@ def main(global_config, **settings):
     set_cache_regions_from_settings(settings)
     config = Configurator(settings=settings)
     config.set_session_factory(session_factory)
+    config.include('pyramid_mako')
     #start_scheduler()
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_static_view('data', 'data', cache_max_age=3600)
