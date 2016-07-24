@@ -121,6 +121,9 @@ for row in csv:
                 if field_type == 'int':
                     value = int(value)
                     entityPropertyValue.int = value
+                elif field_type == 'float':
+                    value = float(value)
+                    entityPropertyValue.float = value
                 elif field_type == 'text':
                     entityPropertyValue.text = value
                 elif field_type == 'bool':

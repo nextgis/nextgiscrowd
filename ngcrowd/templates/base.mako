@@ -236,6 +236,9 @@
                                 <option value="${reference_book_value.id}">${reference_book_value.value}</option>
                             % endfor
                         </select>
+                    %elif field.type == 'int' or field.type == 'float':
+                        <input type="number" id="field-${field.id}" name="ep_${field.id}"
+                               class="stand"  ${'data-address-field="true"' if field.address_field else '' | n}/>
                     %else:
                         <input type="text" id="field-${field.id}" name="ep_${field.id}"
                                class="stand"  ${'data-address-field="true"' if field.address_field else '' | n}/>
@@ -246,11 +249,11 @@
             <div class="geographic">
                 <div class="group">
                     <label class="control-label" for="lat">Широта</label>
-                    <input type="text" id="lat" name="lat" class="stand" disabled="disabled"/>
+                    <input type="number" id="lat" name="lat" class="stand" disabled="disabled"/>
                 </div>
                 <div class="group">
                     <label class="control-label" for="lng">Долгота</label>
-                    <input type="text" id="lng" name="lng" class="stand" disabled="disabled"/>
+                    <input type="number" id="lng" name="lng" class="stand" disabled="disabled"/>
                 </div>
                 <div class="wrapper-coordinates">
                     <button id="regeocode" class="btn btn-small" disabled="disabled" type="button">

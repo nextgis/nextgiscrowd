@@ -4,6 +4,7 @@ from sqlalchemy import (
     Column,
     ForeignKey,
     Integer,
+    Float,
     Text,
     Sequence,
     Boolean,
@@ -111,7 +112,7 @@ class EntityProperty(Base, JsonifyMixin):
     title = Column(Text, index=True)
     visible_order = Column(Integer, index=True)
     editable = Column(Boolean)
-    type = Column(Enum('text', 'int', 'bool', 'reference_book', name='property_types'))
+    type = Column(Enum('text', 'int', 'bool', 'reference_book', 'float', name='property_types'))
     control = Column(Text, index=True)
     searchable = Column(Boolean, index=True, default=False)
     address_field = Column(Boolean, index=True, default=False)
@@ -131,6 +132,7 @@ class EntityPropertyValue(Base):
 
     text = Column(Text, index=True)
     int = Column(Integer, index=True)
+    float = Column(Float, index=True)
     bool = Column(Boolean, index=True)
     reference_book = relationship('ReferenceBookValue')
     reference_book_id = Column(Integer, ForeignKey('reference_books_values.id'), index=True)
