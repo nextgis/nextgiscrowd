@@ -50,7 +50,7 @@ if not path.exists(args.config):
 if not path.exists(args.csv):
     raise IOError('csv not found!')
 
-csv = DictReader(open(args.csv), skipinitialspace=True)
+csv = DictReader(open(args.csv), skipinitialspace=True, delimiter=';')
 
 with open(args.config) as config_file:
     config = json.load(config_file)
